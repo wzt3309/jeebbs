@@ -1,0 +1,38 @@
+.face{margin:0;padding:0;background:#fff;}
+.face img{border:1px solid #c7e1ef;margin:.1em;cursor:pointer}
+.s3,a.s3{color:#f06f18;}
+
+.s3,a.s3{color:#f06f18;}
+#set-wrap{width:100%;margin:8px auto 1.5em;line-height:150%}
+#set-side{width:170px;float:left;}
+#set-content{width:1000px; margin:auto;background:#fff; padding-top:10px;}
+#set-content-wrap{}
+#set-side-wrap {border:1px solid #c7e1ef;background:#fff; width:168px; margin-right:10px;}
+.set-h2/**/{background:url(../img/h3.jpg) no-repeat; height:30px; line-height:30px;border-bottom:#c7e1ef solid 1px;margin:0;padding:0 .6em;font-size:12px;display:block}
+.color8{color:#024b9f; font-weight:bold;}
+#set-menu{font-size:14px;padding:.6em 0 .6em 1em;margin:0;list-style:none}
+#set-menu li{margin:0;padding:.3em 0 0 1.5em;background:url(../img/fav.gif) no-repeat 0 0.5em;}
+#set-menu li a{color:#949494}
+#set-menu li.current{background:url(../img/fav-cur.gif) no-repeat 0 0.5em;}
+#set-menu li.current a{color:#707070;font-weight:700}
+.set-content-left{margin-right:320px;}
+.set-content-right{width:300px;float:right}
+.set-table1{line-height:200%}
+.set-table1 .tdpr2{padding-right:2em}
+#set-content-wrap td{vertical-align:top;}
+.set-table2 td{padding:.5em 1em;border-bottom:1px dotted #c5d8e8;}
+.set-table2 td.td1{text-align:right;padding:.5em 1em;}
+.set-tab-table{background:#f2f9ff url(../img/dot.gif) repeat-x left bottom}
+.set-tab-table td{border-bottom:0;border-right:1px solid #c7e1ef;border-left:1px solid #c7e1ef}
+.set-tab-table td a{ display:block; width:80px; height:23px; line-height:23px;}
+.set-tab-table td.current{border:1px solid #c7e1ef;border-bottom:0;background:#fff}
+.set-tab-table td.current a{color:#000;font-weight:700}
+.set-tab-box{border:1px solid #c7e1ef;border-top:0;padding:.5em 1em}
+textarea{font-size:12px;}
+
+.dis{margin:1em 2em;display:block;}
+.undis{margin:1em 2em; display:none;}
+
+.page{width:90%;margin-top:10px; height:30px; line-height:30px;color:#5c5c5c; text-align:center;}
+.page ul{list-style:none;}
+.page ul li{float:left;}

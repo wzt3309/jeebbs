@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>exampleTool</title>
+ 
+<link href="${base}/res/example2/zixun.css" rel="stylesheet" type="text/css">
+<link href="${base}/res/example2/ddx.css" rel="stylesheet" type="text/css">
+
+
+<style type="text/css">
+<!--
+.bodyWidth,.bodyWidth1000 {width:980px;overflow-x:hidden;}
+-->
+</style>
+
+
+<style type="text/css" adt="123"></style>
+<script type="text/javascript" src="${base}/res/example2/zixun.js"></script>
+<script type="text/javascript" src="${base}/res/example2/chklogin.js"></script>
+<script type="text/javascript" src="${base}/res/example2/stockCode.js"></script>
+
+
+<style type="text/css">
+    #set-menu li.current2{background:url(/${res}/bbs_member/img/fav-cur.gif) no-repeat 0 0.5em;}
+    #set-menu li.current2 a{color:#707070;font-weight:700}
+    
+    </style>
+    
+    <style>
+ul{list-style-type:none;}
+li
+.liShow{display:block;background:while;}
+.liHide{display:none;background:blue;}
+</style>
+
+<style type="text/css">
+<!--
+.bodyWidth,.bodyWidth1000 {width:980px;overflow-x:hidden;}
+-->
+</style>
+<script type="text/javascript">
+
+function afterpage(){
+	var pagsize=parseInt(document.getElementById("pagesize").value);
+	var page_now=parseInt(document.getElementById("page").innerHTML);
+	
+	if(page_now<pagsize){
+		turnToPage(page_now+1);
+	}
+	else if(page_now==pagsize){
+		alert("已经是末页！");
+	}
+	
+}
+
+function beforepage(){
+	var pagsize=parseInt(document.getElementById("pagesize").value);
+	var page_now=parseInt(document.getElementById("page").innerHTML);
+	
+	if(page_now>1){
+		turnToPage(page_now-1);
+	}
+	else if(page_now==1){
+		alert("已经是首页！");
+	}
+	
+}
+
+function turn(){
+	
+	
+	if(document.getElementById("page_for_turn").value==null){
+		alert("请输入页码！");
+	}
+	else{
+		var pagsize=parseInt(document.getElementById("pagesize").value);
+		
+		page_to=parseInt(document.getElementById("page_for_turn").value);
+		
+		if(page_to<=pagsize){
+			turnToPage(page_to);
+		}
+		else {
+			alert("超出范围！");
+		}
+	}
+	
+}
+
+function turnToPage(pageno){
+	
+	var i;
+	
+	var tr_to_deal=document.getElementsByName("show_or_not1");
+	
+	for(i=0;i<tr_to_deal.length;i++){
+		
+		if(tr_to_deal[i].id>=(pageno-1)*20+1 && tr_to_deal[i].id<=(pageno-1)*20+20){
+			tr_to_deal[i].style.display="";
+		}
+		else{
+			tr_to_deal[i].style.display="none";
+		}
+		
+		document.getElementById("page").innerHTML=pageno.toString();
+	}
+	
+	 tr_to_deal=document.getElementsByName("show_or_not2");
+	
+for(i=0;i<tr_to_deal.length;i++){
+		
+		if(tr_to_deal[i].id>=(pageno-1)*20+1 && tr_to_deal[i].id<=(pageno-1)*20+20){
+			tr_to_deal[i].style.display="";
+		}
+		else{
+			tr_to_deal[i].style.display="none";
+		}
+	}
+	}
+	
+function color(){
+	
+	
+	var tr_to_deal=document.getElementsByName("show_or_not2");
+	var i=0;
+	
+	var i;
+	for(i=0;i<tr_to_deal.length;i++){
+		var tdtd=tr_to_deal[i].getElementsByTagName('td');
+		var j=0;
+		for(j;j<tdtd.length;j++){
+			if(tdtd[j].id.trim()!="not"){
+				if(parseFloat(tdtd[j].innerHTML)>=0){
+					tdtd[j].className="colorRED textRight";
+				}
+				else{
+					tdtd[j].className="colorGREEN textRight";
+				}
+				
+				
+			}
+		}
+		
+	}
+	
+}
+
+
+window.onload=function(){turnToPage(1);color();}
+   
+</script>
+
+</head>
+<body>
+
+<form name="example" id="example" action="${base}/stockmessage/example.jhtml">
+<input style="display : none" name="reccomendation" id="reccomendation" />
+<input style="display : none" name="sql" id="sql" />
+[@stock_data reccomendation=Reccomendation sql=sql]
+[#include "/WEB-INF/t/cms/www/blue/选股/tool_page/example.html"/]
+[/@stock_data]
+</form>
+</body>
+</html>

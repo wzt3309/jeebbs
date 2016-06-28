@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="com.jeecms.bbs.entity">
+	<class
+		name="BbsUserGroup"
+		table="BBS_USER_GROUP"
+	>
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id
+			name="id"
+			type="java.lang.Integer"
+			column="GROUP_ID"
+		>
+			<generator class="native"/>
+		</id>
+
+		<property
+			name="name"
+			column="NAME"
+			type="string"
+			not-null="true"
+			length="20"
+		/>
+		<property
+			name="type"
+			column="GROUP_TYPE"
+			type="java.lang.Short"
+			not-null="true"
+			length="5"
+		/>
+		<property
+			name="imgPath"
+			column="GROUP_IMG"
+			type="string"
+			not-null="false"
+			length="100"
+		/>
+		<property
+			name="point"
+			column="GROUP_POINT"
+			type="java.lang.Long"
+			not-null="true"
+			length="19"
+		/>
+		<property
+			name="default"
+			column="IS_DEFAULT"
+			type="java.lang.Boolean"
+			not-null="true"
+		/>
+		<property
+			name="gradeNum"
+			column="GRADE_NUM"
+			type="java.lang.Integer"
+			not-null="true"
+		/>
+		<property
+			name="magicPacketSize"
+			column="magic_packet_size"
+			type="java.lang.Integer"
+			not-null="false"
+		/>
+		<many-to-one
+			name="site"
+			column="site_id"
+			class="com.jeecms.core.entity.CmsSite"
+			not-null="true"
+		>
+		</many-to-one>
+		<map name="perms" table="BBS_PERMISSION">
+			<cache usage="read-write"/>
+			<key column="GROUP_ID" not-null="true"/>
+			<map-key column="PERM_KEY" type="string" length="20"/>
+			<element column="PERM_VALUE" type="string" length="255"/>
+		</map>
+		<set name="postTypes" table="bbs_group_type">
+			<key column="group_id"/>
+			<many-to-many column="type_id" class="BbsPostType"/>
+		</set>
+		<set
+			name="magics"
+			table="bbs_magic_usergroup"
+			cascade="all"
+			lazy="true"
+		>
+			<key column="groupid"/>
+			<many-to-many column="magicid" class="BbsCommonMagic"/>
+		</set>
+		<set
+			name="beUsedMagics"
+			table="bbs_magic_usergroup_to"
+			cascade="all"
+			lazy="true"
+		>
+			<key column="groupid"/>
+			<many-to-many column="magicid" class="BbsCommonMagic"/>
+		</set>
+	</class>	
+</hibernate-mapping>

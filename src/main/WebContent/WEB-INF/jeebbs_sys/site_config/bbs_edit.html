@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<#include "/jeebbs_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#submitForm").validate();
+});
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos">当前位置： 核心功能 - 论坛配置 - 修改</div>
+	<div class="clear"></div>
+</div>
+<@p.form id="submitForm" action="o_update.do" labelWidth="12">
+<@p.text label="默认头像" name="defAvatar" value=config.defAvatar required="true" class="required" maxlength="100"/>
+<@p.text label="头像宽度" name="avatarWidth" value=config.avatarWidth required="true" class="required digits" maxlength="9"/>
+<@p.text label="头像高度" name="avatarHeight" value=config.avatarHeight required="true" class="required digits" maxlength="9"/>
+<@p.text label="每页主题数" name="topicCountPerPage" value=config.topicCountPerPage required="true" class="required digits" maxlength="9"/>
+<@p.text label="每页帖子数" name="postCountPerPage" value=config.postCountPerPage required="true" class="required digits" maxlength="9"/>
+<@p.text label="热帖回复数" name="topicHotCount" value=config.topicHotCount required="true" class="required digits" maxlength="9"/>
+<@p.text label="首页关键字" name="keywords" value=config.keywords size="70" required="true" class="required" maxlength="255"/>
+<@p.text label="首页描述" name="description" value=config.description size="70" required="true" class="required" maxlength="255"/>
+<@p.select label="会员注册" name="registerStatus" value=config.registerStatus list={'0':'关闭注册','1':'开放普通注册','2':'开放邀请注册'} required="true" />
+<@p.select label="注册会员组" name="registerGroupId" list=groupList value=config.registerGroup.id listKey="id" listValue="name" required="true" />
+<@p.radio colspan="2" label="开启邮箱验证" name="emailValidate" value=config.emailValidate list={"true":"global.true","false","global.false"} required="true" class="required"/><@p.tr/>
+<@p.textarea label="注册协议" name="registerRule" value=config.registerRule rows="5" cols="70" />
+<@p.select label="默认会员组" name="defaultGroupId" list=groupList value=config.defaultGroup.id listKey="id" listValue="name" required="true" />
+<@p.td><@p.hidden name="id" value=config.id/><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>

@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>jeebbs</display-name>
+  
+  <!-- web应用全局配置参数 用于spring mvc框架-->
+    <context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			/WEB-INF/config/spring/application/application-context.xml			
+			/WEB-INF/config/spring/cache/cache-context.xml
+			/WEB-INF/config/spring/captcha/captcha-context.xml	
+			/WEB-INF/config/spring/tools/jeecore-context.xml	
+			/WEB-INF/config/spring/application/jeebbs-context.xml					
+			/WEB-INF/config/spring/tools/jeebbs-ecode.xml	
+			/WEB-INF/config/spring/quartz/jeebbs-job.xml		
+		</param-value>
+	</context-param>	
+	<!-- ======================	web应用过滤器 配置开始 ======================-->
+	<!-- 请求到返回结果的总时间日志记录 -->
+	<filter>
+		<filter-name>processTime</filter-name>
+		<filter-class>com.jeecms.common.web.ProcessTimeFilter</filter-class>
+	</filter>
+	<!-- web应用编码格式全为utf-8 -->
+	<filter>
+		<filter-name>encoding</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<!-- 将hibernate的session与一次请求绑定 -->
+	<filter>
+		<filter-name>osivFilter</filter-name>
+		<filter-class>org.springframework.orm.hibernate3.support.OpenSessionInViewFilter</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>processTime</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>encoding</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>osivFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>processTime</filter-name>
+		<url-pattern>*.jspx</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>encoding</filter-name>
+		<url-pattern>*.jspx</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>osivFilter</filter-name>
+		<url-pattern>*.jspx</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>processTime</filter-name>
+		<url-pattern>*.jhtml</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>encoding</filter-name>
+		<url-pattern>*.jhtml</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>osivFilter</filter-name>
+		<url-pattern>*.jhtml</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>processTime</filter-name>
+		<url-pattern>*.htm</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>encoding</filter-name>
+		<url-pattern>*.htm</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>osivFilter</filter-name>
+		<url-pattern>*.htm</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>processTime</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>encoding</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>osivFilter</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+  <!-- ======================	web应用过滤器 配置结束 ======================-->
+  
+  <!-- ====================== 	web应用servlet 配置开始 ====================-->
+  	<!-- 后台管理 -->
+  	<servlet>
+		<servlet-name>JeeBbsAdmin</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/config/spring/servlet/jeebbs-servlet-admin.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>	
+	<!-- 前台应用 -->
+	<servlet>
+		<servlet-name>JeeBbsFront</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/config/spring/servlet/jeebbs-servlet-front.xml</param-value>
+		</init-param>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+	<!-- 验证码 -->
+	<servlet>
+		<servlet-name>Jcaptcha</servlet-name>
+		<servlet-class>com.jeecms.common.captcha.JcaptchaServlet</servlet-class>
+	</servlet>
+	<!-- 数据库文件 (optional) -->
+	<servlet>
+		<servlet-name>DbFile</servlet-name>
+		<servlet-class>com.jeecms.core.action.front.DbFileServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>JeeBbsAdmin</servlet-name>
+		<url-pattern>/jeeadmin/jeebbs/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>JeeBbsFront</servlet-name>
+		<url-pattern>*.jhtml</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>JeeBbsFront</servlet-name>
+		<url-pattern>*.jspx</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>JeeBbsFront</servlet-name>
+		<url-pattern>*.jsp</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>JeeBbsFront</servlet-name>
+		<url-pattern>*.htm</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Jcaptcha</servlet-name>
+		<url-pattern>/captcha.svl</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>DbFile</servlet-name>
+		<url-pattern>/dbfile.svl</url-pattern>
+	</servlet-mapping>
+  <!-- ====================== 	web应用servlet 配置结束 ====================-->
+  	
+	
+  <!-- ====================== 	web应用监听器 配置开始 ======================-->
+  	<!-- 保证Web应用程序的类加载器以及其加载的类正确的释放资源 -->
+  	<listener>
+		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+	</listener>	
+	<!-- 启动Web容器时，自动装配ApplicationContext的配置信息 -->
+  	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<!--  定时任务启动
+	<listener> 
+	    <listener-class>com.qianniu.backTaskManager.TaskManager</listener-class> 
+	</listener> -->
+  <!-- ====================== 	web应用监听器 配置结束 ======================-->
+  
+    <session-config>
+		<session-timeout>20</session-timeout>
+	</session-config>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.shtml</welcome-file>
+		<welcome-file>index.jhtml</welcome-file>
+	</welcome-file-list>
+	<error-page>
+		<error-code>403</error-code>
+		<location>/WEB-INF/error/403.html</location>
+	</error-page>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/404.html</location>
+	</error-page>
+	
+  <!-- ==========配置mime映射，使浏览器能自动按照文件类型打开文件 开始 =======-->
+	<mime-mapping>
+		<extension>rar</extension>
+		<mime-type>application/zip</mime-type>
+	</mime-mapping>
+	<mime-mapping>
+   		<extension>doc</extension>
+   		<mime-type>application/msword</mime-type>
+    </mime-mapping>   
+    <mime-mapping>
+    	<extension>xls</extension>
+    	<mime-type>application/msexcel</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+	    <extension>pdf</extension>
+	    <mime-type>application/pdf</mime-type>
+    </mime-mapping>
+  <!-- ==========配置mime映射，使浏览器能自动按照文件类型打开文件 结束 =======-->
+</web-app>

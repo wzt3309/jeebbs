@@ -1,0 +1,378 @@
+<script src="${resSys}/jquery.js" type="text/javascript"></script>
+<script type="text/javascript" src="/${res}/bbs_box/wbox.js"></script> 
+<link rel="stylesheet" type="text/css" href="/${res}/bbs_box/wbox.css" />
+<style type="text/css">
+	.demo {
+		width:200px;
+	}
+</style>
+<div class="t" style="border-bottom-width: 0pt; margin-bottom: 0pt">
+    <table cellspacing="0" cellpadding="0" width="100%" style="border-bottom: rgb(169,213,233) 1px solid">
+      <tbody>
+        <tr>
+          <td class="tal h b">主题 : ${topic.title?html}</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+<script type="text/javascript">
+function checkContent(){
+  if($("#atc_content").val()==""){
+     alert("内容不能为空");
+     return false;
+  }
+  return true;
+}
+
+function checkedCount(name) {
+	var batchChecks = document.getElementsByName(name);
+	var count = 0;
+	for (var i = 0;i < batchChecks.length; i++) {
+		if (batchChecks[i].checked) {
+			count++;
+		}
+	}
+	return count;
+}
+
+function vote(name, tid){
+	var itemNum = checkedCount(name);
+	if(itemNum == 0){
+		alert("请至少选择一项");
+		return;
+	}
+	var items = document.getElementsByName(name);
+	var itemIds = new Array();
+	var count = 0;
+	for(var i=0; i<items.length; i++){
+		if(items[i].checked){
+			itemIds[count] = items[i].value;
+			count++;
+		}
+	}
+	$.post('${base}/topic/vote.jspx', {
+		'itemIds':itemIds,
+		'tid':tid
+	}, function(data) {
+		if(data.success){
+			VoteResult();
+		}else{
+			alert(data.message);
+		}
+	},"json");
+}
+function showMagicUL(pid){
+	$("#magicUL"+pid).show();
+}
+function showUserMagicUL(pid){
+	$("#user-magic-"+pid).show();
+}
+function hideMagicUL(pid){
+	$("#magicUL"+pid).hide();
+}
+function hideUserMagicUL(pid){
+	$("#user-magic-"+pid).hide();
+}
+function apply(id, val,pid){
+	$.post("${base}/member/applyJson.jhtml",{"u": val},function(data){
+		$("#u"+id+"_"+pid).html(data.message);
+	});
+}
+</script>
+[#if topic.category==101]
+<script type="text/javascript">
+$(function(){
+	VoteResult();
+});
+
+function VoteResult(){
+	$.post("${base}/topic/vote_result.jspx",{tid: "${topic.id}"},function(data){
+		$(".vote").html(data);
+	});
+}
+</script>
+[/#if]
+
+[#list tag_pagination.list as post]
+[#assign creater=post.creater/] 
+    <a name="pid${post.id}"></a>
+    <div class="t5" style="border-top-width: 0pt">
+    <table cellspacing="0" cellpadding="0" width="100%" style="table-layout: fixed">
+      <tbody>
+        <tr class="tr1">
+          <th class="r_two" rowspan="2" style="padding-right: 0pt; padding-left: 0pt; padding-bottom: 2em; width: 185px; padding-top: 0pt">
+          <div style="padding-right: 5px; padding-left: 12px; padding-bottom: 0pt; line-height: 24px; padding-top: 5px"><b class="fl black">
+          <a target="_blank" href="#">
+          	[#if post.anonymous]匿名[#else]${creater.username!}[/#if]
+          </a></b>
+          <div class="c"></div>
+          </div>
+          [#if !post.anonymous]
+          <div class="user-pic">
+          <table style="border-top-width: 0pt; border-left-width: 0pt; border-bottom-width: 0pt; border-right-width: 0pt">
+            <tbody>
+              <tr>
+                <td width="1"><img class="pic" height="98" width="98" alt="" border="0" [#if creater.avatar??][#if creater.avatar?contains('user/images')]src="${creater.avatar!}"[#else]src="/${res}/bbs_member/img/face/${(creater.avatar)!'none.gif'}"[/#if][#else]src="/${res}/bbs_member/img/face/${(creater.avatar)!'none.gif'}"[/#if] [#if magic_switch] onmouseout="hideUserMagicUL('${post.id}')"  onmouseover="showUserMagicUL('${post.id}')" [/#if] /></td>
+                <td style="vertical-align: top"></td>
+              </tr>
+            </tbody>
+          </table>
+          </div>
+          [#if magic_switch]
+          <div id="user-magic-${post.id}" style="display: none;">
+	          <ul onmousemove="showUserMagicUL('${post.id}')"> 
+	          [#if magicUserList??]
+	          	[#list magicUserList as magic]
+	          		[#if magic.identifier=="showip"]
+	          			<li><a href="#" id="magica_${post.id}_${post.id}_showip_${creater.username!}"  title="使用道具" class='thickbox'">${magic.name!}</a></li>
+	          		[#elseif magic.identifier=="checkonline"]
+	          			[#if user??]
+		          		[#if post.creater.id!=user.id]<li><a href="#" id="magica_${topic.id}_${post.id}_checkonline_${creater.username!}"  title="使用道具" class='thickbox'">${magic.name!}</a></li>[/#if]
+		          		[#else]
+		          			<li><a href="#" id="magica_${topic.id}_${post.id}_checkonline_${creater.username!}" title="使用道具" class='thickbox'">${magic.name!}</a></li>
+		          		[/#if]
+	          		[/#if]
+	          	[/#list]
+	          [/#if]
+	          </ul>
+          </div>
+          [/#if]
+          <div style="padding-left: 12px; padding-bottom: 8px">级别: ${creater.group.name}<br />
+          <img alt="" style="display: block; margin: 0.2em 0pt" src="/${res}/bbs_forum/img/level/${creater.group.imgPath}.gif" /> <span class="user-info2" id="showface_0"><span class="user-infoWrap2">
+          <div class="c" style="width: 120px; height: 5px"></div>
+             UID: <span class="f12">${creater.id}</span>  <a id="msgSendA_${post.id}_${creater.username!}" href="${base}/member/getsendmsgpage.jhtml?username=${creater.username!}">打招呼</a><br />
+            积分:${creater.point!}   <a id="u${creater.id}_${post.id}" href="javascript:apply('${creater.id}','${creater.username}','${post.id}')">加为好友</a> <br />
+         威望: ${creater.prestige!}           精华: ${creater.primeCount!} <br />
+          主题:<span class="s1 f12">${creater.topicCount!}</span>
+          回复:<span class="s2 f12">${creater.replyCount!}</span><br />
+          注册时间:<span class="gray">${creater.registerTime?string('yyyy-MM-dd')}</span><br />
+           在线时长:<span class="gray">${creater.onlineYear!}</span><br />
+
+          </span></span></div>
+          [/#if]
+          </th>
+          <th class="r_one" id="td_tpc" valign="top" height="100%" style="border-top-width: 0pt; padding-right: 0px; padding-left: 0px; border-left-width: 0pt; border-bottom-width: 0pt; padding-bottom: 0px; overflow: hidden; padding-top: 0px; border-right-width: 0pt">
+          <div class="tiptop"><span class="fl"><span class="b">${post.indexCount}#</span></span> <span class="fl gray" style="white-space: nowrap">&nbsp; 发表于:${post.createTime?string('yyyy-MM-dd HH:mm:ss')}&nbsp; IP:[#if user??&&user.moderator]${post.posterIp!}[#else][#list post.posterIp?split('.') as x][#if x_index%2==0]${x}.[/#if][/#list]*.*[/#if]
+		  </span>
+          <div class="fr black" style="overflow: hidden"><a href="${topic.url}">显示全部</a> <a href="#">只看该作者</a></div>
+          <div class="c"></div>
+          </div>
+          <div class="c"></div>
+          [#if post.shield]
+          [#if user??&&user.moderator]
+          <div class="blockquote">
+			<div class="tal s3">该贴已经被屏蔽，仅版主可见</div>
+			<div class="tal f12">
+			${post.contentHtml!}
+			</div>
+          </div>
+          [#else]
+          <div class="blockquote">该帖子已被屏蔽，仅版主可见</div>
+          [/#if]
+          </div>
+          [#else]
+          [#if post.hidden] [#if user??] [#if post.creater.id==user.id||user.moderator]
+          <div class="tpc_content f14">${post.contentHtml}</div>
+          [#else] [#if !post.topic.haveReply?contains(','+user.id+',')]
+          <div class="tpc_content f14">${post.hideContent}</div>
+          [#else]
+          <div class="tpc_content f14">${post.contentHtml}</div>
+          [/#if][/#if][#else]
+          <div class="tpc_content f14">${post.hideContent}</div>
+          [/#if][#else]
+          <div class="tpc_content f14">${post.contentHtml}</div>
+          [/#if]
+          [/#if]
+          
+          [#if post_index==0]
+          <div class="vote"></div>
+          [/#if]
+          
+          
+		  [#if post.grade?? && post.grade?size gt 0] 
+		  <div id="mark_tpc" class="tips tal" style="margin:0 15px 10px 15px;word-break:keep-all;word-wrap:no-wrap;line-height:25px;">
+			<div class="tal s3">本帖最近评分记录：</div>
+			[#list post.grade as grade]
+			<div class="tal f12">
+			<li>
+			${grade.grader.username} &nbsp;&nbsp; ${grade.gradeTime?string("yyyy-MM-dd")}&nbsp;&nbsp; 人气 &nbsp;&nbsp; [#if grade.score gt 0]+${grade.score}[#else]${grade.score}[/#if] &nbsp;&nbsp; ${grade.reason!}
+			</li>
+			</div>
+			[/#list]
+		  </div>
+		  [/#if]
+		  </th>
+        </tr>
+        <tr class="tr1 r_one">
+          <th style="border-top-width: 0pt; padding-right: 0px; padding-left: 0px; border-left-width: 0pt; border-bottom-width: 0pt; padding-bottom: 0px; vertical-align: bottom; padding-top: 30px; border-right-width: 0pt">
+          <div class="c" id="w_tpc"></div>
+          <div class="sigline"></div>
+          <div class="signature" style="overflow: hidden; height: auto; max-height: 100px">
+          <table width="100%">
+            <tbody>
+              <tr>
+                <td>${creater.signed!}</td>
+              </tr>
+            </tbody>
+          </table>
+          </div>
+          <div class="tipad black">
+          <span class="fr gray">
+         [#if magic_switch]
+          	[#if post_index==0]
+          	<div id="magicUL${post.id}" onmouseout="hideMagicUL('${post.id}')" style="display: none;">
+          	<ul onmousemove="showMagicUL('${post.id}')"> 
+          		[#if magicTopicList??]
+          		[#list magicTopicList as magic]
+          			[#if magic.identifier=="anonymouspost"]
+          				[#if user??]
+			          		[#if topic.creater.id==user.id]<li><a href="#" id="magica_${post.id}_${post.id}_anonymouspost"  title="使用道具" class='thickbox'">${magic.name!}</a></li>[/#if]
+			         	[/#if]
+          			[#elseif magic.identifier=="repent"]
+          				[#if user??]
+			          		[#if topic.creater.id==user.id]<li><a href="#" id="magica_${topic.id}_${post.id}_repent"  title="使用道具" class='thickbox'">${magic.name!}</a></li>[/#if]
+		          		[/#if]
+          			[#elseif magic.identifier=="namepost"]
+          				<li><a href="#" id="magica_${post.id}_${post.id}_namepost"  title="使用道具" class='thickbox'">${magic.name!}</a></li>
+          			[#else]
+          				<li><a href="#" id="magica_${topic.id}_${post.id}_${magic.identifier!}"  title="使用道具" class='thickbox'">${magic.name!}</a></li>
+          			[/#if]
+          		[/#list]
+          		[/#if]
+          	</ul>
+          	</div>
+	          	[#if magicTopicList??]
+	          	[#if magicTopicList?size>0]
+	          		<a href="#"  onmouseover="showMagicUL('${post.id}')">使用道具</a><br/>
+	          	[/#if]
+	          	[/#if]
+          	[#else]
+          	<div id="magicUL${post.id}" onmouseout="hideMagicUL('${post.id}')" style="display: none;">
+          	<ul onmousemove="showMagicUL('${post.id}')"> 
+          	[#if magicPostList??]
+          		[#list magicPostList as magic]
+          			[#if magic.identifier=="namepost"]
+          				<li><a href="#" id="magica_${post.id}_${post.id}_namepost"  title="使用道具" class='thickbox'">${magic.name!}</a></li>
+          			[#elseif magic.identifier=="anonymouspost"]
+          				[#if user??]
+		          		[#if post.creater.id==user.id]
+		          			<li><a href="#" id="magica_${post.id}_${post.id}_anonymouspost"  title="使用道具" class='thickbox'">${magic.name!}</a></li>
+		          		[/#if]
+		          		[/#if]
+          			[#else]
+          				[#if user??]
+		          		[#if post.creater.id==user.id]
+          					<li><a href="#" id="magica_${topic.id}_${post.id}_${magic.identifier!}"  title="使用道具" class='thickbox'">${magic.name!}</a></li>
+          				[/#if]
+          				[/#if]
+          			[/#if]
+          		[/#list]
+          		[/#if]
+          	</ul>
+          	</div>
+	          	[#if magicPostList??]
+	          	[#if magicPostList?size>0]
+	          	<a href="#"  onmouseover="showMagicUL('${post.id}')">使用道具</a><br/>
+	          	[/#if]
+	          	[/#if]
+          	[/#if]
+          	[/#if]
+          <a href="${base}/member/getreportpage.jspx?url=${post.url!}" id="reportA_${post.url}_${post.id}">举报</a>
+          	&nbsp;&nbsp; <a href="javascript:scroll(0,0)">顶端</a> </span>
+          <div class="fl readbot">
+          [#if user??]
+          [#if moderators||user.id==creater.id]
+          <a href="${base}/post/v_edit${post.id!}.jspx">编辑</a>
+          [/#if]
+          [#if moderators]
+          [#if !post.shield]<a href="${base}/post/v_shield${post.id!}_${-1}.jspx">屏蔽[#else]<a href="${base}/post/v_shield${post.id!}_${0}.jspx">取消屏蔽[/#if]</a> 
+          [/#if][/#if]
+          [#if user??]
+          <a class="r-reply" title="引用此楼" href="${base}/post/v_quote${post.id!}.jspx">引用</a> 
+          <a class="r-reply" title="回复此楼" href="${base}/post/v_reply${post.id!}.jspx">回复</a>
+          [#if user.id!=creater.id]
+          <a class="r-reply" title="评分此楼" href="${base}/post/v_grade${post.id!}.jspx">评分</a>
+          [/#if]
+          [/#if]
+          </div>
+          <div class="c"></div>
+          </div>
+          </th>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+[/#list]
+<script type="text/javascript"> 
+var id;
+var strs=new Array();
+$("a[id^='magica']").each(function(){
+	id=$(this).attr("id");
+	strs=id.split("_");
+	if(strs.length>=5){
+		$(this).wBox({title: "使用道具",requestType:"iframe",iframeWH:{width:400,height:200},target:"${base}/magic/getmagicpage.jspx?pid="+strs[1]+"&ppid="+strs[2]+"&mid="+strs[3]+"&username="+strs[4]});
+		}else{
+			$(this).wBox({title: "使用道具",requestType:"iframe",iframeWH:{width:400,height:200},target:"${base}/magic/getmagicpage.jspx?pid="+strs[1]+"&ppid="+strs[2]+"&mid="+strs[3]});
+			}
+	});
+$("a[id^='msgSendA']").each(function(){
+	id=$(this).attr("id");
+	strs=id.split("_");
+	$(this).wBox({title: "打招呼",requestType:"iframe",iframeWH:{width:320,height:50},target:"${base}/member/getsendmsgpage.jhtml?username="+strs[2]});
+});
+$("a[id^='reportA']").each(function(){
+	id=$(this).attr("id");
+	strs=id.split("_");
+	$(this).wBox({title: "举报",requestType:"iframe",iframeWH:{width:320,height:50},target:"${base}/member/getreportpage.jspx?pid="+strs[2]+"&&url="+strs[1]});
+});
+</script>
+[#include "../tag/topic.html"/] 
+<div class="t3">
+[#if user??]
+	<span class="fr" style="margin-left: 0.5em">
+	    <a href="${base}/topic/v_add${forum.id!}.jspx">
+	    <img alt="发帖" src="/${res}/bbs_forum/img/post.png" /></a></span>
+	[#if topic.allayReply]
+	<span class="fr"><a href="${base}/post/v_add${topic.id!}.jspx">
+	<img alt="回复" src="/${res}/bbs_forum/img/reply.png" /></a></span>
+	[/#if]
+	<span class="fl"></span>
+[/#if]
+    <div class="c"></div>
+    </div>
+[#if topic.allayReply]	
+[#if user??]
+<form id="jvForm" action="${base}/post/o_save.jspx" method="post" enctype="multipart/form-data" validate="true" onsubmit="return checkContent();">
+      <div class="t" style="margin-top: 5px">
+      <table cellspacing="0" cellpadding="0" width="100%" align="center">
+        <tbody>
+          <tr style="color: rgb(102,102,102); line-height: 23px; height: 23px">
+            <td class="h"><b>快速回复</b></td>
+            <td class="h">&nbsp;</td>
+            <td class="h" style="text-align: right"><a href="javascript:scroll(0,0)">顶端</a></td>
+          </tr>
+          <tr class="tr2">
+            <td colspan="100" style="border-bottom-width: 0pt"></td>
+          </tr>
+          <tr>
+            <td class="f_one" valign="top" width="20%" style="padding-right: 7px; padding-left: 7px; padding-bottom: 7px; padding-top: 7px"><b>内容</b><br />
+            HTML 代码不可用 <br />
+            <input type="checkbox" checked="checked" name="atc_usesign" value="1" /> 使用签名 <br />
+            <input type="checkbox" checked="checked" name="atc_convert" value="1" /> Code自动转换 <br />
+            <input disabled="disabled" type="checkbox" name="atc_anonymous" value="1" /> 匿名帖 <br />
+            <input disabled="disabled" type="checkbox" name="atc_hide" value="1" /> 隐藏此帖 <br />
+            <input disabled="disabled" type="checkbox" name="atc_hideatt" value="1" /> 隐藏附件</td>
+            <td class="f_one" valign="top" width="60%" style="padding-right: 7px; padding-left: 7px; padding-bottom: 7px; padding-top: 7px">
+            <input name="postTypeId" value="${postTypeId!}" type="hidden"/>
+            <textarea id="atc_content" rows="8" style="width: 96%" name="content"></textarea>
+            <div class="fr gray" id="atc_content_warn" style="padding-right: 15px; padding-left: 15px; padding-bottom: 0px; padding-top: 0px">限 50,000 字符</div>
+            <div style="margin: 5px 0pt"><input type="hidden" name="topicId" value="${topic.id}" /> <input class="btn fl b" type="submit" style="padding-right: 1em; padding-left: 1em; padding-bottom: 0pt; padding-top: 0pt; height: 30px" name="Submit" value=" 提 交 " /></div>
+            </td>
+            <td class="f_one" width="20%"></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+    </form>
+[/#if]
+[/#if]

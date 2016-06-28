@@ -1,0 +1,10 @@
+
+  [#list tag_pagination.list as topic]
+  <tr>
+    <td><a href="${topic.url!}" target="_blank">${topic.title?html!}</a> </td>
+    <td><a href="${topic.forum.url!}" target="_blank">${topic.forum.title}</a></td>
+    <td>${topic.lastReply.username!}</td>
+    <td>${topic.createTime?string("yyyy-MM-dd HH:MM:ss")}</td>
+  </tr>
+  [/#list]
+

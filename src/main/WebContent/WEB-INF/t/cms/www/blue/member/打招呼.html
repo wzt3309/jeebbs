@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <style type="text/css">
+    #set-menu li.current8{background:url(/${res}/bbs_member/img/fav-cur.gif) no-repeat 0 0.5em;}
+    #set-menu li.current8 a{color:#707070;font-weight:700}
+    </style>
+    <link href="${resSys}/front.css" rel="stylesheet" type="text/css"/>
+    <script src="${resSys}/jquery.js" type="text/javascript"></script>
+    <link href="/${res}/bbs_forum/css/whole.css" type="text/css" rel="stylesheet" />
+    <link href="/${res}/bbs_forum/css/layout.css" type="text/css" rel="stylesheet" />
+   <script type="">
+function sendMsg(){
+	var username=$("#username").val();
+    var content=$("#content").val();
+	$.post('${base}/member/sendMsgJson.jhtml', {
+		'username':username,
+		'content':content,
+		'msgType':3
+		}, function(data) {
+				$("#messageDiv").html(data.message);
+				window.parent.location.reload();
+		},"json");
+		}
+	</script>
+  </head>
+  <body>
+    <div class="set-tab-table">
+    <table cellspacing="0" cellpadding="0" border="0">
+      <tbody>
+        <tr class="tac" id="infolist">
+          <td class="current"><a href="#" style="cursor: pointer">向${username!}打个招呼</a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+     <div class="set-tab-box">
+     	<input name="u" value="${username!}" type="hidden" id="username"/>
+     	内　容:<input name="content" type="text" size="20" maxlength="150" id="content">
+     	<input type="hidden" value='3' name="msgType"/>
+     	<input type="button" value="发送" onclick="sendMsg()"/>
+     	<div id="messageDiv"></div>
+    </div>
+  </body>
+</html>

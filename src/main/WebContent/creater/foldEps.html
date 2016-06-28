@@ -1,0 +1,303 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>搜索主题 - ${site.name} - JEECMS官方论坛|开源java cms,jsp cms,jsp bbs</title>
+    <meta content="java,cms,jsp,cms,jsp bbs,开源网站内容管理系统,网站群,站群,多站点,jeecms" name="keywords" />
+    <meta content="讨论jsp cms、jsp bbs相关资讯，struts,hibernate,spring,freemarker最新技术研究" name="description" />
+	<link href="${resSys}/front.css" rel="stylesheet" type="text/css"/>
+    <script src="${resSys}/jquery.js" type="text/javascript"></script>
+    
+    <link href="/${res}/bbs_forum/css/whole.css" type="text/css" rel="stylesheet" />
+    <link href="/${res}/bbs_forum/css/layout.css" type="text/css" rel="stylesheet" />
+    <link href="/${res}/bbs_member/css/set.css" type="text/css" rel="stylesheet" />
+    <style type="text/css">
+    #set-menu li.current2{background:url(/${res}/bbs_member/img/fav-cur.gif) no-repeat 0 0.5em;}
+    #set-menu li.current2 a{color:#707070;font-weight:700}
+    
+    </style>
+    
+    <style>
+ul{list-style-type:none;}
+li
+.liShow{display:block;background:while;}
+.liHide{display:none;background:blue;}
+</style>
+
+<link rel="stylesheet" type="text/css" href="${base}/creater/mycss/style.css">
+<title>通用表达式生成器（折叠式）</title>
+<script type="text/javascript" src="${base}/creater/myjs/common.js"></script>
+<script charset="utf-8" type="text/javascript" src="${base}/creater/myjs/foldEps.js"></script>
+<script type="text/javascript" src="${base}/creater/myjs/expression.js"></script>
+<script type="text/javascript">
+if (window.Event && document.layers) 
+    document.captureEvents(Event.MOUSEUP); 
+document.oncontextmenu = nocontextmenu;
+document.onmousedown = norightclick;
+document.onkeydown = DisableFKey;
+
+var returnvalue="";
+
+var jsonObj;
+function flodEpsinit() {
+	var resJsonStr = parent.document.getElementById("resJsonStr").value;
+	jsonObj = str2json(resJsonStr);
+	if(checkSandV(jsonObj)) {
+		var obj = document.getElementById("obj");
+		var res = createSelect(obj, jsonObj);
+		if(res) {
+			obj.fireEvent('onchange');
+		}
+	}
+	else {
+		alert(resMsg['003']);
+	}
+}
+
+function selectObj(obj) {
+	var selObjValue = obj.options[obj.selectedIndex].value;
+	var valueObj = document.getElementsByName("value");
+	createValue(selObjValue, valueObj, jsonObj);
+}
+
+function addSel() {
+	var res = "";
+	
+	var valueObj = document.getElementsByName("value");
+	var value = null;
+	if(valueObj != null && valueObj != 'undefined') {
+		for(var i = 0; i < valueObj.length; i++) {
+			if(valueObj[i].style.display != "none") {
+				if(valueObj[i].type.trim().startsWith("select")) {
+					value = valueObj[i].options[valueObj[i].selectedIndex].value.trim();
+				}
+				else {
+					value = valueObj[i].value.trim();
+					if(value == "") {
+						alert(resMsg['004']);
+						return;
+					}
+				}
+			}
+		}
+	}
+
+	var obj = document.getElementById("obj");
+	var objValue = null;
+	var objText = null;
+	if(obj != null && obj != 'undefined') {
+		objValue = obj.options[obj.selectedIndex].value.trim();
+		objText = obj.options[obj.selectedIndex].text.trim();
+	}
+	
+	var rlt = document.getElementById("rlt");
+	var rltValue = null;
+	if(rlt != null && rlt != 'undefined') {
+		rltValue = rlt.options[rlt.selectedIndex].value.trim();
+	}
+	
+	var nextrlt = document.getElementById("nextrlt");
+	var nextrltValue = null;
+	var nextrltText = null;
+	if(nextrlt != null && nextrlt != 'undefined') {
+		nextrltValue = nextrlt.options[nextrlt.selectedIndex].value.trim();
+		nextrltText = nextrlt.options[nextrlt.selectedIndex].text.trim();
+	}
+	var resDis = null;
+	var resReal = null;
+	if(!((objValue != null && objValue.trim() != "") && 
+		(objText != null && objText.trim() != "") && 
+	   	(rltValue != null && rltValue.trim() != "") && 
+	   	(value != null && value.trim() != "") && 
+	   	(nextrltValue != null && nextrltValue.trim() != "") && 
+		(nextrltText != null && nextrltText.trim() != ""))) {
+		alert(resMsg['005'] + resMsg['007']);
+		return;
+	}
+	resDis = objText.trim() + rltValue.trim() +  value.trim() + " " + nextrltText.trim();
+	resReal = objValue.trim() + "," + rltValue.trim() + "," + value.trim() + "," + nextrltValue.trim();
+	returnvalue+=resReal;
+	returnvalue+=";";
+	
+	alert(returnvalue);
+	var seled = document.getElementById("seled");
+	var seledReal = document.getElementById("seledReal");
+	if(seled != null && seledReal != null) {
+		createSeled(seled, seledReal, resDis, resReal, jsonObj);
+	}
+	else {
+		alert(resMsg['005'] + resMsg['006']);
+		return;
+	}
+}
+
+function resetCon() {
+	document.getElementById("obj").selectedIndex = 0;
+	obj.fireEvent('onchange');
+	document.getElementById("rlt").selectedIndex = 0;
+	document.getElementById("nextrlt").selectedIndex = 0;
+}
+
+function rmvSel() {
+	var seled = document.getElementById("seled");
+	var seledReal = document.getElementById("seledReal");
+	//if(seled.length == 0) {
+	if(seled.options.length == 0) {
+		alert(resMsg['012']);
+		return;
+	}
+	removeSelItem(seled, seledReal);
+}
+
+function clearSelAll() {
+	if(seled.options.length == 0) {
+		alert(resMsg['012']);
+		//document.getElementById("count").value = '0';
+		return;
+	}
+	if(confirm("确定清空所有条件项？")) {
+		document.getElementById("seled").options.length = 0;
+		document.getElementById("seledReal").options.length = 0;
+		//document.getElementById("count").value = '0';
+	}
+}
+
+function createEps() {
+	alert("in");
+	var seledReal = document.getElementById("seledReal");
+	//alert("here0");
+	if(seledReal.options.length == 0) {
+		alert(resMsg['012']);
+		return;
+	}
+	//alert("here1");
+	var arrayCon = createfoldArrayCon(seledReal);
+	//alert("here2");
+	if(arrayCon.length == 0) {
+		alert(resMsg['015']);
+		return;
+	}
+	//alert("here3");
+	var showRes = document.getElementById("showRes");
+	//alert("here4");
+	var res = createEpsRes(arrayCon, showRes, jsonObj);
+	alert("out");
+	//if(showRes.innerHTML != null && showRes.innerHTML.trim() != "") {
+	if(res > 0) {
+		parent.document.getElementById("lastRes").value = showRes.innerHTML.trim().replaceAll("&gt;", ">").replaceAll("&lt;", "<");
+	}
+}
+
+function cancel() {
+	parent.dialog1.hide();
+}
+
+function setreturn(){
+	alert("1");
+var seledReal=document.getElementById("seledReal");
+alert("2");
+alert(seledReal.options.length);
+alert(seledReal.options[0].text.trim());
+
+	//alert(document.getElementsByName("return").value);
+
+	//document.getElementsByName("return").innerText=returnvalue;
+}
+</script>
+</head>
+<body onload="flodEpsinit()">
+<form action="${base}/stockmessage/search.jhtml" name="jvForm" method="get"></form>
+	<div style="background-color:#DFE1F7; text-align:center; width:100%">
+    	<br/>&nbsp;
+		<font class="font2">通用表达式生成器</font>
+		<br/>&nbsp;
+    </div>
+    <div style="width:720px; height:300px; margin:20px auto 0 auto">
+    	<div style="width:35%; float:left">
+    	<fieldset class="fsStyle1" style="height:300px">
+        	<br/>&nbsp;&nbsp;
+            <span><font class="font1" style="font-size:18px">对象：</font></span></span>
+            <span>
+            <select name="obj" id="obj" style="width:135px" onChange="selectObj(this);">
+            <option>2132</option>
+            </select>
+            </span>
+            <br/>&nbsp;&nbsp;
+            <br/>&nbsp;&nbsp;
+            <br/>&nbsp;&nbsp;
+            <span><font class="font1" style="font-size:18px">关系：</font></span>
+            <span>
+            <select name="rlt" id="rlt" style="width:135px">
+    	   		<option value="=">= </option>
+           		<option value="<">< </option>
+                <option value="<="><= </option>
+                <option value=">">> </option>
+                <option value=">=">>= </option>
+                <option value="!=">!= </option>
+    		</select>
+            </span>
+            <br/>&nbsp;&nbsp;
+            <br/>&nbsp;&nbsp;
+            <br/>&nbsp;&nbsp;
+            <span><font class="font1" style="font-size:18px">取值：</font></span>
+            <span><select name="value" id="value1" style="width:135px; display:none"></select></span>
+            <span><input type="text" name="value" id="value2" style="width:130px" /></span>
+            <br/>&nbsp;&nbsp;
+            <br/>&nbsp;&nbsp;
+            <br/>&nbsp;&nbsp;
+            <span><font class="font1" style="font-size:18px">与下条关系：</font></span>
+            <span>
+            <select name="nextrlt" id="nextrlt" style="width:80px">
+    	   		<option value="AND">并且</option>
+           		<option value="OR">或者</option>
+    		</select>
+            </span>
+            <br/>&nbsp;&nbsp;
+            <br/>&nbsp;&nbsp;
+            <div>
+            <span style="margin:0 50px 0 20px">
+            <input type="button" value="添加" style="width:70px;cursor:pointer" onclick="addSel();" />
+            </span>
+            <span>
+            <input type="button" value="清空" style="width:70px;cursor:pointer" onclick="resetCon();" />
+            </span>
+            </div>
+        </fieldset>
+        </div>
+        
+        <div style="width:60%; float:right">
+    	<fieldset class="fsStyle1" style="height:300px;">
+        <div style="height:255px">
+        <span style="margin:20px 0 0 25px; float:left; font-size:12px"><!--title="小提示：按住Ctrl键可以多选或不选" -->
+        	<font>小提示：按住Ctrl键可以多选或取消选择</font><br/>
+			<select name="seled" id="seled" size="12" class="mainDiv1" style="width:230px" multiple='multiple'></select>
+            <select name="seledReal" id="seledReal" size="12" class="mainDiv1" style="width:230px" multiple='multiple'></select>
+         <!--<input type="hidden" id="count" value="0" />-->
+		</span>
+        <span style="margin:70px 55px 0 0; float:right">
+        	<input type="button" value="删除" style="width:70px;cursor:pointer" onclick="rmvSel();" /><br /><br /><br /><br />
+            <input type="button" value="清空" style="width:70px;cursor:pointer" onclick="clearSelAll();" />
+        </span>
+        </div>
+        <div>
+        <span style="margin:0 45px 0 45px">
+        <input name="return" id="return" value="111" ></input>
+        <input type="button" value="刷新" style="width:70px"  onclick="setreturn()"/>
+        <input type="submit" value="确定" style="width:70px"  />
+        </span>
+        <span>
+        <input type="button" value="取消" style="width:70px;cursor:pointer" onclick="cancel();" />
+        </span>
+        </div>
+        </fieldset>
+        </div>
+    </div>
+    
+   	<div style="width:720px; margin:20px auto 0 auto">
+    <hr />
+    <span><font class="font1">结果表达式：</font></span>
+    <span id="showRes" style="font-size:14px;"></span>
+    </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.jeecms.bbs.entity">
+	<class name="BbsVoteRecord" table="bbs_vote_record">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="integer" column="record_id"><generator class="identity"/></id>
+		<property name="voteTime" column="vote_time" type="timestamp" not-null="true"></property>
+		<many-to-one name="user" column="user_id" class="BbsUser"></many-to-one>
+		<many-to-one name="topic" column="topic_id" class="BbsVoteTopic"></many-to-one>
+	</class>
+</hibernate-mapping>

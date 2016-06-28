@@ -1,0 +1,64 @@
+<div class="dlkbg">
+
+<div class="t3 cc">
+  <div class="cc" id="nav-user"> 
+  
+  [#if user??]
+    欢迎您：${user.username}
+    &nbsp;&nbsp;[#if user.group??]【级别：${user.group.name}】[/#if]
+    &nbsp;&nbsp;【<a href="${base}/member/index.jhtml">用户中心</a>】
+    
+    [@user_online id=user.id]
+      [#if useronline ??]
+     &nbsp;&nbsp;【累计登陆时间：${(useronline.onlineYear!)/60} 小时】        
+     &nbsp;&nbsp;【发帖： ${user.topicCount!}】
+     &nbsp;&nbsp;【回复： ${user.replyCount!}】
+     [/#if]
+     [/@user_online]
+      [#if returnUrl?? && returnUrl?length gt 0]
+    &nbsp;&nbsp;【<a href="${base}/logout.jspx?returnUrl=${returnUrl!}">退出</a>】
+    [#else]
+    &nbsp;&nbsp;【<a href="${base}/logout.jspx?returnUrl=/">退出</a>】       
+            
+    
+    [/#if]<br/>
+    [#else]
+    <form id="jvForm" action="${base}/login.jspx" method="post">
+      <table cellspacing="0" cellpadding="0" border="0">
+        <tbody>
+          <tr>
+            <td><input class="uname" value="${cookie_username!}" title="请输入用户名" maxlength="16" name="username" type="text" /></td>
+            <td><input class="pwd" value="${cookie_password!}" title="请输入密码" type="password" maxlength="18" name="password" /></td>
+            <td><input class="yan" id="captcha" title="请输入验证码" maxlength="10" size="12" name="captcha" type="text" /></td>
+            <td><img src="${base}/captcha.svl" width="70" height="28" style="cursor:pointer;" onclick="this.src='${base}/captcha.svl?d='+new Date()"/></td>
+            <td><select name="cookieType">
+                <option value="4" selected="selected">不保存</option>
+                <option value="3">保存1天</option>
+                <option value="2">一个月</option>
+                <option value="1">1年</option>
+                <option value="0">永久</option>
+              </select>
+            </td>
+            <td>
+              
+
+<input type="hidden" id="process" name="processUrl"/>
+            <script type="text/javascript">
+            document.getElementById("process").value=document.location;
+            </script>
+[#if returnUrl?? && returnUrl?length gt 0]
+              <input type="hidden" name="returnUrl" value="${returnUrl!}"/>
+              [#else]
+              <input type="hidden" name="returnUrl" value="${site.urlWhole!}"/>
+              [/#if]
+              <input type="submit" name="submit" value="登录"  class="loginbutton"/ ></td>
+            <td>&nbsp; <a href="${base}/register.jspx" style="color:red;">注册</a> &nbsp; <a href="${base}/member/forgot_password.jspx" style="color:red;">找回密码</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+    [/#if]</div>
+    
+</div>
+
+</div>

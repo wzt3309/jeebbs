@@ -1,0 +1,16 @@
+<p><a href="${base}/comment.jspx?contentId=${content.id}" target="_blank">更多评论</a></p>
+<ul>
+[@cms_comment_list contentId=content.id count='5']
+[#list tag_list as c]
+<li>${c.textHtml!}</li>
+[/#list]
+[/@cms_comment_list]
+</ul>
+[#--静态页的客户端包含(csi)调用--]
+<div>客户端包含调用</div>
+<div id="commentListContainer"></div>
+<script type="text/javascript">
+$(function(){
+	Cms.commentList("${base}","commentListContainer",{contentId:${content.id},commentControl:${channel.commentControl},orderBy:0,count:10});
+});
+</script>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+	
+<hibernate-mapping package="com.jeecms.bbs.entity">
+
+   <class
+		name="BbsNews"
+		table="bbs_news"
+		discriminator-value="0">
+       <cache usage="read-only"/>
+       
+       
+		
+	   <id
+			name="Id"
+			type="java.lang.Integer"
+			column="Id"
+		>
+			<generator class="native"/>
+		</id>
+		
+	
+		<property
+		   name="NewsFrom"
+		   column="NewsFrom"
+		   type="string"
+		   not-null="true"
+		   length="255"
+		/> 
+		
+		<property
+		   name="NewsHref"
+		   column="NewsHref"
+		   type="string"
+		   not-null="true"
+		   length="255"
+		/> 
+		
+		<property
+		   name="NewsName"
+		   column="NewsName"
+		   type="string"
+		   not-null="true"
+		   length="255"
+		/>
+		
+	
+		
+		
+		<property
+		   name="NewsDate"
+		   column="NewsDate"
+		   type="calendar"
+		   not-null="false"
+		/>
+		
+		
+
+
+
+
+		
+		
+		
+   </class>
+
+</hibernate-mapping>

@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jeebbs_sys/head.html"/>
+<script type="text/javascript">
+function getTableForm() {
+	return document.getElementById('tableForm');
+}
+function selectMagic() {
+	if(Pn.checkedCount('userIds')<=0) {
+		alert("<@s.m 'error.checkRecord'/>");
+		return;
+	}
+	var f = getTableForm();
+	f.action="select_magic.do";
+	f.submit();
+}
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>： <@s.m "magic.function"/> - <@s.m "magic.give"/></div>
+	<form class="ropt">
+	    <input type="text" name="username" value="${username!}" size="10"/>
+	    <select name="groupId"">
+	    <option value="">所有分组</option>
+	    <#list groupList as group>
+	    <option value="${group.id!}" <#if groupId??><#if group.id==groupId>selected="selected"</#if></#if>>${group.name!}</option>
+	    </#list>
+	    </select>
+		<input type="submit" value="搜索" onclick="this.form.action='user_list.do';"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<form id="tableForm" method="post">
+<input type="hidden" name="pageNo" value="${pageNo!}"/>
+<input type="hidden" name="groupId" value="${groupId!}"/>
+<@p.table value=pagination;bbsUser,i,has_next><#rt/>
+	<@p.column title="<input type='checkbox' onclick='Pn.checkbox(\"userIds\",this.checked)'/>" width="20">
+		<input type='checkbox' name='userIds' value='${bbsUser.id}'/><#t/>
+	</@p.column><#t/>
+	<@p.column title="ID">${bbsUser.id}</@p.column><#t/>
+	<@p.column code="cmsUser.username">${bbsUser.username}</@p.column><#t/>
+	<@p.column code="cmsUser.group">${bbsUser.group.name}<#if bbsUser.admin><span style="color:red"> [<@s.m "cmsUser.admin"/>]</span></#if></@p.column><#t/>
+	<@p.column code="cmsUser.disabled" align="center"><#if bbsUser.disabled><span style="color:red"><@s.m "global.true"/></span><#else><@s.m "global.false"/></#if></@p.column><#t/>
+	<@p.column code="global.operate" align="center">
+		<a href="v_edit.do?userId=${bbsUser.id}&pageNo=${pageNo!}" class="pn-opt"><@s.m "global.edit"/></a> | <#rt/>
+		<a href="o_delete.do?ids=${bbsUser.id}&pageNo=${pageNo!}" onclick="if(!confirm('<@s.m "global.confirm.delete"/>')) {return false;}" class="pn-opt"><@s.m "global.delete"/></a><#t/>
+	</@p.column><#t/>
+</@p.table>
+<div><input type="button" value="<@s.m "global.submit"/>" onclick="selectMagic();"/></div>
+</form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

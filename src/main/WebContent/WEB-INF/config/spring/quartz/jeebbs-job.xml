@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+	default-lazy-init="true">
+	<!--定时任务线程池 -->
+	<bean id="executor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor"> 
+		<property name="corePoolSize" value="10" /> 
+		<property name="maxPoolSize" value="100" /> 
+		<property name="queueCapacity" value="500" />
+	</bean>
+	
+	<!-- test Quartz 以后所有的定时任务按照此方法配置
+	<bean id="testTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+				<property name="targetObject">
+					<bean class="com.jeecms.bbs.schedule.FinanceLeadingIndexJob"/>
+				</property>
+				<property name="targetMethod" value="execute" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="30 2 16 ? * 2-6" />
+	</bean>-->
+	
+	<!--StockUpDownRateJob 计算每日股票强弱比与涨跌比  周一到周五 每日16:00执行一次
+	<bean id="StockUpDownRateJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+				<property name="targetObject">
+					<bean class=" com.jeecms.bbs.schedule.StockUpDownRateJob"/>
+				</property>
+				<property name="targetMethod" value="execute" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="0 40/30 17-20 ? * 2-6" />
+	</bean>-->
+	
+	<!-- 收集每日每小时的财经新闻 每日整点执行一次
+	<bean id="CaijingNewsJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+				<property name="targetObject">
+					<bean class="com.jeecms.bbs.schedule.CaijingNewsJob"/>
+				</property>
+				<property name="targetMethod" value="execute" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="0 * 6-23 * * ?" />
+	</bean>-->
+	
+	<!--清除今日主题帖子 -->
+	<bean id="bbsJob" class="com.jeecms.bbs.schedule.BbsJob"></bean>
+	<bean id="bbsJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="bbsJob" />
+		<property name="targetMethod" value="execute" />
+	</bean>
+	<bean id="bbsTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="bbsJobDetail" />
+		<property name="cronExpression" value="* * 21 * * ?" />
+	</bean>	
+	
+	<!--  -->
+	<bean id="configJobAct" class="com.jeecms.bbs.action.ConfigJobAct"/>
+	<bean id="configJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="configJobAct" />
+		<property name="targetMethod" value="dayClear" />
+	</bean>
+	<bean id="configTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="configJob" />
+		<property name="cronExpression" value="0 0 0 * * ?" />
+	</bean>
+	
+	<!--=======================在线时长清零任务 开始=======================-->	
+	<bean id="clearUserOnlineDayJob" class="com.jeecms.bbs.schedule.ClearUserOnlineJob"></bean>
+	<bean id="clearUserOnlineDayJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="clearUserOnlineDayJob" />
+		<property name="targetMethod" value="executeByDay" />
+	</bean>
+	<!--每日凌晨0点执行-->
+	<bean id="clearUserOnlineDayTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="clearUserOnlineDayJobDetail" />
+		<property name="cronExpression" value="0 0 0 * * ?" />
+	</bean>
+	
+	<bean id="clearUserOnlineWeekJob" class="com.jeecms.bbs.schedule.ClearUserOnlineJob"></bean>
+	<bean id="clearUserOnlineWeekJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="clearUserOnlineWeekJob" />
+		<property name="targetMethod" value="executeByWeek" />
+	</bean>
+	<!--周末凌晨1点执行-->
+	<bean id="clearUserOnlineWeekTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="clearUserOnlineWeekJobDetail" />
+		<property name="cronExpression" value="0 0 1 ? * 1"/>
+	</bean>
+	
+	<bean id="clearUserOnlineMonthJob" class="com.jeecms.bbs.schedule.ClearUserOnlineJob"></bean>
+	<bean id="clearUserOnlineMonthJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="clearUserOnlineMonthJob" />
+		<property name="targetMethod" value="executeByMonth" />
+	</bean>
+	<!--每月第一天凌晨0点执行-->
+	<bean id="clearUserOnlineMonthTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="clearUserOnlineMonthJobDetail" />
+		<property name="cronExpression" value="0 0 0 1 * ?" />
+	</bean>
+	
+	<bean id="clearUserOnlineYearJob" class="com.jeecms.bbs.schedule.ClearUserOnlineJob"></bean>
+	<bean id="clearUserOnlineYearJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="clearUserOnlineYearJob" />
+		<property name="targetMethod" value="executeByYear" />
+	</bean>
+	<!--每年1月1号凌晨0点执行-->
+	<bean id="clearUserOnlineYearTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="clearUserOnlineYearJobDetail" />
+		<property name="cronExpression" value="0 0 0 1 1 ?" />
+	</bean>	
+	<!--=======================在线时长清零任务 结束=======================-->
+	
+	<!-- 定时任务调度器 -->
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean"> 
+	<property name="triggers">  
+		<list>	
+			<ref local="configTrigger"/>	
+			<!--  <ref bean="bbsTrigger" />  
+			<ref bean="clearUserOnlineDayTrigger" />  
+			<ref bean="clearUserOnlineWeekTrigger" /> 
+			<ref bean="clearUserOnlineMonthTrigger" /> 
+			<ref bean="clearUserOnlineYearTrigger" /> 
+			<ref local="testTrigger"/>
+			<ref local="StockUpDownRateJobTrigger" />
+			<ref bean="CaijingNewsJobTrigger"/>-->
+		</list> 
+	</property> 	
+	</bean>
+	
+	<!--定时end -->
+</beans>

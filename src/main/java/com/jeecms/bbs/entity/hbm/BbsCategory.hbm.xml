@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="com.jeecms.bbs.entity">
+	<class
+		name="BbsCategory"
+		table="BBS_CATEGORY"
+	>
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id
+			name="id"
+			type="java.lang.Integer"
+			column="CATEGORY_ID"
+		>
+			<generator class="native"/>
+		</id>
+
+		<property
+			name="path"
+			column="PATH"
+			type="string"
+			not-null="true"
+			length="20"
+		/>
+		<property
+			name="title"
+			column="TITLE"
+			type="string"
+			not-null="true"
+			length="100"
+		/>
+		<property
+			name="priority"
+			column="PRIORITY"
+			type="integer"
+			not-null="true"
+			length="10"
+		/>
+		<property
+			name="forumCols"
+			column="FORUM_COLS"
+			type="integer"
+			not-null="true"
+			length="10"
+		/>
+		<property
+			name="moderators"
+			column="moderators"
+			type="string"
+			not-null="false"
+			length="100"
+		/>
+		<many-to-one
+			name="site"
+			column="site_id"
+			class="com.jeecms.core.entity.CmsSite"
+			not-null="true"
+		>
+		</many-to-one>
+		<set name="forums" inverse="true">
+			<cache usage="read-write"/>
+			<key column="CATEGORY_ID"/>
+			<one-to-many class="BbsForum"/>
+		</set>
+	</class>
+</hibernate-mapping>

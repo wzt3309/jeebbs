@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<#include "/jeebbs_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos">当前位置： 板块 - 分区管理 - 修改</div>
+	<form class="ropt">
+		<input type="button" value="返回列表" onclick="history.back();"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<@p.form id="jvForm" action="o_update.do">
+<@p.text label="分区名称" name="title" value=category.title size="40" required="true" class="required" maxlength="100"/>
+<@p.text label="访问路径" name="path" value=category.path required="true" class="required" maxlength="20"/>
+<@p.text label="下级板块横排" name="forumCols" value=category.forumCols required="true" class="required digits" value="1" help="每排显示版块个数，为1按正常方式排列"/>
+<@p.text label="排列顺序" name="priority" value=category.priority required="true" class="required digits" help="从小到大排列"/>
+<@p.text label="分区版主" name="moderators" value=category.moderators size="40" help="多个版主用,分割"/>
+<@p.td><@p.hidden name="id" value=category.id/><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>

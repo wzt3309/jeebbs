@@ -1,0 +1,151 @@
+<table width="100%" cellspacing="0" cellpadding="0" style="border-left:1px solid #c5d8e8;border-right:1px solid #c5d8e8;border-top:1px solid #c5d8e8;border-bottom:1px solid #c5d8e8;">
+    
+     
+    
+    <div id="creater1" style="background-color:#DFE1F7; text-align:center; width:100%;display:${show!}">
+    	<br/>&nbsp;
+		<font class="font2">选股条件编辑器</font>
+		<br/>&nbsp;
+    </div>
+    <div id="creater2" style="width:100%; height:300px; margin:20px auto 0 auto;display:${show!}">
+    	<div style="width:30%; float:left">
+    	<fieldset class="fsStyle1" style="height:300px">
+        	<br/>&nbsp;&nbsp;
+            <span><font class="font1" style="font-size:18px">对象：</font></span></span>
+            <span>
+            <select name="obj" id="obj" style="width:135px" onChange="selectObj(this);">
+            <option></option>
+            
+                <option id="MGSY">MGSY</option>
+			    <option id="MGWFP">MGWFP</option>
+			    <option id="JTSYL">JTSYL</option>
+			    <option id="MGJZC">MGJZC</option>
+			    <option id="SJL">SJL</option>
+			    <option id="JZCSYL">JZCSYL</option>
+			    <option id="MGZYSY">MGZYSY</option>
+			    <option id="MGJYXJL">MGJYXJL</option>
+			    <option id="MGGJJ">MGGJJ</option>
+			    <option id="GDQYB">GDQYB</option>
+			    <option id="LTGB">LTGB</option>
+			    <option id="ZGB">ZGB</option>
+			    <option id="LTSZ">LTSZ</option>
+			    <option id="ZSZ">ZSZ</option>
+            </select>
+            </span>
+            <br/>&nbsp;&nbsp;
+            <br/>&nbsp;&nbsp;
+            <br/>&nbsp;&nbsp;
+            <span><font class="font1" style="font-size:18px">关系：</font></span>
+            <span>
+            <select name="rlt" id="rlt" style="width:135px">
+    	   		<option value="=">= </option>
+           		<option value="<">< </option>
+                <option value="<="><= </option>
+                <option value=">">> </option>
+                <option value=">=">>= </option>
+                <option value="!=">!= </option>
+    		</select>
+            </span>
+            <br/>&nbsp;&nbsp;
+            <br/>&nbsp;&nbsp;
+            <br/>&nbsp;&nbsp;
+            <span><font class="font1" style="font-size:18px">取值：</font></span>
+            <span><select name="value" id="value1" style="width:135px; display:none"></select></span>
+            <span><input type="text" name="value" id="value2" style="width:130px" /></span>
+            <br/>&nbsp;&nbsp;
+            <br/>&nbsp;&nbsp;
+            <br/>&nbsp;&nbsp;
+            <span><font class="font1" style="font-size:18px">与下条关系：</font></span>
+            <span>
+            <select name="nextrlt" id="nextrlt" style="width:80px">
+    	   		<option value="AND">并且</option>
+           		<option value="OR">或者</option>
+           		<option value="AND 1=1">最后一条</option>
+    		</select>
+            </span>
+            <br/>&nbsp;&nbsp;
+            <br/>&nbsp;&nbsp;
+            <div>
+            <span style="margin:0 50px 0 20px">
+            <input type="button" value="添加" style="width:70px;cursor:pointer" onclick="addSel();" />
+            </span>
+            <span>
+            <input type="button" value="清空" style="width:70px;cursor:pointer" onclick="resetCon();" />
+            </span>
+            </div>
+        </fieldset>
+        </div>
+        
+        <div style="width:40%; float:left" >
+    	<fieldset class="fsStyle1" style="height:300px;">
+        <div style="height:255px">
+        <span style="margin:20px 0 0 25px; float:left; font-size:12px"><!--title="小提示：按住Ctrl键可以多选或不选" -->
+        	<font>小提示：按住Ctrl键可以多选或取消选择</font><br/>
+			<select name="seled" id="seled" size="12" class="mainDiv1" style="width:230px" multiple='multiple'>
+			
+			[#if seled ??]
+			
+			[#list seled as s]
+			<option>${s}</option>
+			[/#list]
+			
+			[/#if]
+			</select>
+            <select name="seledReal" id="seledReal" size="12" class="mainDiv1" style="width:230px; display:none" multiple='multiple'>
+            [#if seledReal ??]
+			
+			[#list seledReal as s]
+			<option>${s}</option>
+			[/#list]
+			
+			[/#if]
+            
+            </select>
+         <!--<input type="hidden" id="count" value="0" />-->
+		</span>
+        <span style="margin:70px 55px 0 0; float:right">
+        	<input type="button" value="删除" style="width:70px;cursor:pointer" onclick="rmvSel();" /><br /><br /><br /><br />
+            <input type="button" value="清空" style="width:70px;cursor:pointer" onclick="clearSelAll();" />
+        </span>
+        </div>
+         
+        <div>
+        
+        <span style="margin:0 45px 0 45px">
+        <input id="submit" type="submit" value="确定" style="display:none"  />
+        <input id="submit_input" type="button" value="提交"  style="width:70px;cursor:pointer" onclick="setreturn();"></input>
+        </span>
+        <span>
+        <input type="button" value="取消" style="width:70px;cursor:pointer" onclick="cancel();" />
+        </span>
+        <br/>
+        <span>
+        <input name="return" value="" id="return" style="display:none"></input>
+        <input name="show" value="" id="show" style="display:none" value="${submit!}"></input>
+        </span>
+        </div>
+        
+        </fieldset>
+        </div>
+        
+        <div style="width:30%; float:left" >
+        <fieldset class="fsStyle1" style="height:300px;">
+        <span style=" margin:20px 0 0 25px; float:left; font-size:12px; height:300px;"><!--title="小提示：按住Ctrl键可以多选或不选" -->
+        	<font>选股结果：</font><br/>
+			<select name="stock_id" id="stock_id" size="12" class="mainDiv1" style="width:230px" >
+			[@stock_id sql=sql]
+			[#if list??]
+			[#list list as id_list]
+			<option id="${id_list.GPDM!}" onclick="seledstock(&quot;${id_list.GPDM!}&quot;)"  ondblclick="dbseledstock(&quot;${id_list.GPDM!}&quot;)" > ${id_list.GPDM!}  ${id_list.GPMC!}</option>
+			[/#list]
+			[/#if]
+			[/@stock_id]
+			</select>
+            <!--<input type="hidden" id="count" value="0" />-->
+		</span>
+        </fieldset>
+        </div>
+    </div>
+    
+     
+	 </table>

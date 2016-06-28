@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>消息回复 - ${site.name} - JEECMS官方论坛|开源java cms,jsp cms,jsp bbs</title>
+    <meta content="java,cms,jsp,cms,jsp bbs,开源网站内容管理系统,网站群,站群,多站点,jeecms" name="keywords" />
+    <meta content="讨论jsp cms、jsp bbs相关资讯，struts,hibernate,spring,freemarker最新技术研究" name="description" />
+	<link href="${resSys}/front.css" rel="stylesheet" type="text/css"/>
+    <script src="${resSys}/jquery.js" type="text/javascript"></script>
+    <link href="/${res}/bbs_forum/css/whole.css" type="text/css" rel="stylesheet" />
+    <link href="/${res}/bbs_forum/css/layout.css" type="text/css" rel="stylesheet" />
+    <link href="/${res}/bbs_member/css/set.css" type="text/css" rel="stylesheet" />
+    <style type="text/css">
+    #set-menu li.current9{background:url(/${res}/bbs_member/img/fav-cur.gif) no-repeat 0 0.5em;}
+    #set-menu li.current9 a{color:#707070;font-weight:700}
+    </style>
+    <script>
+    	function ajax_delete(id){
+			$.post("ajax_delete_reply.jhtml",{"rid":id},function(data){
+				if(data.success){
+					$("#r"+id).remove();
+				}else{
+					alert("操作失败");
+				}
+			},"json");
+        }
+    </script>
+  </head>
+  <body>
+    <!--header-->[#include "../include/页头.html"/]<!--/header-->
+    <!--main-->
+    <div class="main-wrap">
+    <div id="main">
+    <div id="breadCrumb"><img alt="" align="absMiddle" style="cursor: pointer" src="/${res}/bbs_forum/img/home.gif" /> <a href="${base}/">${site.name}</a> &raquo; <a href="${base}/member/index.jhtml">会员中心</a> &raquo;消息回复</div>
+    <div id="set-wrap">
+    <div id="set-side">
+    <div id="set-side-wrap">
+    [#include "会员中心页_导航.html"/]
+    </div>
+    </div>
+    <div id="set-content">
+    <div class="cc" id="set-content-wrap">
+    <div>
+    <div class="set-tab-table">
+    <table cellspacing="0" cellpadding="0" border="0">
+      <tbody>
+        <tr class="tac" id="infolist">
+          <td class="current"><a href="#" style="cursor: pointer">[#if msg.msgType==1]消息回复[#elseif msg.msgType==2]留言回复[/#if]</a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="set-tab-box"">
+    [#if msg.sys]
+		<span style="color:blue">系统</span>　${msg.createTime?string("yyyy-MM-dd HH:mm")}<br/>
+		${msg.content!}
+	[#else]
+		[@msg_reply_page mid=msg.id count=10]
+		[#list tag_pagination.list as reply]
+		<span id="r${reply.id}">
+		<span style="color:blue">[#if reply.sender.id==user.id]您[#else]${reply.sender.username}[/#if]</span>　${reply.createTime?string("yyyy-MM-dd HH:mm")}　　　<a href="javascript:ajax_delete('${reply.id}')">删除</a>
+		<br/>
+		${reply.content!}
+		<br/>
+		</span>
+		[/#list]
+		[/@msg_reply_page]
+		[#assign u]
+		[#if msg.sender.id==user.id]
+		${msg.receiver.username}
+		[#else]
+		${msg.sender.username}
+		[/#if]
+		[/#assign]
+		 <form action="sendMsg.jhtml" method="post">
+	     	<input type="hidden" name="u" value="${u?trim}"/><br />
+	     	内　容:<textarea name="content" rows="6" cols="70"></textarea><br />
+	     	<input type="hidden" value="${msg.msgType!}" name="msgType"/>
+	     	<input type="submit" value="发送"/>
+	     </form>
+	[/#if]
+    </div>
+    [@msg_reply_page mid=msg.id count=10]
+    [#include "../tag/topic.html"/]
+    [/@msg_reply_page]
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    <!--/main-->
+    <!--footer-->[#include "../include/页脚.html"/]<!--footer-->
+  </body>
+</html>

@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="com.jeecms.bbs.entity">
+	<class
+		name="BbsMemberMagic"
+		table="bbs_member_magic"
+	>
+		<meta attribute="sync-DAO">false</meta>
+		<id
+			name="id"
+			type="integer"
+			column="id"
+		>
+			<generator class="native"/>
+		</id>
+
+		<property
+			name="num"
+			column="num"
+			type="integer"
+			not-null="false"
+			length="10"
+		/>
+		<many-to-one
+			name="user"
+			column="uid"
+			class="BbsUser"
+			not-null="true"
+		>
+		</many-to-one>
+		<many-to-one
+			name="magic"
+			column="magicid"
+			class="BbsCommonMagic"
+			not-null="true"
+		>
+		</many-to-one>
+
+
+	</class>	
+</hibernate-mapping>

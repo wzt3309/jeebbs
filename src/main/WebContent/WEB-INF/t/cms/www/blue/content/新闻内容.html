@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>${title} - ${site.name} - Powered by JEECMS</title>
+<meta http-equiv="keywords" content="${content.tagStr!}"/>
+<meta http-equiv="description" content="${content.description!}"/>
+<link href="${resSys}/front.css" rel="stylesheet" type="text/css"/>
+<script src="${resSys}/jquery.js" type="text/javascript"></script>
+<script src="${resSys}/front.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(function() {
+  Cms.attachment("${base}","${content.id}","${content.attachments?size}","attach");
+  Cms.viewCount("${base}","${content.id}");
+});
+</script>
+</head>
+
+<body>
+[@process_time/]
+<h1>${content.title}</h1>
+<p>浏览次数：<span id="views"></span></p>
+<p>下载次数：<span id="downloads"></span></p>
+[#if channel.commentControl!=2]
+<p>评论次数：<span id="comments"></span></p>
+[/#if]
+[#if channel.allowUpdown]
+<p>顶：<span id="ups" onclick="Cms.up('${base}',${content.id},${content.ups});"></span></p>
+<p>踩：<span id="downs" onclick="Cms.down('${base}',${content.id},${content.downs});"></span></p>
+[/#if]
+<h4>摘要：</h4>
+<p>${content.description!}</p>
+[#if content.mediaPath?? && content.mediaType??]
+[#if content.mediaType=='WM']
+<p>
+<object classid="clsid:22D6F312-B0F6-11D0-94AB-0080C74C7E95"
+	codebase="http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=6,1,5,217" 
+	type="application/x-oleobject" standby="Loading Microsoft Windows Media Player components..."
+	width="300" height="220">
+	<param name="FileName" value="${content.mediaPath}"/>
+	<param name="AutoSize" value="0"/>
+	<param name="AutoStart" value="0"/>
+</object>
+</p>
+[/#if]
+[/#if]
+[#if pic??]
+<img src="${pic.imgPath!}"/>
+<h4>${pic.description!}</h4>
+[/#if]
+<h4>内容：</h4>
+${txt!}
+[#if content.attachments?size gt 0]
+<h4>附件</h4>
+<ul>
+[#list content.attachments as attach]
+	<li><a id="attach${attach_index}">${attach.name}</a></li>
+[/#list]
+</ul>
+[/#if]
+[#--包含内容分页代码--]
+[#include "../style_page/content.html"/]
+<p>上一篇：[@cms_content id=content.id next='1' channelId=channel.id][#if tag_bean??]<a href="${tag_bean.url}">${tag_bean.title}</a>[#else]没有了[/#if][/@cms_content]</p>
+<p>下一篇：[@cms_content id=content.id next='0' channelId=channel.id][#if tag_bean??]<a href="${tag_bean.url}">${tag_bean.title}</a>[#else]没有了[/#if][/@cms_content]</p>
+[#if content.tagStr??]
+<h4>相关文章</h4>
+[@cms_content_list tagName=content.tagStr excludeId=content.id count='5']
+<ul>
+[#list tag_list as c]
+<li><a href="${c.url}">${c.title}</a></li>
+[/#list]
+</ul>
+[/@cms_content_list]
+[/#if]
+[#if channel.commentControl!=2]
+[#include "inc_comment_list.html"/]
+[#--
+[#include "inc_comment_input.html"/]
+--]
+[/#if]
+[@process_time/]
+</body>
+</html>

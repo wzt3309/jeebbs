@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="com.jeecms.bbs.entity">
+	<class
+		name="Attachment"
+		table="attachment"
+	>
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id
+			name="id"
+			type="java.lang.Integer"
+			column="attachment_id"
+		>
+			<generator class="native"/>
+		</id>
+
+		<property
+			name="name"
+			column="name"
+			type="string"
+			not-null="false"
+			length="100"
+		/>
+		<property
+			name="description"
+			column="description"
+			type="string"
+			not-null="false"
+			length="255"
+		/>
+		<property
+			name="filePath"
+			column="file_path"
+			type="string"
+			not-null="false"
+			length="100"
+		/>
+		<property
+			name="fileName"
+			column="file_name"
+			type="string"
+			not-null="false"
+			length="100"
+		/>
+		<property
+			name="fileSize"
+			column="file_size"
+			type="integer"
+			not-null="false"
+			length="10"
+		/>
+		<property
+			name="createTime"
+			column="create_time"
+			type="timestamp"
+			not-null="false"
+		/>
+		<property
+			name="picture"
+			column="is_pictrue"
+			type="java.lang.Boolean"
+			not-null="true"
+		/>
+		<many-to-one
+			name="post"
+			column="post_id"
+			class="BbsPost"
+			not-null="true"
+		>
+		</many-to-one>
+	</class>	
+</hibernate-mapping>

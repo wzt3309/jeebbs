@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title></title>
+<#include "/WEB-INF/bbs_sys/head.ftl"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos">当前位置： 板块 - 主题管理 - 修改</div>
+	<form class="ropt">
+		<input type="button" value="返回列表" onclick="history.back();"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<@p.form id="jvForm" action="Com_update">
+<@p.text label="名称" name="bean.name" required="true" class="required" maxlength="100"/>
+<@p.td><@p.hidden name="bean.id"/><@p.submit/> &nbsp; <@p.reset/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>

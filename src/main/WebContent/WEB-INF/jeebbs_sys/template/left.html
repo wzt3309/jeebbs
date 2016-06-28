@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>jeecms-left</title>
+<#include "/jeebbs_sys/head.html"/>
+<script type="text/javascript">
+$(function(){
+	$("#browser").treeview({
+		url: "v_tree.do"
+	});
+	Cms.lmenu("lmenu");
+});
+</script>
+</head>
+<body class="lbody">
+<div class="lttop">
+	<a href="javascript:location.href=location.href"><@s.m "global.refresh"/></a>
+<@cms_perm url="/template/v_setting.do">
+&nbsp; <a href="v_setting.do" target="rightFrame"><@s.m "template.setting"/></a>
+</@cms_perm>
+</div>
+<hr/>
+<ul id="browser" class="filetree"></ul>
+</body>
+</html>

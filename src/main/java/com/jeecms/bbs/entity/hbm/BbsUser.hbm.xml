@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.jeecms.bbs.entity">
+	<class name="BbsUser" table="jb_user">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Integer" column="user_id"><generator class="assigned"/></id>
+		<property name="username" column="username" type="string" not-null="true" length="100"/>
+		<property name="email" column="email" type="string" not-null="false" length="100"/>
+		<property name="telephone" column="telephone" type="string" not-null="false" length="100"/>
+		<property name="registerTime" column="register_time" type="timestamp" not-null="true" length="19"/>
+		<property name="registerIp" column="register_ip" type="string" not-null="true" length="50"/>
+		<property name="lastLoginTime" column="last_login_time" type="timestamp" not-null="false" length="19"/>
+		<property name="lastLoginIp" column="last_login_ip" type="string" not-null="false" length="50"/>
+		<property name="loginCount" column="login_count" type="integer" not-null="true" length="10"/>
+		<property name="uploadTotal" column="upload_total" type="java.lang.Long" not-null="true" length="19"/>
+		<property name="uploadToday" column="UPLOAD_TODAY" type="integer" not-null="true" length="19"/>
+		<property name="uploadSize" column="upload_size" type="integer" not-null="true" length="10"/>
+		<property name="uploadDate" column="upload_date" type="java.sql.Date" not-null="false" length="19"/>
+		<property name="admin" column="is_admin" type="java.lang.Boolean" not-null="true"/>
+		<property name="disabled" column="is_disabled" type="java.lang.Boolean" not-null="true"/>
+		<property name="point" column="POINT" type="java.lang.Long" not-null="true" length="19"/>
+		<property name="prestige" column="PRESTIGE" type="java.lang.Long" not-null="true" length="19"/>
+		<property name="introduction" column="INTRODUCTION" type="string" not-null="false" length="255"/>
+		<property name="signed" column="SIGNED" type="string" not-null="false" length="255"/>
+		<property name="avatar" column="AVATAR" type="string" not-null="false" length="100"/>
+		<property name="avatarType" column="AVATAR_TYPE" type="java.lang.Short" not-null="true" length="5"/>
+		<property name="topicCount" column="TOPIC_COUNT" type="integer" not-null="true" length="10"/>
+		<property name="replyCount" column="REPLY_COUNT" type="integer" not-null="true" length="10"/>
+		<property name="primeCount" column="PRIME_COUNT" type="integer" not-null="true" length="10"/>
+		<property name="postToday" column="POST_TODAY" type="integer" not-null="true" length="10"/>
+		<property name="lastPostTime" column="LAST_POST_TIME" type="timestamp" not-null="false"/>
+		<property name="prohibitPost" column="PROHIBIT_POST" type="java.lang.Short" not-null="true" length="5"/>
+		<property name="prohibitTime" column="PROHIBIT_TIME" type="timestamp" not-null="false"/>
+		<property name="gradeToday" column="GRADE_TODAY" type="java.lang.Integer" not-null="false"/>
+		<property name="magicPacketSize" column="magic_packet_size" type="integer" not-null="true" length="10"/>
+		<one-to-one name="userOnline" class="BbsUserOnline" cascade="delete"/>
+		<many-to-one name="group" column="group_id" class="BbsUserGroup" not-null="true"></many-to-one>
+		<set name="userExtSet" inverse="true" cascade="delete-orphan">
+			<cache usage="read-write"/>
+			<key column="user_id"/>
+			<one-to-many class="BbsUserExt"/>
+		</set>
+		<set name="loginLogs" inverse="true" cascade="delete-orphan" order-by="id desc">
+			<key column="user_id"/>
+			<one-to-many class="BbsLoginLog"/>
+		</set>
+		<set
+			name="memberMagics"
+			table="bbs_member_magic"
+			lazy="true"
+			cascade="delete-orphan"
+		>
+			<key column="uid"/>
+			<one-to-many  class="BbsMemberMagic"/>
+		</set>
+	</class>
+</hibernate-mapping>

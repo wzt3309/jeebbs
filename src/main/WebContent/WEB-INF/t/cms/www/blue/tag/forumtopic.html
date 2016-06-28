@@ -1,0 +1,129 @@
+<div class="pg-3 fl">
+[#assign p=tag_pagination/]
+[#if p.firstPage]
+[#else]
+	[#if type="index_jing"]
+		[#if ty="jing"]
+		<a href="${hrefFormer}${hrefLatter}"> |<</a>
+		<a href="${hrefFormer}[#if p.prePage gt 1]_${p.prePage}[/#if]${hrefLatter}"> < </a>
+		[#else]
+		<a href="${hrefFormer}${hrefLatter}?ty=jing"> |<</a>
+		<a href="${hrefFormer}[#if p.prePage gt 1]_${p.prePage}[/#if]${hrefLatter}?ty=jing"> < </a>
+		[/#if]
+    	
+    [#else]
+    <a href="${hrefFormer}${hrefLatter}"> |<</a>
+	<a href="${hrefFormer}[#if p.prePage gt 1]_${p.prePage}[/#if]${hrefLatter}"> < </a>
+    [/#if]
+
+[/#if]
+[#if pageNo-5 gt 1]
+	[#if p.totalPage gt pageNo+4]
+		[#list pageNo-5..pageNo+4 as i]
+			[#if i = pageNo]
+				<span class="current">${i}</span>
+			[#else]
+			
+				[#if type="index_jing"]
+				[#if ty="jing"]
+				<a href="${hrefFormer}[#if i gt 1]_${i}[/#if]${hrefLatter}">${i}</a>
+				[#else]
+				<a href="${hrefFormer}[#if i gt 1]_${i}[/#if]${hrefLatter}?ty=jing">${i}</a>
+				[/#if]
+    				
+   				 [#else]
+   					 <a href="${hrefFormer}[#if i gt 1]_${i}[/#if]${hrefLatter}">${i}</a>
+   				 [/#if]
+			
+				
+			[/#if]
+		[/#list]
+	[#else]
+		[#list p.totalPage-9..p.totalPage as i]
+			[#if i = pageNo]
+				<span class="current">${i}</span>
+			[#else]
+			
+			[#if type="index_jing"]
+			
+			[#if ty="jing"]
+				<a href="${hrefFormer}[#if i gt 1]_${i}[/#if]${hrefLatter}">${i}</a>
+				[#else]
+				<a href="${hrefFormer}[#if i gt 1]_${i}[/#if]${hrefLatter}?ty=jing">${i}</a>
+				[/#if]
+			
+    				
+   				 [#else]
+   					<a href="${hrefFormer}[#if i gt 1]_${i}[/#if]${hrefLatter}">${i}</a>
+   			 [/#if]
+			
+				
+			[/#if]
+		[/#list]
+	[/#if]
+[#else]
+	[#if p.totalPage gt 10]
+		[#list 1..10 as i]
+			[#if i = pageNo]
+				<span class="current">${i}</span>
+			[#else]
+			
+			[#if type="index_jing"]
+				[#if ty="jing"]
+				<a href="${hrefFormer}[#if i gt 1]_${i}[/#if]${hrefLatter}">${i}</a>
+				[#else]
+				<a href="${hrefFormer}[#if i gt 1]_${i}[/#if]${hrefLatter}?ty=jing">${i}</a>
+				[/#if]
+			
+    				
+   				 [#else]
+   					<a href="${hrefFormer}[#if i gt 1]_${i}[/#if]${hrefLatter}">${i}</a>
+   			 [/#if]
+			
+				
+			[/#if]
+		[/#list]
+	[#else]
+		[#list 1..p.totalPage as i]
+			[#if i = pageNo]
+				<span class="current">${i}</span>
+			[#else]
+			
+			[#if type="index_jing"]
+			[#if ty="jing"]
+				<a href="${hrefFormer}[#if i gt 1]_${i}[/#if]${hrefLatter}">${i}</a>
+				[#else]
+				<a href="${hrefFormer}[#if i gt 1]_${i}[/#if]${hrefLatter}?ty=jing">${i}</a>
+				[/#if]
+			
+    				
+   				 [#else]
+   					<a href="${hrefFormer}[#if i gt 1]_${i}[/#if]${hrefLatter}">${i}</a>
+   			 [/#if]
+				
+			[/#if]
+		[/#list]
+	[/#if]
+[/#if]
+[#if p.lastPage]
+[#else]
+
+[#if type="index_jing"]
+[#if ty="jing"]
+				<a href="${hrefFormer+'_'+p.nextPage+hrefLatter}"> > </a>
+				<a href="${hrefFormer+'_'+p.totalPage+hrefLatter}"> >| </a>
+				[#else]
+				<a href="${hrefFormer+'_'+p.nextPage+hrefLatter}?ty=jing"> > </a>
+				<a href="${hrefFormer+'_'+p.totalPage+hrefLatter}?ty=jing"> >| </a>
+				[/#if]
+    					
+	
+   				 [#else]
+   						<a href="${hrefFormer+'_'+p.nextPage+hrefLatter}"> > </a>
+	<a href="${hrefFormer+'_'+p.totalPage+hrefLatter}"> >| </a>
+   			 [/#if]
+
+
+[/#if]
+<span class="total">共${p.totalPage}页</span>
+</div>

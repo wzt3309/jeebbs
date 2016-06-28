@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<#include "/jeebbs_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+<script type="text/javascript">
+function checkboxChildSelect(forumId,parentId){
+	if($("#forumId_"+forumId+"_"+parentId).attr("checked")){
+		$("input[id^='forumId_"+forumId+"_"+parentId+"']").each(function(i){
+			$(this).attr("checked","checked");
+		 });
+	}else{
+		$("input[id^='forumId_"+forumId+"_"+parentId+"']").each(function(i){
+			$(this).attr("checked","");
+		 });
+		}
+}
+function selectTypes(forumId){
+	if($("#forumId_"+forumId).attr("checked")){
+		$("input[id^='forumId_"+forumId+"']").each(function(i){
+			$(this).attr("checked","checked");
+		 });
+	}else{
+		$("input[id^='forumId_"+forumId+"']").each(function(i){
+			$(this).attr("checked","");
+		 });
+		}
+}
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos">当前位置： 核心功能 - 会员组管理 - 权限</div>
+	<form class="ropt">
+		<input type="button" value="返回列表" onclick="history.back();"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<@p.form id="jvForm" action="o_update.do">
+<@p.text colspan="2" label="名称" name="name" value=bbsUserGroup.name class="required" maxlength="100"/>
+<@p.tr/>
+<@p.radio colspan="1" width="50" label="允许发表主题" name="perms['allow_topic']" value=bbsUserGroup.perms['allow_topic'] list={"true":"是","false":"否"}/>
+<@p.radio colspan="1" width="50" label="允许发表回复" name="perms['allow_reply']" value=bbsUserGroup.perms['allow_reply'] list={"true":"是","false":"否"}/>
+<@p.tr/>
+<@p.text colspan="1" width="50" label="每日发帖数" id="post_per_day" name="perms['post_per_day']" value=bbsUserGroup.perms['post_per_day'] class="required digits" maxlength="9" help="为0不限制"/>
+<@p.text colspan="1" width="50" label="发贴间隔时间" id="post_interval" name="perms['post_interval']" value=bbsUserGroup.perms['post_interval'] class="required digits" maxlength="9" help="(分钟) 为0不限制"/>
+<@p.tr/>
+<@p.text colspan="1" width="50" label="每日发消息数" id="msg_per_day" name="perms['msg_per_day']" value=bbsUserGroup.perms['msg_per_day'] class="required digits" maxlength="9" help="为0不限制"/>
+<@p.text colspan="1" width="50" label="发消息间隔时间" id="msg_interval" name="perms['msg_interval']" value=bbsUserGroup.perms['msg_interval'] class="required digits" maxlength="9" help="(分钟) 为0不限制"/>
+<@p.tr/>
+<@p.text colspan="1" width="50" label="消息箱大小" id="msg_count" name="perms['msg_count']" value=bbsUserGroup.perms['msg_count'] class="required digits" maxlength="9" help="(条) 为0不限制"/>
+<@p.text colspan="1" width="50" label="收藏夹大小" id="favorite_count" name="perms['favorite_count']" value=bbsUserGroup.perms['favorite_count'] class="required digits" maxlength="9" help="(条) 为0不限制"/>
+<@p.tr/>
+<@p.text colspan="1" width="50" label="编辑时间约束" id="edit_limit_minute" name="perms['edit_limit_minute']" value=bbsUserGroup.perms['edit_limit_minute'] class="required digits" maxlength="9" help="(分钟) 超过时间不能编辑帖子，为0不限制"/>
+<@p.text colspan="1" width="50" label="每日可用评分" id="favorite_gradenum" name="gradeNum" value=bbsUserGroup.gradeNum class="required digits" maxlength="9" help="(分)"/>
+<@p.tr/>
+<@p.radio colspan="2" label="允许发布附件" name="perms['allow_attach']" value=bbsUserGroup.perms['allow_attach'] list={"true":"是","false":"否"}/>
+<@p.tr/>
+<@p.text colspan="2" label="允许附件类型" name="perms['attach_type']" value=bbsUserGroup.perms['attach_type'] size="50" maxlength="255" help="用逗号,分割，留空不限制"/>
+<@p.tr/>
+<@p.text colspan="1" width="50" label="最大附件尺寸" id="attach_max_size" name="perms['attach_max_size']" value=bbsUserGroup.perms['attach_max_size'] class="required digits" maxlength="9" help="(KB) 为0不限制"/>
+<@p.text colspan="1" width="50" label="每日附件总尺寸" id="attach_per_day" name="perms['attach_per_day']" value=bbsUserGroup.perms['attach_per_day'] class="required digits" maxlength="9" help="(KB) 为0不限制"/><@p.tr/>
+
+<@p.td colspan="2" label="帖子类别">
+<ul id="browser" class="filetree"></ul>
+</@p.td>
+<@p.tr/>
+
+<@p.td colspan="2" label="道具包容量">
+<@p.text colspan="2"  name="magicPacketSize" value=bbsUserGroup.magicPacketSize size="50" maxlength="10" class="required digits" help="本组用户带有道具的最大重量"/>
+</@p.td>
+<@p.tr/>
+<#if bbsUserGroup.type==2>
+<@p.radio colspan="1" width="50" label="超级管理权限" name="perms['super_moderator']" value=bbsUserGroup.perms['super_moderator'] list={"true":"是","false":"否"} help="无须成为版主即可管理"/>
+<@p.radio colspan="1" width="50" label="发帖不受限制" name="perms['post_limit']" value=bbsUserGroup.perms['post_limit'] list={"true":"是","false":"否"}/>
+<@p.tr/>
+<@p.radio colspan="2" label="置顶权限" name="perms['topic_top']" value=bbsUserGroup.perms['topic_top'] list={"0":"无","1":"置顶I","2":"置顶II","3":"置顶III"} help="分别为本版置顶,分区置顶,全局置顶"/>
+<@p.tr/>
+<@p.radio colspan="1" width="50" label="帖子管理" name="perms['topic_manage']" value=bbsUserGroup.perms['topic_manage'] list={"true":"是","false":"否"} help="精、锁、提、亮、压"/>
+<@p.radio colspan="1" width="50" label="帖子编辑" name="perms['topic_edit']" value=bbsUserGroup.perms['topic_edit'] list={"true":"是","false":"否"}/>
+<@p.tr/>
+<@p.radio colspan="1" width="50" label="屏蔽帖子" name="perms['topic_shield']" value=bbsUserGroup.perms['topic_shield'] list={"true":"是","false":"否"} help="屏蔽、移动帖子"/>
+<@p.radio colspan="1" width="50" label="删除帖子" name="perms['topic_delete']" value=bbsUserGroup.perms['topic_delete'] list={"true":"是","false":"否"}/>
+<@p.tr/>
+<@p.radio colspan="1" width="50" label="查看IP" name="perms['view_ip']" value=bbsUserGroup.perms['view_ip'] list={"true":"是","false":"否"}/>
+<@p.radio colspan="1" width="50" label="会员禁言" name="perms['member_prohibit']" value=bbsUserGroup.perms['member_prohibit'] list={"true":"是","false":"否"}/>
+<@p.tr/>
+</#if>
+<@p.td colspan="2">
+	<@p.hidden name="id" value=bbsUserGroup.id id="groupId"/>
+	<@p.hidden name="groupType" value=groupType/>
+	<@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/>
+</@p.td>
+</@p.form>
+<script type="">
+$(function(){
+	var groupId=$("#groupId").val();
+	$("#browser").treeview({
+		url: "v_tree.do?groupId="+groupId
+	});
+	Cms.lmenu("lmenu");
+});
+</script>
+</div>
+</body>
+</html>

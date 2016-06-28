@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="com.jeecms.bbs.entity">
+	<class
+		name="BbsCreditExchange"
+		table="bbs_credit_exchange"
+	>
+		<meta attribute="sync-DAO">false</meta>
+		<id
+			name="id"
+			type="integer"
+			column="eid"
+		>
+			<generator class="assigned"/>
+		</id>
+
+		<property
+			name="expoint"
+			column="expoint"
+			type="integer"
+			not-null="true"
+			length="10"
+		/>
+		<property
+			name="exprestige"
+			column="exprestige"
+			type="integer"
+			not-null="true"
+			length="10"
+		/>
+		<property
+			name="pointoutavailable"
+			column="pointoutavailable"
+			type="java.lang.Boolean"
+			not-null="true"
+		/>
+		<property
+			name="pointinavailable"
+			column="pointinavailable"
+			type="java.lang.Boolean"
+			not-null="true"
+		/>
+		<property
+			name="prestigeoutavailable"
+			column="prestigeoutavailable"
+			type="java.lang.Boolean"
+			not-null="true"
+			length="3"
+		/>
+		<property
+			name="prestigeinavailable"
+			column="prestigeinavailable"
+			type="java.lang.Boolean"
+			not-null="true"
+		/>
+		<property
+			name="exchangetax"
+			column="exchangetax"
+			type="java.lang.Float"
+			not-null="true"
+			length="10"
+		/>
+		<property
+			name="miniBalance"
+			column="mini_balance"
+			type="integer"
+			not-null="true"
+			length="10"
+		/>
+
+
+	</class>	
+</hibernate-mapping>

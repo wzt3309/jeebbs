@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="com.jeecms.bbs.entity">
+	<class
+		name="BbsMagicLog"
+		table="bbs_magic_log"
+	>
+		<meta attribute="sync-DAO">false</meta>
+		<id
+			name="id"
+			type="integer"
+			column="log_id"
+		>
+			<generator class="identity"/>
+		</id>
+
+		<property
+			name="logTime"
+			column="log_time"
+			type="timestamp"
+			not-null="true"
+			length="10"
+		/>
+		<property
+			name="operator"
+			column="operator"
+			type="java.lang.Byte"
+			not-null="false"
+			length="3"
+		/>
+		<property
+			name="price"
+			column="price"
+			type="integer"
+			not-null="false"
+			length="10"
+		/>
+		<property
+			name="num"
+			column="num"
+			type="integer"
+			not-null="false"
+			length="10"
+		/>
+		<many-to-one
+			name="targetUser"
+			column="targetuid"
+			class="BbsUser"
+			not-null="false"
+		>
+		</many-to-one>
+		<many-to-one
+			name="magic"
+			column="magic_id"
+			class="BbsCommonMagic"
+			not-null="true"
+		>
+		</many-to-one>
+		<many-to-one
+			name="user"
+			column="user_id"
+			class="BbsUser"
+			not-null="true"
+		>
+		</many-to-one>
+
+
+	</class>	
+</hibernate-mapping>

@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>${site.name}</title>
+    <meta content="java,cms,jsp,cms,jsp bbs,开源网站内容管理系统,网站群,站群,多站点,jeecms" name="keywords" />
+    <meta content="讨论jsp cms、jsp bbs相关资讯，struts,hibernate,spring,freemarker最新技术研究" name="description" />
+	<link href="${resSys}/front.css" rel="stylesheet" type="text/css"/>
+    <script src="${resSys}/jquery.js" type="text/javascript"></script>
+    <link href="/${res}/bbs_forum/css/whole.css" type="text/css" rel="stylesheet" />
+    <link href="/${res}/bbs_forum/css/layout.css" type="text/css" rel="stylesheet" />
+    <style type="text/css">
+    #set-menu li.current2{background:url(/${res}/bbs_member/img/fav-cur.gif) no-repeat 0 0.5em;}
+    #set-menu li.current2 a{color:#707070;font-weight:700}
+    </style>
+<script type="">
+function buyMagic(){
+				var mid=$("#mid").val();
+				var buynum=$("#num").val();
+				$.post('${base}/magic/buymagic.jspx', {
+					'mid':mid,
+					'buynum':buynum
+				}, function(data) {
+					if (data.pass) {
+						$("#magicBuyMsg").html(data.message);
+					}else{
+						$("#magicBuyMsg").html("您尚未登录");
+					}
+				},"json");
+				$("#magicParent").hide();
+				$("#magicBuyParent").show();
+		}
+function hiddenBuyParentDiv(){
+			$("#magicBuyParent").hide();
+			window.parent.location.reload();
+		}
+	</script>
+  </head>
+  <body>
+    <div id="magicParent">
+     	购买道具
+    	<div id="magicName">${magicName!}</div>
+    	<div id="magicMsg">${magicMsg!}</div>
+    	售价：<span id="credit_1"></span><span id="price">${price!}${credit!}</span><br />
+    	我目前有的<span id="credit_2"></span><span id="point">${point!}${credit!}</span><br />
+    	重量：<span id="weight">${weight!}</span><br />
+    	我的道具包可用容量 :<span id="userMagicPacketSize">${userMagicPacketSize!}</span><br />
+    	库存:<span id="inventory">${num!}</span>张<br />
+    	购买<input name="num" id="num" type="text" value="1"/>张
+    	<input name="mid" id="mid" type="hidden" value="${mid!}"/>
+   		<a href="#" onclick="buyMagic()">购买</a>
+    </div>
+    <div id="magicBuyParent" style="display: none;">
+    	<div id="magicBuyMsg"></div>
+      	&nbsp;&nbsp;&nbsp;<span onclick="hiddenBuyParentDiv()" id="closeBuyParent" style="cursor: pointer;">关闭</span>
+     </div>
+  </body>
+</html>

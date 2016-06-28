@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<#include "/jeebbs_sys/head.html"/>
+<script type="text/javascript">
+function getTableForm() {
+	return document.getElementById('tableForm');
+}
+function optDelete() {
+	if(Pn.checkedCount('ids')<=0) {
+		alert("<@s.m 'error.checkRecord'/>");
+		return;
+	}
+	if(!confirm("<@s.m 'global.confirm.delete'/>")) {
+		return;
+	}
+	var f = getTableForm();
+	f.action="o_delete.do";
+	f.submit();
+}
+function optPriority() {
+	var f = getTableForm();
+	f.action="o_priority.do";
+	f.submit();
+}
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos">当前位置： 板块 - 分区管理 - 列表</div>
+	<form class="ropt">
+		<input type="submit" value="添加分区" onclick="this.form.action='v_add.do';"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<form id="tableForm" method="post">
+<input type="hidden" name="pageNo" value="${pageNo!}"/>
+<@p.table value=list;category,i,has_next><#rt/>
+	<@p.column title="<input type='checkbox' onclick='Pn.checkbox(\"ids\",this.checked)'/>" width="20">
+		<input type='checkbox' name='ids' value='${category.id}'/><#t/>
+	</@p.column><#t/>
+	<@p.column title="ID">${category.id!}</@p.column><#t/>
+	<@p.column code="名称">${category.title!}</@p.column><#t/>
+	<@p.column code="路径">${category.path!}</@p.column><#t/>
+	<@p.column code="版主">${category.moderators!}</@p.column><#t/>
+	<@p.column code="排列顺序" align="center">
+		<input type="text" name="prioritys" value="${category.priority!}" style="width:40px"/>
+		<input type="hidden" name="wids" value="${category.id!}"/>
+	</@p.column><#t/>
+	<@p.column code="操作" align="center">
+		<a href="v_edit.do?id=${category.id}" class="pn-opt">修改</a> | <#rt/>
+		<a href="o_delete.do?ids=${category.id}" onclick="if(!confirm('你确定要删除吗?')) {return false;}" class="pn-opt">删除</a><#t/>
+	</@p.column><#t/>
+</@p.table>
+<div>
+	<input type="button" value="删除" onclick="optDelete();"/>
+&nbsp; <input type="button" value="保存顺序" onclick="optPriority();"/>
+</div>
+</form>
+<#include "/common/alert_message.html"/>
+</div>
+</body>
+</html>

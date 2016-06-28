@@ -1,0 +1,27 @@
+<#if isRoot>
+[{
+	"text": "<@s.m "channel.root"/>"
+	<#if list?size gt 0>,
+	"expanded": true,
+	"children": [
+	<#list list as bbsforum>
+		{
+		"id": "${bbsforum.id}",
+		"text": "<input type='checkbox'  id='forumId_${bbsforum.id}' onclick='selectTypes(${bbsforum.id})'/>${bbsforum.title}",
+		"hasChildren": <#if bbsforum.postTypes?size gt 0>true<#else>false</#if>
+		}<#if bbsforum_has_next>,</#if>
+	</#list>
+	]
+	</#if>
+}]
+<#else>
+	[
+	<#list list as postType>
+		{
+		"id": "${postType.id},${postType.forum.id}",
+		"text": "<input type='checkbox'  name='postTypeIds' value='${postType.id}' <#if postTypeIds?seq_contains(postType.id)>checked='checked' </#if> onclick='checkboxChildSelect(${postType.forum.id},${postType.id})' <#if postType.parent??>id='forumId_${postType.forum.id}_${postType.parent.id}_${postType.id}'<#else>id='forumId_${postType.forum.id}_${postType.id}'</#if> />${postType.typeName}",
+		"hasChildren":<#if postType.childs?size gt 0>true<#else>false</#if>
+		}<#if postType_has_next>,</#if>
+	</#list>
+	]
+</#if>

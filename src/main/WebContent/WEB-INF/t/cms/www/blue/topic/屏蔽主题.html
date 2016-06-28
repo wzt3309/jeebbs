@@ -1,0 +1,47 @@
+
+<div class="t z">
+<form method="post" action="${base}/topic/o_shieldSubmit.jspx" id="jvForm">
+	<table cellspacing="0" cellpadding="0" align="center" width="100%">
+	<tr style="height:23px;line-height:23px;color:#666;">
+		<td class="h"><b>屏蔽/打开主题</b></td>
+		<td class="h"></td>
+		</tr>
+	<tr class="tr2"><td colspan="99" style="border-bottom:0"></td></tr>
+	<tr>
+	  <td valign="top" class="f_one" style="padding:7px"><strong>级 别</strong></td>
+	  <td valign="top" class="f_one" style="padding:7px">
+	   <input type="radio" id="unshield" name="shield" value="false" checked="checked" /><label for="unshield">打开主题</label>
+	   <input type="radio" id="shield" name="shield" value="true" /><label for="shield">屏蔽主题</label>
+	  </td>
+	</tr>
+	<tr>
+	  <td valign="top" width="20%" class="f_one" style="padding:7px"><b>操作原因</b></td>
+		<td valign="top" class="f_one" style="padding:7px">
+		<select size="6" style="width: 100px;" onchange="this.form.reason.value=this.value">
+            <option value="">自定义</option>
+            <option value="">--------</option>
+            <option value="广告/SPAM">广告/SPAM</option>
+            <option value="恶意灌水">恶意灌水</option>
+            <option value="违规内容">违规内容</option>
+            <option value="文不对题">文不对题</option>
+            <option value="重复发帖">重复发帖</option>
+            <option value="">--------</option>
+            <option value="我很赞同">我很赞同</option>
+            <option value="精品文章">精品文章</option>
+            <option value="原创内容">原创内容</option>
+            </select><textarea id="reason" name="reason" rows="6" cols="80"></textarea>
+		</td>
+	</tr>
+	<tr>
+	  <td valign="top" class="f_one" style="padding:7px">&nbsp;</td>
+	  <td valign="top" class="f_one" style="padding:7px">
+	   [#list topicIds as topicId]
+		<input type="hidden" name="topicIds" value="${topicId!}"/>
+	   [/#list]
+	    <input type="hidden" name="forumId" value="${forum.id!}" />
+		<input type="submit" class="btn fl b" style="padding:0 1em;*padding:0;height:28px;" value="提 交"/>
+	  </td>
+	  </tr>
+</table>
+</form>
+</div>

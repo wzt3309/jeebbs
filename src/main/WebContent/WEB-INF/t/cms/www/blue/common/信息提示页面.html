@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>信息提示 - ${site.name} - powered by jeebbs</title>
+    <meta content="text/html; charset=gb2312" http-equiv="Content-Type" />
+    <link rel="stylesheet" type="text/css" href="/${res}/bbs_forum/css/whole.css" />
+    <link rel="stylesheet" type="text/css" href="/${res}/bbs_forum/css/layout.css" />
+  </head>
+  <body>
+    <!--header-->[#include "../include/页头.html"/]<!--/header-->
+    <!--main-->
+    <div class="main-wrap"><br />
+    <div id="main">
+    <div class="t z">
+    <table cellspacing="0" cellpadding="0" width="100%">
+      <thead>
+        <tr>
+          <th class="h" colspan="2">
+          <h2>JEEBBS 提示信息</h2>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="tr2">
+          <td align="left">
+          <ul style="margin-left: 60px">
+            [#if args??]
+            <li style="list-style-type: circle">[@s.mat code=message args=args text=message/]</li>
+            [#else]
+            <li style="list-style-type: circle">[@s.mt code=message text=message/]</li>
+            [/#if]
+            <li style="list-style-type: circle">
+            <script>setTimeout("window.location.href ='${base}/';", 2000);</script>
+		         【<a href="${base}/">如果您的浏览器没有自动跳转，请点击此链接</a>】
+            </li>
+          </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+    </div>
+    </div>
+    <!--/main-->
+	<!--footer--> 
+	[#include "../include/页脚.html"/]
+	<!--footer-->
+  </body>
+</html>

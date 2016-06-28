@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <style type="text/css">
+    #set-menu li.current8{background:url(/${res}/bbs_member/img/fav-cur.gif) no-repeat 0 0.5em;}
+    #set-menu li.current8 a{color:#707070;font-weight:700}
+    </style>
+    <link href="${resSys}/front.css" rel="stylesheet" type="text/css"/>
+    <script src="${resSys}/jquery.js" type="text/javascript"></script>
+    <link href="/${res}/bbs_forum/css/whole.css" type="text/css" rel="stylesheet" />
+    <link href="/${res}/bbs_forum/css/layout.css" type="text/css" rel="stylesheet" />
+   <script type="">
+function report(){
+	var url=$("#url").val();
+    var reason=$("#reason").val();
+	$.post('${base}/member/report.jhtml', {
+		'url':url,
+		'reason':reason
+		}, function(data) {
+		},"json");
+		alert("举报成功！");
+		window.parent.location.reload();
+		}
+	</script>
+  </head>
+  <body>
+     <div >
+     	<div id="messageDiv">
+     	<input name="url" value="${url!}" type="hidden" id="url"/>
+     	理由:<input name="reason" type="text" size="20" maxlength="150" id="reason">
+     	<input type="button" value="确定" onclick="report()"/>
+     	</div>
+    </div>
+  </body>
+</html>

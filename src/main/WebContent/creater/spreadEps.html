@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="mycss/style.css">
+<title>表达式快速生成器（展开式）</title>
+<script type="text/javascript" src="myjs/common.js"></script>
+<script charset="utf-8" type="text/javascript" src="myjs/spreadEps.js"></script>
+<script type="text/javascript" src="myjs/expression.js"></script>
+<script type="text/javascript">
+if (window.Event && document.layers) 
+    document.captureEvents(Event.MOUSEUP); 
+document.oncontextmenu = nocontextmenu;
+document.onmousedown = norightclick;
+document.onkeydown = DisableFKey;
+
+var jsonObj;
+function spreadEpsinit() {
+	var resJsonStr = parent.document.getElementById("resJsonStr").value;
+	jsonObj = str2json(resJsonStr);
+	if(checkSandV(jsonObj)) {
+		var tbl = document.getElementById("content");
+		createTableSpr(tbl, jsonObj);
+	}
+	else {
+		alert(resMsg['003']);
+	}
+}
+
+function addChoose(rpos) {
+	var values = document.getElementsByName("value");
+	//var valueDsps = document.getElementsByName("valueDsp");
+	var valueDsps = document.getElementById("content").getElementsByTagName("span");
+	var valueReals = document.getElementsByName("valueReal");
+	
+	var value = values[rpos].options[values[rpos].selectedIndex].value.trim();
+	var valueReal = valueReals[rpos].value.trim();
+	if(valueReal != null && valueReal != "") {
+		var vrs = valueReal.split(",");
+		for(var i = 0; i < vrs.length; i++) {
+			if(value == vrs[i].trim()) {
+				alert(resMsg['011']);
+				return;
+			}
+		}
+	}
+	var valueDsp = valueDsps[rpos].innerHTML.trim();
+	if(valueReal != "") {
+		valueReals[rpos].value += ",";
+	}
+	valueReals[rpos].value += value;
+	if(valueDsp != "") {
+		valueDsps[rpos].innerHTML = valueDsp + "、" + value;
+	}
+	else if(valueDsp == "") {
+		valueDsps[rpos].innerHTML = value;
+	}
+}
+
+function resetCon(rpos) {
+	var isNots = document.getElementsByName("isNot");
+	if((isNots[rpos].type == "checkbox") && (isNots[rpos].checked == true)) {
+		isNots[rpos].checked = false;
+	}
+	var nextrlts = document.getElementsByName("nextrlt");
+	if(nextrlts[rpos].type.trim().toLowerCase().startsWith("select")) {
+		nextrlts[rpos].selectedIndex = 0;
+	}
+	var isEnums = document.getElementsByName("isEnum");
+	if(isEnums[rpos].value.trim() == "true") {
+		var values = document.getElementsByName("value");
+		//var valueDsps = document.getElementsByName("valueDsp");
+		var valueDsps = document.getElementById("content").getElementsByTagName("span");
+		var valueReals = document.getElementsByName("valueReal");
+		
+		if(values[rpos].type.trim().toLowerCase().startsWith("select")) {
+			values[rpos].selectedIndex = 0;
+		}
+		valueDsps[rpos].innerHTML = "";
+		valueReals[rpos].value = "";
+	}
+	else if(isEnums[rpos].value.trim() == "false") {
+		var inclts = document.getElementsByName("inclt");
+		var lessthans = document.getElementsByName("lessthan");
+		var incmts = document.getElementsByName("incmt");
+		var morethans = document.getElementsByName("morethan");
+		
+		if((inclts[rpos].type == "checkbox") && (inclts[rpos].checked == true)) {
+			inclts[rpos].checked = false;
+		}
+		lessthans[rpos].value = "";
+		if((incmts[rpos].type == "checkbox") && (incmts[rpos].checked == true)) {
+			incmts[rpos].checked = false;
+		}
+		morethans[rpos].value = "";
+	}
+}
+
+function createEps() {
+	var arrayCon = createSpreadArrayCon();
+	if(arrayCon.length == 0) {
+		alert(resMsg['012']);
+		return;
+	}
+	var showRes = document.getElementById("showRes");
+	var res = createEpsRes(arrayCon, showRes, jsonObj);
+	//if(showRes.innerHTML != null && showRes.innerHTML.trim() != "") {
+	if(res > 0) {
+		parent.document.getElementById("lastRes").value = showRes.innerHTML.trim().replaceAll("&gt;", ">").replaceAll("&lt;", "<");
+	}
+}
+
+function cancel() {
+	parent.dialog2.hide();
+}
+</script>
+</head>
+
+<body onload="spreadEpsinit()">
+<div style="background-color:#DFE1F7; text-align:center; width:100%">
+    	<br/>&nbsp;
+		<font class="font2">表达式快速生成器</font>
+		<br/>&nbsp;
+    </div>
+<div style="width:730px; margin:10px auto 0 auto; text-align:center">
+<table id="content" border="0" style="font-size:14px; text-align:left">
+</table>
+<div style="margin-top:20px">
+	<span style="margin:0px 45px 0 -20px">
+   		<input type="button" value="确定" style="width:70px;cursor:pointer" onclick="createEps()" />
+    </span>
+    <span>
+        <input type="button" value="取消" style="width:70px;cursor:pointer" onclick="cancel();" />
+    </span>
+</div>
+</div>
+<div style="width:730px; margin:20px auto 0 auto">
+    <hr />
+    <span><font class="font1">结果表达式：</font></span>
+    <span id="showRes" style="font-size:14px;"></span>
+    </div>
+</body>
+</html>

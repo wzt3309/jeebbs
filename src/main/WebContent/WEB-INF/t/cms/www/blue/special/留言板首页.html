@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>留言板 - ${site.name} - Powered by JEECMS</title>
+<link href="${resSys}/front.css" rel="stylesheet" type="text/css"/>
+<script src="${resSys}/jquery.js" type="text/javascript"></script>
+<script src="${resSys}/front.js" type="text/javascript"></script>
+</head>
+
+<body>
+[@process_time/]
+<h1>留言板</h1>
+
+[@cms_guestbook_page siteId=site.id count='20']
+<ul>
+[#list tag_pagination.list as m]
+	<li>		
+		<h4>${m.titleHtml!}</h4>
+		<p>${(m.member.username)!'匿名用户'}</p>
+		<p>${m.contentHtml!}</p>
+	</li>
+[/#list]
+</ul>
+[/@cms_guestbook_page]
+
+<form id="guestbookForm" action="${base}/guestbook.jspx" method="post">
+<p>验证码：<input type="text" name="captcha" class="required" maxlength="20"/> <img id="guestbookCaptcha" src="${base}/captcha.svl" onclick="this.src='${base}/captcha.svl?d='+new Date()"/></p>
+<p>类别：
+	<select name="ctgId">
+	[@cms_guestbook_ctg_list siteId=site.id]
+	[#list tag_list as ctg]
+		<option value="${ctg.id}">${ctg.name}</option>
+	[/#list]
+	[/@cms_guestbook_ctg_list]
+	</select>
+</p>
+<p>电子邮箱：<input type="text" name="email" class="email" maxlength="100"/></p>
+<p>电话：<input type="text" name="phone" maxlength="50"/></p>
+<p>QQ：<input type="text" name="qq" maxlength="50"/></p>
+<p>标题：<input type="text" name="title" maxlength="255"/></p>
+<p>内容：<textarea name="content" cols="70" rows="5" class="required" maxlength="65535"></textarea></p>
+<label for="content"></label>
+
+<p><input type="submit" value="提交"/></p>
+</form>
+
+<script type="text/javascript">
+$(function() {
+	$("#guestbookForm").validate( {
+		submitHandler : function(form) {
+			$(form).ajaxSubmit( {
+				"success" : function(data) {
+					if(data.status==0) {
+						alert("留言提交成功");
+						location.href=location.href;
+					} else if(data.status==1) {
+						alert("验证码错误");
+						$("#guestbookCaptcha").click();
+					} else {
+						alert("留言提交失败");
+					}
+				},
+				"dataType" : "json"
+			});
+		}
+	});
+});
+</script>
+
+[@process_time/]
+</body>
+</html>

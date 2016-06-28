@@ -1,0 +1,11 @@
+<div id="hotlink">
+	&nbsp;&nbsp;
+	<div class="fl"><img src="../../${res}/bbs_forum/img/yqlj.gif" /></div>
+	<div class="fr">&nbsp;&nbsp;&nbsp;&nbsp;
+	[@cms_friendlink_list]
+	[#list tag_list as link]
+	<a href="${link.domain}" onclick="$.get('${base}/friendlink_view.jspx?id=${link.id}')" target="_blank">${link.name}</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+	[/#list]
+	[/@cms_friendlink_list]
+	</div>
+</div>

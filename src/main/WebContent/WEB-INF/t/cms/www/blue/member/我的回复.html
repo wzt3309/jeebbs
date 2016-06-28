@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>我的回复 - ${site.name} - JEECMS官方论坛|开源java cms,jsp cms,jsp bbs</title>
+    <meta content="java,cms,jsp,cms,jsp bbs,开源网站内容管理系统,网站群,站群,多站点,jeecms" name="keywords" />
+    <meta content="讨论jsp cms、jsp bbs相关资讯，struts,hibernate,spring,freemarker最新技术研究" name="description" />
+	<link href="${resSys}/front.css" rel="stylesheet" type="text/css"/>
+    <script src="${resSys}/jquery.js" type="text/javascript"></script>
+    <link href="/${res}/bbs_forum/css/whole.css" type="text/css" rel="stylesheet" />
+    <link href="/${res}/bbs_forum/css/layout.css" type="text/css" rel="stylesheet" />
+    <link href="/${res}/bbs_member/css/set.css" type="text/css" rel="stylesheet" />
+    <style type="text/css">
+    #set-menu li.current4{background:url(/${res}/bbs_member/img/fav-cur.gif) no-repeat 0 0.5em;}
+    #set-menu li.current4 a{color:#707070;font-weight:700}
+    </style>
+  </head>
+  <body>
+    <!--header-->[#include "../include/页头.html"/]<!--/header-->
+    <!--main-->
+    <div class="main-wrap">
+    <div id="main">
+    <div id="breadCrumb"><img alt="" align="absMiddle" style="cursor: pointer" src="/${res}/bbs_forum/img/home.gif" /> <a href="${base}/">${site.name}</a> &raquo; <a href="${base}/member/index.jhtml">会员中心</a> &raquo;我的回复</div>
+    <div id="set-wrap">
+    <div id="set-side">
+    <div id="set-side-wrap">
+    [#include "会员中心页_导航.html"/]
+    </div>
+    </div>
+    <div style="width:820px; margin:auto;background:#fff;float:right;">
+    <div class="cc" id="set-content-wrap">
+    <div>
+    <div class="set-tab-table">
+    <table cellspacing="0" cellpadding="0" border="0">
+      <tbody>
+        <tr class="tac" id="infolist">
+          <td class="current"><a href="#" style="cursor: pointer">我的回复</a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+     <div class="set-tab-box">
+     <table class="set-table2" cellspacing="0" cellpadding="0" width="100%" border="0" style="margin-top:10px;">
+  <tbody>
+  <tr>
+      <td width="40%"><b>标 题</b></td>
+      <td width=""><b>版块</b></td>
+      <td width=""><b>最后发表人</b></td>
+      <td width="140"><b>回复时间</b></td>
+    </tr>
+    [@my_reply createrId=user.id  topLevel='0' count='10' tpl='0']
+ 	[#list tag_pagination.list as topic]
+ 	<tr>
+   	 	<td><a href="${topic.url!}" target="_blank">${topic.title?html!}</a> </td>
+    	<td><a href="${topic.forum.url!}" target="_blank">${topic.forum.title}</a></td>
+    	<td>${topic.lastReply.username!}</td>
+   		<td>${topic.createTime?string("yyyy-MM-dd HH:mm:ss")}</td>
+  	</tr>
+  	[/#list]
+    [/@my_reply]
+  </tbody>
+</table>
+    [@my_reply createrId=user.id  topLevel='0' count='10' tpl='0']
+    [#include "../tag/topic.html"/]
+    [/@my_reply]
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    <!--/main--><!--footer-->[#include "../include/页脚.html"/]<!--footer-->
+  </body>
+</html>

@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="com.jeecms.bbs.entity">
+	<class
+		name="BbsMagicConfig"
+		table="bbs_magic_config"
+	>
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id
+			name="Id"
+			type="integer"
+			column="id"
+		>
+			<generator class="assigned"/>
+		</id>
+
+		<property
+			name="magicSwitch"
+			column="magic_switch"
+			type="boolean"
+			not-null="true"
+		/>
+		<property
+			name="magicDiscount"
+			column="magic_discount"
+			type="integer"
+			not-null="false"
+			length="10"
+		/>
+		<property
+			name="magicSofaLines"
+			column="magic_sofa_lines"
+			type="string"
+			not-null="false"
+			length="255"
+		/>
+
+
+	</class>	
+</hibernate-mapping>

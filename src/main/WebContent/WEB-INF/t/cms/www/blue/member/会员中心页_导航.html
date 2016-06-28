@@ -1,0 +1,19 @@
+<h2 class="set-h2"><a class="color8" href="${base}/member/index.jhtml">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;会员中心首页</a></h2>
+<ul id="set-menu">
+  <li id="pro_modify" [#if location?contains('member/information.jhtml')]class="current"[/#if]><a href="${base}/member/information.jhtml">个人资料</a></li>
+  <li id="pro_modify" [#if location?contains('member/creditManager.jhtml')]class="current"[/#if]><a href="${base}/member/creditManager.jhtml">积分</a></li>
+  <li id="pro_modify" [#if location?contains('member/inputSearch.jhtml')||location?contains('member/search')]class="current"[/#if]><a href="${base}/member/inputSearch.jhtml">搜索主题</a></li>
+  <li id="pro_modify" [#if location?contains('member/mytopic')]class="current"[/#if]><a href="${base}/member/mytopic.jhtml">我的主题</a></li>
+  <li id="pro_modify" [#if location?contains('member/mypost')]class="current"[/#if]><a href="${base}/member/mypost.jhtml">我的回复</a></li>
+  <li id="pro_modify" [#if location?contains('member/friendSearch.jhtml')]class="current"[/#if]><a href="${base}/member/friendSearch.jhtml">搜索好友</a></li>
+  <li id="pro_modify" [#if location?contains('member/myfriend')]class="current"[/#if]><a href="${base}/member/myfriend.jhtml">我的好友</a></li>
+  <li id="pro_modify" [#if location?contains('member/friendApply')]class="current"[/#if]><a href="${base}/member/friendApply.jhtml">好友请求</a></li>
+  <li id="pro_modify" [#if location?contains('member/sendMsg.jhtml')]class="current"[/#if]><a href="${base}/member/sendMsg.jhtml">发送消息</a></li>
+  <li id="pro_modify" [#if location?contains('member/myMsg')]class="current"[/#if]><a href="${base}/member/myMsg.jhtml">我的消息</a></li>
+  <li id="pro_modify" [#if location?contains('member/myguestbook')]class="current"[/#if]><a href="${base}/member/myguestbook.jhtml">我的留言</a></li>
+  <li id="pro_modify" [#if location?contains('member/myremind')]class="current"[/#if]><a href="${base}/member/myremind.jhtml">我的提醒</a></li>
+  <li id="pro_modify" [#if location?contains('magic/shop.jhtml')]class="current"[/#if]><a href="${base}/magic/shop.jhtml">道具商店</a></li>
+  <li id="pro_modify" [#if location?contains('magic/mybox')]class="current"[/#if]><a href="${base}/magic/mybox.jhtml">我的道具</a></li>
+  <li id="pro_modify" [#if location?contains('magic/magiclog')]class="current"[/#if]><a href="${base}/magic/magiclog.jhtml">道具记录</a></li>
+  <li id="pro_modify" ><a href="${base}/logout.jspx?returnUrl=/">退 出</a></li>
+</ul>

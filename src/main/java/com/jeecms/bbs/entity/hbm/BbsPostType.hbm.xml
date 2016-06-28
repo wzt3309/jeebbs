@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="com.jeecms.bbs.entity">
+	<class
+		name="BbsPostType"
+		table="bbs_post_type"
+	>
+		<meta attribute="sync-DAO">false</meta>
+		<id
+			name="id"
+			type="integer"
+			column="type_id"
+		>
+			<generator class="native"/>
+		</id>
+
+		<property
+			name="typeName"
+			column="type_name"
+			type="string"
+			not-null="false"
+			length="255"
+		/>
+		<property
+			name="priority"
+			column="priority"
+			type="integer"
+			not-null="false"
+			length="11"
+		/>
+		<many-to-one
+			name="site"
+			column="site_id"
+			class="com.jeecms.core.entity.CmsSite"
+			not-null="true"
+			>
+		</many-to-one>
+		<many-to-one
+			name="forum"
+			column="forum_id"
+			class="BbsForum"
+			not-null="true"
+			>
+		</many-to-one>
+		<many-to-one
+			name="parent"
+			column="parent_id"
+			class="BbsPostType"
+			not-null="false"
+			>
+		</many-to-one>
+		<set name="childs" inverse="true" cascade="delete-orphan">
+			<cache usage="read-write"/>
+			<key column="parent_id"/>
+			<one-to-many class="BbsPostType"/>
+		</set>
+		<set name="groups" table="bbs_group_type">
+			<key column="type_id"/>
+			<many-to-many column="group_id" class="BbsUserGroup"/>
+		</set>
+	</class>	
+</hibernate-mapping>

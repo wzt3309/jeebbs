@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>${site.name}</title>
+    <meta content="java,cms,jsp,cms,jsp bbs,开源网站内容管理系统,网站群,站群,多站点,jeecms" name="keywords" />
+    <meta content="讨论jsp cms、jsp bbs相关资讯，struts,hibernate,spring,freemarker最新技术研究" name="description" />
+	<link href="${resSys}/front.css" rel="stylesheet" type="text/css"/>
+    <script src="${resSys}/jquery.js" type="text/javascript"></script>
+    <link href="/${res}/bbs_forum/css/whole.css" type="text/css" rel="stylesheet" />
+    <link href="/${res}/bbs_forum/css/layout.css" type="text/css" rel="stylesheet" />
+    <style type="text/css">
+    #set-menu li.current2{background:url(/${res}/bbs_member/img/fav-cur.gif) no-repeat 0 0.5em;}
+    #set-menu li.current2 a{color:#707070;font-weight:700}
+    </style>
+<script type="">
+var second=3;
+function redirectTopic()
+{
+    if (second < 0)
+    {
+        window.parent.location.href = '${topicurl!}';
+    } else
+    {
+    	second--;
+    }
+}
+function redirectForum()
+{
+    if (second < 0)
+    {
+        window.parent.location.href = '${topicurl!}';
+    } else
+    {
+    	second--;
+    }
+}
+function useMagic(uid){
+	var pid=$("#pid").val();
+	var ppid=$("#ppid").val();
+	var mid=$("#magicname").val();
+	var color;
+	var userid=uid;
+	var name=$("#name").val();
+	if(name=='undefined'){
+		name='';
+	}
+	$("input[name='color']").each(function(i){
+		if($(this).attr("checked")){
+				color=$(this).val();
+			}
+		});
+	$.post('${base}/magic/usemagic.jspx', {
+		'pid':pid,
+		'mid':mid,
+		'color':color,
+		'userid':userid,
+		'ppid':ppid,
+		'name':name
+	}, function(data) {
+		if (data.pass) {
+			if(data.magicswitch){
+			$("#magicName").html(data.magicName);
+			$("#magicMsg").html(data.magicMsg);
+			$("#pid").val(data.pid);
+			if(mid=="repent"){
+				setInterval("redirectForum()", 1000);  //repent删除后跳转到板块列表
+				}else{
+					setInterval("redirectTopic()",1000);  //其他操作均调回主题详细页
+					}
+				$("#afterUseDiv").html("三秒后页面跳转");
+			}else{
+				$("#magicParent").html("道具中心已经关闭!");
+				}
+		}else{
+			$("#magicParent").html("您尚未登录");
+		}
+	},"json");
+	$("#magicParent").show();
+}
+	</script>
+  </head>
+  <body>
+    <div id="magicParent"  class="demo">
+          		<input type="hidden" name="ppid" id="ppid" value="${ppid!}"/>
+         		<div id="magicName">${magicName!}</div>
+         		<div id="magicMsg">${magicMsg!}</div>
+         		<#if permiss>
+         		<div id="magicPid"><input name="magicname" id="magicname" type="hidden" value="${mid!}" />
+         		<#if identifier??><#if identifier!="showip"&&identifier!="checkonline"&&identifier!="repent"&&identifier!="namepost"><input name="pid" id="pid" type="text" value="${pid!}"/><#else><input name="pid" id="pid" type="hidden" value="${pid!}"/></#if></#if>
+         		<#if username??><input name="name" id="name" type="text" value="${username!}"/><#else><input name="name" id="name" type="hidden"/></#if>
+         		</div>
+         		<#if identifier??>
+         		<#if identifier=="highlight">
+         		<div id="highlightDiv">
+					<label class="highlight"><input class="radio" type="radio" name="color" value="" checked="checked" />默认</label>
+					<label class="highlight"><input class="radio" type="radio" name="color" value="262626" />
+					<em style="background-color: #262626;width:17px; height:17px;">&nbsp;&nbsp;</em></label>
+					<label class="highlight"><input class="radio" type="radio" name="color" value="FF0000" />
+					<em style="background-color: #FF0000;width:17px; height:17px;">&nbsp;&nbsp;</em></label>
+					<label class="highlight"><input class="radio" type="radio" name="color" value="FFA500" />
+					<em style="background-color: #FFA500;width:17px; height:17px;">&nbsp;&nbsp;</em></label>
+					<label class="highlight"><input class="radio" type="radio" name="color" value="FFFF00" />
+					<em style="background-color: #FFFF00;">&nbsp;&nbsp;</em></label>
+					<label class="highlight"><input class="radio" type="radio" name="color" value="008000" />
+					<em style="background-color: #008000;">&nbsp;&nbsp;</em></label>
+					<label class="highlight"><input class="radio" type="radio" name="color" value="00FFFF" />
+					<em style="background-color: #00FFFF;">&nbsp;&nbsp;</em></label>
+					<label class="highlight"><input class="radio" type="radio" name="color" value="0000FF" />
+					<em style="background-color: #0000FF;">&nbsp;&nbsp;</em></label>
+					<label class="highlight"><input class="radio" type="radio" name="color" value="800080" />
+					<em style="background-color: #800080;">&nbsp;&nbsp;</em></label>
+					<label class="highlight"><input class="radio" type="radio" name="color" value="808080" />
+					<em style="background-color: #808080;">&nbsp;&nbsp;</em></label>	
+			     </div>
+			     </#if>
+			     </#if>
+			    <a href="#" id="useMagicA" onclick="useMagic('${post.creater.id}')">使用道具</a>
+			    <div id="afterUseDiv"></div>
+			     </#if>
+    </div>
+  </body>
+</html>

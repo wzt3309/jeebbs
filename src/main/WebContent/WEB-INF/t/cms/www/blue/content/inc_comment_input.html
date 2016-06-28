@@ -1,0 +1,41 @@
+[#if channel.commentControl==0 || (channel.commentControl==1 && user??)]
+<h4>发表评论：</h4>
+<form id="commentForm" action="${base}/comment.jspx" method="post">
+<div><textarea name="text" rows="5" cols="70"></textarea></div>
+<div><input type="hidden" name="contentId" value="${content.id}"/><input type="submit" value="提交"/></div>
+</form>
+<script type="text/javascript">
+$(function() {
+/*
+	$("#commentForm").validate( {
+		submitHandler : function(form) {
+			$(form).ajaxSubmit( {
+				"success" : function(data) {
+					if(data.success) {
+						alert("评论成功");
+						location.href=location.href;
+					} else {
+						alert("评论失败");
+					}
+				},
+				"dataType" : "json"
+			});
+		}
+	});
+*/
+	Cms.comment(function(data) {
+		if(data.success) {
+			alert("评论成功");
+			location.href=location.href;
+		} else {
+			alert("评论失败");
+		}
+	});
+});
+</script>
+[#elseif channel.commentControl==1 && !user??]
+[#--登录评论，且未登录--]
+<div>请登录后评论</div>
+[#else]
+[#--不允许评论--]
+[/#if]

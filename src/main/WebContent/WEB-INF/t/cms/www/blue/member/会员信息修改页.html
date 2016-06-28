@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>会员中心 - ${site.name} - Powered by JEECMS</title>
+<link href="${resSys}/front.css" rel="stylesheet" type="text/css"/>
+<script src="${resSys}/jquery.js" type="text/javascript"></script>
+<script src="${resSys}/front.js" type="text/javascript"></script>
+<script src="${base}/thirdparty/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+
+<body>
+<h1>会员中心</h1>
+<p>欢迎您：${user.username}</p>
+[#include "会员中心页_导航.html"/]
+<form id="jvForm" action="profile.jspx" method="post">
+<p>真实姓名：<input type="text" name="realname" value="${user.realname!?html}" maxlength="100"/></p>
+<p>性别：[@p.radio name="gender" value=user.gender list={"true":"男","false":"女","":"保密"}/]</p>
+<p>出生日期：<input type="text" name="birthday" value="${(user.birthday?string('yyyy-MM-dd'))!}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"/></p>
+<p>自我介绍：<input type="text" name="intro" value="${user.intro!?html}" maxlength="255"/></p>
+<p>来自：<input type="text" name="comefrom" value="${user.comefrom!?html}" maxlength="150"/></p>
+<p>QQ：<input type="text" name="qq" value="${user.qq!?html}" maxlength="100"/></p>
+<p>MSN：<input type="text" name="msn" value="${user.msn!?html}" maxlength="100"/></p>
+<p>电话：<input type="text" name="phone" value="${user.phone!?html}" maxlength="50"/></p>
+<p>手机：<input type="text" name="moble" value="${user.moble!?html}" maxlength="50"/></p>
+<p>
+	<input type="hidden" name="nextUrl" value="profile.jspx"/>
+	<input type="submit" value="提交"/> <input type="reset" value="重置"/>
+</p>
+</form>
+</body>
+</html>

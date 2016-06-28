@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="com.jeecms.bbs.entity">
+	<class
+		name="BbsGrade"
+		table="bbs_grade"
+	>
+		<meta attribute="sync-DAO">false</meta>
+		<id
+			name="id"
+			type="java.lang.Integer"
+			column="GRADE_ID"
+		>
+			<generator class="native"/>
+		</id>
+
+		<property
+			name="score"
+			column="SCORE"
+			type="integer"
+			not-null="false"
+			length="10"
+		/>
+		<property
+			name="reason"
+			column="REASON"
+			type="string"
+			not-null="false"
+			length="100"
+		/>
+		<property
+			name="gradeTime"
+			column="GRADE_TIME"
+			type="timestamp"
+			not-null="false"
+		/>
+		<many-to-one
+			name="post"
+			column="POST_ID"
+			class="BbsPost"
+			not-null="true"
+		>
+		</many-to-one>
+		<many-to-one
+			name="grader"
+			column="user_id"
+			class="BbsUser"
+			not-null="true"
+		>
+		</many-to-one>
+	</class>	
+</hibernate-mapping>

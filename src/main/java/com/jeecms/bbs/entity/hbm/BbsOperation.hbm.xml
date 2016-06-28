@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="com.jeecms.bbs.entity">
+	<class
+		name="BbsOperation"
+		table="BBS_OPERATION"
+		>
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id
+			name="id"
+			type="java.lang.Integer"
+			column="OPERATOR_ID"
+			>
+			<generator class="native"/>
+		</id>
+		<property
+			name="optName"
+			column="OPT_NAME"
+			type="string"
+			not-null="true"
+			length="100"
+			/>
+		<property
+			name="optReason"
+			column="OPT_REASON"
+			type="string"
+			not-null="false"
+			length="255"
+			/>
+		<property
+			name="optTime"
+			column="OPT_TIME"
+			type="timestamp"
+			not-null="true"
+			/>
+		<any name="target" meta-type="string" id-type="java.lang.Integer">
+			<meta-value value="TOPI" class="BbsTopic"/>
+			<meta-value value="POST" class="BbsPost"/>
+			<meta-value value="MEMB" class="BbsUser"/>
+			<column name="REF_TYPE"/>
+			<column name="REF_ID"/>
+		</any>
+		<many-to-one
+			name="site"
+			column="site_id"
+			class="com.jeecms.core.entity.CmsSite"
+			not-null="true"
+			>
+		</many-to-one>
+		<many-to-one
+			name="operater"
+			column="operater_id"
+			class="BbsUser"
+			not-null="true"
+			>
+		</many-to-one>
+	</class>	
+</hibernate-mapping>

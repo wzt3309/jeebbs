@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+	
+<hibernate-mapping package="com.jeecms.bbs.entity">
+
+   <class
+		name="reccomendstock"
+		table="reccomendstock"
+		discriminator-value="0">
+       <cache usage="read-write"/>
+       
+       <composite-id>
+           <key-property name="stockID" column="stockID" type="string" />
+           <key-property name="time" column="time" type="string"/>
+           <key-property name="reccomendation" column="reccomendation" type="int"/>
+        </composite-id>
+		
+		
+		
+		
+		<property
+		   name="stockName"
+		   column="stockName"
+		   type="string"
+		   not-null="false"
+		   length="255"
+		/>
+		
+		
+		
+
+	
+		
+   </class>
+
+</hibernate-mapping>

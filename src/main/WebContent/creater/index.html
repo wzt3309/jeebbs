@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>网页表达式生成器</title>
+<script type="text/javascript" src="myjs/common.js"></script>
+<script type="text/javascript" src="myjs/dialog.js"></script>
+<script type="text/javascript" src="myjs/expression.js"></script>
+<script type="text/javascript">
+	
+	var recStruct = '[{"fieldname":"姓名","fieldDisp":"身份证姓名","fieldType":"String","fieldSize":10},{"fieldname":"性别","fieldDisp":"性别","fieldType":"String","fieldSize":2},{"fieldname":"年龄","fieldDisp":"周岁","fieldType":"Integer","fieldSize":3},{"fieldname":"地区","fieldDisp":"所在区域","fieldType":"String","fieldSize":6},{"fieldname":"绩点","fieldDisp":"当前绩点","fieldType":"Float","fieldSize":null}]';
+	
+	var recValue = '[{"fieldname":"性别","valueKind":0,"valueScope":"男"},{"fieldname":"性别","valueKind":0,"valueScope":"女"},{"fieldname":"年龄","valueKind":1,"valueScope":"14"},{"fieldname":"年龄","valueKind":-2,"valueScope":"30"},{"fieldname":"地区","valueKind":0,"valueScope":"华北"},{"fieldname":"地区","valueKind":0,"valueScope":"西北"},{"fieldname":"地区","valueKind":0,"valueScope":"东北"},{"fieldname":"地区","valueKind":0,"valueScope":"华东"},{"fieldname":"地区","valueKind":0,"valueScope":"华南"},{"fieldname":"地区","valueKind":0,"valueScope":"西南"},{"fieldname":"地区","valueKind":0,"valueScope":"中南"},{"fieldname":"绩点","valueKind":-1,"valueScope":"0"},{"fieldname":"绩点","valueKind":2,"valueScope":"100"}]';
+	
+	var resJsonStr;
+	var dialog1;
+	var dialog2;
+	var dialog3;
+
+if (window.Event && document.layers) 
+    document.captureEvents(Event.MOUSEUP); 
+document.oncontextmenu = nocontextmenu;
+document.onmousedown = norightclick;
+document.onkeydown = DisableFKey;
+
+function init() {
+	resJsonStr = AS2RJStr(recStruct, recValue);
+	document.getElementById("resJsonStr").value = resJsonStr;
+	
+	dialog1 = new Dialog({width:793,height:550,title:"通用表达式生成器（折叠式）"});
+    dialog1.hide();
+	dialog2 = new Dialog({width:793,height:550,title:"表达式快速生成器（展开式）"});
+    dialog2.hide();
+	dialog3 = new Dialog({width:793,height:550,title:"表达式快速生成器（简化式）"});
+    dialog3.hide();
+	
+	var bn1 = document.getElementById("foldEps");
+	bn1.onclick = function(){
+      	dialog1.show();
+		dialog1.content.innerHTML = "<iframe frameborder=0 scroll:auto src='/表达式生成器/foldEps.html' width="+
+			(dialog1.width-26)+" height="+(dialog1.height-50)+"></iframe>"
+    };
+	
+	var bn2 = document.getElementById("spreadEps");
+	bn2.onclick = function(){
+      	dialog2.show();
+		dialog2.content.innerHTML = "<iframe frameborder=0 scroll:auto src='spreadEps.html' width="+
+			(dialog2.width-26)+" height="+(dialog2.height-50)+"></iframe>"
+    };
+	
+	var bn3 = document.getElementById("simplifyEps");
+	bn3.onclick = function(){
+      	dialog3.show();
+		dialog3.content.innerHTML = "<iframe frameborder=0 scroll:auto src='simplifyEps.html' width="+
+			(dialog2.width-26)+" height="+(dialog2.height-50)+"></iframe>"
+    };
+}
+
+function showLR() {
+	var lr = document.getElementById("lastRes").value.trim();
+	if(lr == "") {
+		alert("没有结果！");
+	}
+	else {
+		alert(lr);
+	}
+}
+</script>
+</head>
+<body onload="init()">
+<br/>
+<input type="hidden" value="" id="resJsonStr" >123</input>
+<input type="hidden" value="" id="lastRes" />
+<input type="button" value="记录结构表"  onclick="alert(recStruct)" /> &nbsp;
+<input type="button" value="取值表"  onclick="alert(recValue)" /> <br/><br/>
+<input type="button" id="foldEps" value="通用表达式生成器（折叠式）" /> <br/><br/>
+<input type="button" id="spreadEps" value="表达式快速生成器（展开式）" /> <br/><br/>
+<input type="button" id="simplifyEps" value="表达式快速生成器（简化式）" /> <br/><br/>
+<input type="button" value="最后结果" onclick="showLR()" />
+</body>
+</html>

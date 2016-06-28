@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+	default-lazy-init="true">
+	
+	<bean id="imageUploadAct" class="com.jeecms.bbs.action.ImageUploadAct"/>
+	<bean id="welcomeAct" class="com.jeecms.bbs.action.WelcomeAct"/>
+	<bean id="bbsCategoryAct" class="com.jeecms.bbs.action.BbsCategoryAct"/>
+	<bean id="bbsForumAct" class="com.jeecms.bbs.action.BbsForumAct"/>
+	<bean id="bbsUserGroupAct" class="com.jeecms.bbs.action.BbsUserGroupAct"/>
+	<bean id="resourceAct" class="com.jeecms.bbs.action.template.ResourceAct"/>
+	<bean id="frameAct" class="com.jeecms.bbs.action.FrameAct"/>
+	<bean id="bbsUserAct" class="com.jeecms.bbs.action.BbsUserAct"/>
+	<bean id="cmsSiteConfigAct" class="com.jeecms.bbs.action.CmsSiteConfigAct"/>
+	<bean id="cmsLoginAct" class="com.jeecms.bbs.action.login.CmsLoginAct"/>
+	<bean id="personalAct" class="com.jeecms.bbs.action.PersonalAct"/>
+	<bean id="cmsSensitivtyAct" class="com.jeecms.bbs.action.CmsSensitivityAct"/>
+	<bean id="cmsFriendlinkCtgAct" class="com.jeecms.bbs.action.CmsFriendlinkCtgAct"/>
+	<bean id="cmsFriendlinkAct" class="com.jeecms.bbs.action.CmsFriendlinkAct"/>
+	<bean id="bbsPostTypeAct" class="com.jeecms.bbs.action.BbsPostTypeAct"/>
+	<bean id="bbsCommonMagicAct" class="com.jeecms.bbs.action.BbsCommonMagicAct"/>
+	<bean id="templateAct" class="com.jeecms.bbs.action.template.TemplateAct">
+		<property name="tplManager" ref="tplManager"/>
+	</bean>
+	<bean id="bbsReportAct" class="com.jeecms.bbs.action.BbsReportAct"/>
+</beans>

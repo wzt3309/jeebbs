@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+	
+<hibernate-mapping package="com.jeecms.bbs.entity">
+
+   <class
+		name="Stockbasicmessage"
+		table="股票基本面"
+		discriminator-value="0">
+       <cache usage="read-only"/>
+       
+       
+		
+	    <composite-id>
+          <key-property name="RIQI" column="RIQI" type="string"/>           
+           <key-property name="GPDM" column="GPDM" type="string"/>
+        </composite-id>   
+		
+	<!--	<id
+			name="GPDM"
+			type="string"
+			column="GPDM"
+			>
+			<generator class="native"/>
+		</id>   -->
+		
+		<property
+		   name="NUM"
+		   column="NUM"
+		   type="string"
+		   not-null="true"
+		   length="255"
+		/>
+		
+	<!--	<property
+		   name="RIQI"
+		   column="RIQI"
+		   type="string"
+		   not-null="true"
+		   length="255"
+		/>   -->
+		
+		
+		
+		<property
+		   name="GPMC"
+		   column="GPMC"
+		   type="string"
+		   not-null="true"
+		   length="255"
+		/>
+		
+		<property
+		   name="MGSY"
+		   column="MGSY"
+		   type="double"
+		   not-null="false"
+		/>
+		
+		<property
+		   name="MGWFP"
+		   column="MGWFP"
+		   type="double"
+		   not-null="false"
+		/>
+		
+		<property
+		   name="JTSYL"
+		   column="JTSYL"
+		   type="double"
+		   not-null="false"
+		/>
+		
+		<property
+		   name="MGJZC"
+		   column="MGJZC"
+		   type="double"
+		   not-null="false"
+		/>
+		
+		<property
+		   name="SJL"
+		   column="SJL"
+		   type="double"
+		   not-null="false"
+		/>
+		
+		<property
+		   name="JZCSYL"
+		   column="JZCSYL"
+		   type="double"
+		   not-null="false"
+		/>
+		
+		<property
+		   name="MGZYSY"
+		   column="MGZYSY"
+		   type="double"
+		   not-null="false"
+		/>
+		
+		<property
+		   name="MGJYXJL"
+		   column="MGJYXJL"
+		   type="double"
+		   not-null="false"
+		/>
+		
+		<property
+		   name="MGGJJ"
+		   column="MGGJJ"
+		   type="double"
+		   not-null="false"
+		/>
+		
+		<property
+		   name="GDQYB"
+		   column="GDQYB"
+		   type="double"
+		   not-null="false"
+		/>
+		
+		<property
+		   name="LTGB"
+		   column="LTGB"
+		   type="double"
+		   not-null="false"
+		/>
+		
+		<property
+		   name="ZGB"
+		   column="ZGB"
+		   type="double"
+		   not-null="false"
+		/>
+		
+		<property
+		   name="LTSZ"
+		   column="LTSZ"
+		   type="double"
+		   not-null="false"
+		/>
+		
+		<property
+		   name="ZSZ"
+		   column="ZSZ"
+		   type="double"
+		   not-null="false"
+		/>
+		
+		
+
+
+
+
+		
+		
+		
+   </class>
+
+</hibernate-mapping>

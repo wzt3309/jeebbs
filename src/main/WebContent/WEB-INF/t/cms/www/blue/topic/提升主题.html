@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>提升/下沉主题 - ${site.name} - powered by jeebbs</title>
+<link href="${resSys}/front.css" rel="stylesheet" type="text/css"/>
+<script src="${resSys}/jquery.js" type="text/javascript"></script>
+<script src="${base}/thirdparty/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="/${res}/bbs_forum/css/whole.css" />
+<link rel="stylesheet" type="text/css" href="/${res}/bbs_forum/css/layout.css" />
+<script type="text/javascript">
+	$("#jvForm").validate($.validator.AlertError);
+	$(function() {
+		$("#jvForm").validate();
+	});
+</script>
+</head>
+
+<body>
+<!--header-->[#include "../include/页头.html"/]<!--/header-->
+
+<!--main-->
+<div class="main-wrap">
+  <div id="main">
+	<div id="breadCrumb"> <img src="/${res}/bbs_forum/img/home.gif" align="absmiddle" /><a href="${site.url!}">${site.name}</a> > 锁定/打开主题</div>
+  </div>
+<div class="c"></div>
+
+<div class="t z">
+<form id="jvForm" action="${base}/topic/o_upordownSubmit.jspx" method="post">
+	<table cellspacing="0" cellpadding="0" align="center" width="100%">
+	<tr style="height:23px;line-height:23px;color:#666;">
+		<td class="h"><b>提升/下沉主题</b></td>
+		<td class="h"></td>
+		</tr>
+	<tr class="tr2"><td colspan="99" style="border-bottom:0"></td></tr>	
+	<tr>
+	  <td valign="top" width="20%" class="f_one" style="padding:7px"><b>时 间</b></td>
+		<td valign="top" class="f_one" style="padding:7px">
+		<input type="text" name="time" readonly="readonly"  required="true" class="required Wdate" size="25" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
+		</td>
+	</tr>	
+	<tr>
+	  <td valign="top" width="20%" class="f_one" style="padding:7px"><b>操作原因</b></td>
+		<td valign="top" class="f_one" style="padding:7px">
+		<select size="6" style="width:100px;" onchange="this.form.reason.value=this.value">
+			<option value="">自定义</option>
+			<option value="">--------</option>
+			<option value="广告/SPAM">广告/SPAM</option>
+			<option value="恶意灌水">恶意灌水</option>
+			<option value="违规内容">违规内容</option>
+			<option value="文不对题">文不对题</option>
+			<option value="重复发帖">重复发帖</option>
+			<option value="">--------</option>
+			<option value="我很赞同">我很赞同</option>
+			<option value="精品文章">精品文章</option>
+			<option value="原创内容">原创内容</option>
+		</select>
+		<textarea id="reason" name="reason" rows="6" cols="80"></textarea>
+		</td>
+	</tr>	
+	<tr>
+	  <td valign="top" class="f_one" style="padding:7px">&nbsp;</td>
+	  <td valign="top" class="f_one" style="padding:7px">
+	   [#list topicIds as topicId]
+		<input type="hidden" name="topicIds" value="${topicId!}"/>
+	   [/#list]
+	    <input type="hidden" name="forumId" value="${forum.id!}" />
+		<input type="submit" class="btn fl b" style="padding:0 1em;*padding:0;height:28px;" value="提 交"/>
+	  </td>
+	  </tr>
+</table>
+</form>
+</div>
+
+</div>
+</div>
+<!--/main-->
+
+<!--footer-->[#include "../include/页脚.html"/]<!--footer-->
+</body>
+</html>

@@ -1,0 +1,160 @@
+<table width="100%" cellspacing="0" cellpadding="0" style="border-left:1px solid #c5d8e8;border-right:1px solid #c5d8e8;border-top:1px solid #c5d8e8;border-bottom:1px solid #c5d8e8;">
+    
+     
+    
+    <div id="creater1" style="background-color:#DFE1F7; text-align:center; width:100%;display:${show!}">
+    	<br/>&nbsp;
+		<font class="font2">选股条件编辑器</font>
+		<br/>&nbsp;
+    </div>
+    <div id="creater2" style="width:100%; height:300px; margin:20px auto 0 auto;display:${show!}">
+    	<div style="width:50%; float:left">
+    	<fieldset class="fsStyle1" style="height:300px">
+        	<br/>&nbsp;&nbsp;
+            <span><font class="font1" style="font-size:13px" >对象：</font></span></span>
+            <span>
+            <select name="obj" id="obj" style="width:135px" onChange="selectObj(this);">
+            <option></option>
+            
+                
+			      <option ID="ZXJ">最新价</td>                
+                  <option  id="ZF">涨幅</td>
+                  <option  id="HSL">换手率</option>
+                  <option  id="LB">量比</option>
+                  <option  id="DDX1">DDX1日</option>
+                  <option  id="DDY1">DDY1日</option>
+                  <option  id="DDZ">DDZ</option>
+                  <option  id="DDX3">DDX3日</option>
+                  <option  id="DDX5">DDX5日</option>
+                  <option  id="DDX10">DDX10日</option>
+                  <option  id="SDDX60">DDX60日</option>
+                  <option  id="DDX5H">DDX5红</option>
+                  <option  id="DDX10H">DDX10红</option>
+                  <option  id="DDXLH">DDX连红</option>
+                  <option  id="DDXLZ">DDX连增</option>
+                  <option  id="ZF3r">涨幅3日</option>
+                  <option  id="ZF5r">涨幅5日</option>
+                  <option  id="ZF10r">涨幅10日</option>
+                  <option  id="DDY3">DDY3日</option>
+                  <option  id="DDY5">DDY5日</option>
+                  <option  id="DDY10">DDY10日</option>
+                  <option  id="DDY60">DDY60日</option>
+                  <option  id="CJL">成交量(万元)</option>
+                  <option  id="BBD">BBD(万元)</option>
+                  <option  id="TCL1R">通吃率1日</option>
+                  <option  id="TCL5R">通吃率5日</option>
+                  <option  id="TCL10R">通吃率10日</option>
+                  <option  id="TCL20R">通吃率20日</option>
+                  <option  id="DSB">单数比</option>
+                  <option  id="TDC">特大差</option>
+                  <option  id="DDC">大单差</option>
+                  <option  id="ZDC">中单差</option>
+                  <option  id="XDC">小单差</option>
+                  <option  id="ZDL1R">主动率1日</option>
+                  <option  id="ZDL5R">主动率5日</option>
+                  <option  id="ZDL10R">主动率10日</option>
+                  <option  id="LTP">流通盘(万股)</option>
+                  
+            </select>
+            </span>
+            <br/>&nbsp;&nbsp;
+            <br/>&nbsp;&nbsp;
+            <br/>&nbsp;&nbsp;
+            <span><font class="font1" style="font-size:13px">关系：</font></span>
+            <span>
+            <select name="rlt" id="rlt" style="width:135px">
+    	   		<option value="=">= </option>
+           		<option value="<">< </option>
+                <option value="<="><= </option>
+                <option value=">">> </option>
+                <option value=">=">>= </option>
+                <option value="!=">!= </option>
+    		</select>
+            </span>
+            <br/>&nbsp;&nbsp;
+            <br/>&nbsp;&nbsp;
+            <br/>&nbsp;&nbsp;
+            <span><font class="font1" style="font-size:13px" >取值：</font></span>
+            <span><select name="value" id="value1" style="width:135px; display:none"></select></span>
+            <span><input type="text" name="value" id="value2" style="width:130px" /></span>
+            <br/>&nbsp;&nbsp;
+            <br/>&nbsp;&nbsp;
+            <br/>&nbsp;&nbsp;
+            <span><font class="font1" style="font-size:14px" >与下条关系：</font></span>
+            <span>
+            <select name="nextrlt" id="nextrlt" style="width:80px">
+    	   		<option value="AND">并且</option>
+           		<option value="OR">或者</option>
+           		<option value="AND 1=1">最后一条</option>
+    		</select>
+            </span>
+            <br/>&nbsp;&nbsp;
+            <br/>&nbsp;&nbsp;
+            <div>
+            <span style="margin:0 50px 0 20px">
+            <input type="button" value="添加" style="width:70px;cursor:pointer" onclick="addSel();" />
+            </span>
+            <span>
+            <input type="button" value="清空" style="width:70px;cursor:pointer" onclick="resetCon();" />
+            </span>
+            </div>
+        </fieldset>
+        </div>
+        
+        <div style="width:50%; float:left" >
+    	<fieldset class="fsStyle1" style="height:300px;">
+        <div style="height:255px">
+        <span style="margin:20px 0 0 25px; float:left; font-size:12px"><!--title="小提示：按住Ctrl键可以多选或不选" -->
+        	<font>小提示：按住Ctrl键可以多选或取消选择</font><br/>
+			<select name="seled" id="seled" size="12" class="mainDiv1" style="width:230px" multiple='multiple'>
+			
+			[#if seled ??]
+			
+			[#list seled as s]
+			<option>${s}</option>
+			[/#list]
+			
+			[/#if]
+			</select>
+            <select name="seledReal" id="seledReal" size="12" class="mainDiv1" style="width:230px; display:none" multiple='multiple'>
+            [#if seledReal ??]
+			
+			[#list seledReal as s]
+			<option>${s}</option>
+			[/#list]
+			
+			[/#if]
+            
+            </select>
+         <!--<input type="hidden" id="count" value="0" />-->
+		</span>
+        <span style="margin:70px 55px 0 0; float:right">
+        	<input type="button" value="删除" style="width:70px;cursor:pointer" onclick="rmvSel();" /><br /><br /><br /><br />
+            <input type="button" value="清空" style="width:70px;cursor:pointer" onclick="clearSelAll();" />
+        </span>
+        </div>
+         
+        <div>
+        
+        <span style="margin:0 45px 0 45px">
+        <input id="submit" type="submit" value="确定" style="display:none"  />
+        <input type="button" value="提交"  style="width:70px;cursor:pointer" onclick="setreturn();"></input>
+        </span>
+        <span>
+        <input type="button" value="取消" style="width:70px;cursor:pointer" onclick="cancel();" />
+        </span>
+        <br/>
+        <span>
+        <input name="return" value="" id="return" style="display:none"></input>
+        <input name="show" value="" id="show" style="display:none" value="${submit!}"></input>
+        </span>
+        </div>
+        
+        </fieldset>
+        </div>
+        
+       
+    </div>
+    
+     
+	 </table>

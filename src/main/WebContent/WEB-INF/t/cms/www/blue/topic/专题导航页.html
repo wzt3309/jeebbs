@@ -1,0 +1,20 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>专题 - ${site.name} - Powered by JEECMS</title>
+</head>
+
+<body>
+[@process_time/]
+<h4>专题导航页</h4>
+[@cms_topic_list]
+<ul>
+[#list tag_list as t]
+<li><a href="${base}/topic/${t.id}.jspx">${t.name}</a></li>
+[/#list]
+</ul>
+[/@cms_topic_list]
+[@process_time/]
+</body>
+</html>

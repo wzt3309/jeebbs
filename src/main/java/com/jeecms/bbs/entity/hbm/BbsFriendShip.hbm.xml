@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.jeecms.bbs.entity">
+	<class name="BbsFriendShip" table="jb_friendship">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="integer" column="friendship_id"><generator class="identity"/></id>
+		<property name="status" column="status" type="integer" not-null="true"></property>
+		<many-to-one name="user" column="user_id" class="BbsUser" not-null="true"></many-to-one>
+		<many-to-one name="friend" column="friend_id" class="BbsUser" not-null="true"></many-to-one>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jeebbs_sys/head.html"/>
+<script type="text/javascript">
+function getTableForm() {
+	return document.getElementById('tableForm');
+}
+function optDelete() {
+	if(Pn.checkedCount('ids')<=0) {
+		alert("<@s.m 'error.checkRecord'/>");
+		return;
+	}
+	if(!confirm("<@s.m 'global.confirm.delete'/>")) {
+		return;
+	}
+	var f = getTableForm();
+	f.action="o_delete.do";
+	f.submit();
+}
+
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "cmsMember.function"/> - <@s.m "global.list"/></div>
+	<form class="ropt">
+		<input type="submit" value="<@s.m "global.add"/>" onclick="this.form.action='v_add.do';"/>
+	</form>
+	<form class="ropt">
+	    <input type="text" name="username" value="${username!}" size="10"/>
+	    <@s.m "cmsUser.point"/>
+	    <input type="text" name="pointMin" value="${pointMin!}" size="10"/>至
+	    <input type="text" name="pointMax" value="${pointMax!}" size="10"/>
+	     <@s.m "cmsUser.prestige"/>
+	    <input type="text" name="prestigeMin" value="${prestigeMin!}" size="10"/>至
+	    <input type="text" name="prestigeMax" value="${prestigeMax!}" size="10"/>
+	    <select name="groupId"">
+	    <option value="">所有分组</option>
+	    <#list groupList as group>
+	    <option value="${group.id!}" <#if groupId??><#if group.id==groupId>selected="selected"</#if></#if>>${group.name!}</option>
+	    </#list>
+	    </select>
+	    <select name="orderBy"">
+	    <option value="0" <#if orderBy??><#if orderBy==0>selected="selected"</#if></#if> >排序</option>
+	    <option value="1" <#if orderBy??><#if orderBy==1>selected="selected"</#if></#if> >今日活跃度降序</option>
+	    <option value="2" <#if orderBy??><#if orderBy==2>selected="selected"</#if></#if> >今日活跃度升序</option>
+	    <option value="3" <#if orderBy??><#if orderBy==3>selected="selected"</#if></#if> >本周活跃度降序</option>
+	    <option value="4" <#if orderBy??><#if orderBy==4>selected="selected"</#if></#if> >本周活跃度升序</option>
+	    <option value="5" <#if orderBy??><#if orderBy==5>selected="selected"</#if></#if> >本月活跃度降序</option>
+	    <option value="6" <#if orderBy??><#if orderBy==6>selected="selected"</#if></#if> >本月活跃度升序</option>
+	    <option value="7" <#if orderBy??><#if orderBy==7>selected="selected"</#if></#if> >今年活跃度降序</option>
+	    <option value="8" <#if orderBy??><#if orderBy==8>selected="selected"</#if></#if> >今年活跃度升序</option>
+	    <option value="9" <#if orderBy??><#if orderBy==9>selected="selected"</#if></#if> >积分降序</option>
+	    <option value="10" <#if orderBy??><#if orderBy==10>selected="selected"</#if></#if> >积分升序</option>
+	    <option value="11" <#if orderBy??><#if orderBy==11>selected="selected"</#if></#if> >威望降序</option>
+	    <option value="12" <#if orderBy??><#if orderBy==12>selected="selected"</#if></#if> >威望升序</option>
+	    </select>
+		<input type="submit" value="搜索" onclick="this.form.action='v_list.do';"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<form id="tableForm" method="post">
+<input type="hidden" name="pageNo" value="${pageNo!}"/>
+<input type="hidden" name="groupId" value="${groupId!}"/>
+<input type="hidden" name="orderBy" value="${orderBy!}"/>
+<input type="hidden" name="pointMin" value="${pointMin!}"/>
+<input type="hidden" name="pointMax" value="${pointMax!}"/>
+<input type="hidden" name="prestigeMin" value="${prestigeMin!}"/>
+<input type="hidden" name="prestigeMax" value="${prestigeMax!}"/>
+<@p.table value=pagination;bbsUser,i,has_next><#rt/>
+	<@p.column title="<input type='checkbox' onclick='Pn.checkbox(\"ids\",this.checked)'/>" width="20">
+		<input type='checkbox' name='ids' value='${bbsUser.id}'/><#t/>
+	</@p.column><#t/>
+	<@p.column title="ID">${bbsUser.id}</@p.column><#t/>
+	<@p.column code="cmsUser.username">${bbsUser.username}</@p.column><#t/>
+	<@p.column code="cmsUser.group">${bbsUser.group.name}<#if bbsUser.admin><span style="color:red"> [<@s.m "cmsUser.admin"/>]</span></#if></@p.column><#t/>
+	<@p.column code="cmsUser.lastLogin" align="center">${bbsUser.lastLoginTime?string('yyyy-MM-dd HH:mm:ss')}<br/>${bbsUser.lastLoginIp}</@p.column><#t/>
+	<@p.column code="cmsUser.point">${bbsUser.point}</@p.column><#t/>
+	<@p.column code="cmsUser.prestige">${bbsUser.prestige}</@p.column><#t/>
+	<@p.column code="cmsUser.laestOnLineMinute" align="center" >${bbsUser.onlineLatest!}</@p.column><#t/>
+	<@p.column code="cmsUser.todayOnLine" align="center" >${bbsUser.onlineDay!}</@p.column><#t/>
+	<@p.column code="cmsUser.weekOnLine" align="center" >${bbsUser.onlineWeek!}</@p.column><#t/>
+	<@p.column code="cmsUser.monthOnLine" align="center" >${bbsUser.onlineMonth!}</@p.column><#t/>
+	<@p.column code="cmsUser.yearOnLine" align="center" >${bbsUser.onlineYear!}</@p.column><#t/>
+	<@p.column code="cmsUser.loginCountForList" align="right">${bbsUser.loginCount}</@p.column><#t/>
+	<@p.column code="cmsUser.disabled" align="center"><#if bbsUser.disabled><span style="color:red"><@s.m "global.true"/></span><#else><@s.m "global.false"/></#if></@p.column><#t/>
+	<@p.column code="global.operate" align="center">
+		<a href="v_edit.do?userId=${bbsUser.id}&pageNo=${pageNo!}" class="pn-opt"><@s.m "global.edit"/></a> | <#rt/>
+		<a href="o_delete.do?ids=${bbsUser.id}&pageNo=${pageNo!}" onclick="if(!confirm('<@s.m "global.confirm.delete"/>')) {return false;}" class="pn-opt"><@s.m "global.delete"/></a><#t/>
+	</@p.column><#t/>
+</@p.table>
+<div><input type="button" value="<@s.m "global.delete"/>" onclick="optDelete();"/></div>
+</form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

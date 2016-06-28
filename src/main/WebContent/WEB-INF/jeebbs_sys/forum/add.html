@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jeebbs_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+function chkRow(i,b) {
+	$("#right-table input[rgtrow="+i+"]").each(function(){
+		$(this).attr("checked",b);
+	});
+}
+function chkCol(i,b) {
+	$("#right-table input[rgtcol="+i+"]").each(function(){
+		$(this).attr("checked",b);
+	});
+}
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: 版块 - <@s.m "global.add"/></div>
+	<form class="ropt">
+		<input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<@p.form id="jvForm" action="o_save.do">
+<@p.text colspan="1" width="50" label="板块名称" size="25" name="title" required="true" class="required" maxlength="150"/>
+<@p.select colspan="1" width="50" label="所属分区" name="categoryId" list=categoryList listKey="id" listValue="title"/>
+<@p.tr/>
+<@p.text colspan="1" width="50" label="访问路径" name="path" required="true" class="required" maxlength="20"/>
+<@p.text colspan="1" width="50" label="keywords" name="keywords" maxlength="255" help="关键字，用于搜索引擎优化"/>
+<@p.tr/>
+<@p.textarea colspan="1" width="50" label="板块介绍" rows="4" cols="40" name="description" maxlength="255"/>
+<@p.textarea colspan="1" width="50" label="板块规则" rows="4" cols="40" name="forumRule" maxlength="255"/>
+<@p.tr/>
+<@p.text colspan="2" label="主题锁定时间" size="25" name="topicLockLimit" required="true" class="required digits" maxlength="10" help="单位 (天), 为0不自动锁定"/>
+<@p.tr/>
+<@p.td colspan="2" label="积分规则">
+	发主题：<@p.text name="pointTopic" size="10" value="5" class="required digits"/>
+&nbsp; 回复：<@p.text name="pointReply" size="10" value="0" class="required digits"/>
+&nbsp; 加精华：<@p.text name="pointPrime" size="10" value="100" class="required digits"/>
+</@p.td>
+<@p.tr/>
+<@p.td colspan="2" label="威望规则">
+	发主题：<@p.text name="prestigeTopic" size="10" value="1" class="required digits"/>
+&nbsp; 回复：<@p.text name="prestigeReply" size="10" value="0" class="required digits"/>
+&nbsp; 解除精华（减威望）：<@p.text name="prestigePrime0" size="10" value="0" class="required digits"/>
+&nbsp; 加精华1：<@p.text name="prestigePrime1" size="10" value="1" class="required digits"/>
+&nbsp; 加精华2：<@p.text name="prestigePrime2" size="10" value="2" class="required digits"/>
+&nbsp; 加精华3：<@p.text name="prestigePrime3" size="10" value="3" class="required digits"/>
+</@p.td>
+<@p.tr/>
+<@p.text colspan="2" label="版主" name="moderators" size="40"/>
+<@p.tr/>
+<@p.td colspan="2" label="权限设置">
+<table width="100%" cellspacing="1" cellpadding="1" id="right-table" class="right-table">
+<tr>
+	<td align="left">&nbsp;</td>
+	<td align="left"><input type="checkbox" id="chk-1" onclick="chkCol(1,this.checked);"/><label for="chk-1">浏览版块</label></td>
+	<td align="left"><input type="checkbox" id="chk-2" onclick="chkCol(2,this.checked);"/><label for="chk-2">发新话题</label></td>
+	<td align="left"><input type="checkbox" id="chk-3" onclick="chkCol(3,this.checked);"/><label for="chk-3">发表回复</label></td>
+</tr>
+<#list groupList as group>
+<tr>
+	<td align="left"><input type="checkbox" id="group${group_index}" onclick="chkRow(${group_index},this.checked);"/><label for="group${group_index}">${group.name}</label></td>
+	<td align="left"><input type="checkbox" rgtcol="1" rgtrow="${group_index}" name="views" value="${group.id}"/></td>
+	<td align="left"><input type="checkbox" rgtcol="2" rgtrow="${group_index}" name="topics" value="${group.id}"/></td>
+	<td align="left"><input type="checkbox" rgtcol="3" rgtrow="${group_index}" name="replies" value="${group.id}"/></td>
+</tr>
+</#list>
+</table>
+</@p.td>
+<@p.tr/>
+<@p.text colspan="1" width="50" label="外部链接" size="25" name="outerUrl" maxlength="255" help="指向外部url"/>
+<@p.text colspan="1" width="50" label="排列顺序" name="priority" value="10" required="true" class="required digits"/>
+<@p.tr/>
+<@p.td colspan="2"><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>

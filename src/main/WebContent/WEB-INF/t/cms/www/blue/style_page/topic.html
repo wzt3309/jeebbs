@@ -1,0 +1,50 @@
+<div class="pg-3">	
+[#if p.firstPage]
+[#else]
+	<a href="${hrefFormer}${hrefLatter}"> |<</a>
+	<a href="${hrefFormer}[#if p.prePage gt 1]_${p.prePage}[/#if]${hrefLatter}"> < </a>
+[/#if]
+[#if pageNo-5 gt 1]
+	[#if p.totalPage gt pageNo+4]
+		[#list pageNo-5..pageNo+4 as i]
+			[#if i = pageNo]
+				<span class="current">${i}</span>
+			[#else]
+				<a href="${hrefFormer}[#if i gt 1]_${i}[/#if]${hrefLatter}">${i}</a>
+			[/#if]
+		[/#list]
+	[#else]
+		[#list p.totalPage-9..p.totalPage as i]
+			[#if i = pageNo]
+				<span class="current">${i}</span>
+			[#else]
+				<a href="${hrefFormer}[#if i gt 1]_${i}[/#if]${hrefLatter}">${i}</a>
+			[/#if]
+		[/#list]
+	[/#if]
+[#else]
+	[#if p.totalPage gt 10]
+		[#list 1..10 as i]
+			[#if i = pageNo]
+				<span class="current">${i}</span>
+			[#else]
+				<a href="${hrefFormer}[#if i gt 1]_${i}[/#if]${hrefLatter}">${i}</a>
+			[/#if]
+		[/#list]
+	[#else]
+		[#list 1..p.totalPage as i]
+			[#if i = pageNo]
+				<span class="current">${i}</span>
+			[#else]
+				<a href="${hrefFormer}[#if i gt 1]_${i}[/#if]${hrefLatter}">${i}</a>
+			[/#if]
+		[/#list]
+	[/#if]
+[/#if]
+[#if p.lastPage]
+[#else]
+	<a href="${hrefFormer+'_'+p.nextPage+hrefLatter}"> > </a>
+	<a href="${hrefFormer+'_'+p.totalPage+hrefLatter}"> >| </a>
+[/#if]
+<span class="total">鍏�{p.totalPage}椤�/span>
+</div>

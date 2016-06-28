@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<#include "/jeebbs_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>： <@s.m "magic.function"/> - <@s.m "global.edit"/></div>
+	<form class="ropt">
+		<input type="button" value="<@s.m "global.backToList"/>" onclick="history.back();"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<@p.form id="jvForm" action="o_update.do">
+
+<@p.text label="magic.name" name="name" value=magic.name size="40" required="true" class="required" maxlength="20"/>
+<@p.td label="magic.use.point">
+	<select name="credit">
+		<option value="1" <#if magic.credit==1>selected="selected"</#if>><@s.m "cmsUser.point"/></option>
+		<option value="2" <#if magic.credit==2>selected="selected"</#if>><@s.m "cmsUser.prestige"/></option>
+	</select>
+</@p.td>
+<@p.tr/>
+<@p.text label="magic.price" name="price" value=magic.price size="40" required="true" class="required" maxlength="5"/>
+<@p.text label="magic.num" name="num" value=magic.num size="40" required="true" class="required" maxlength="5" help="magic.num.help"/>
+<@p.text label="magic.weight" name="weight" value=magic.weight size="40" required="true" class="required" maxlength="3"/>
+
+<!-- 
+<@p.text label="magic.salevolume" name="salevolume" value=magic.salevolume size="40" required="true" class="required" maxlength="5" help="magic.salevolume.help"/>
+<@p.td label="magic.replenish.cycle" help="magic.replenish.help">
+	<select name="supplytype">
+		<option value="1"<#if magic.supplytype==1>selected="selected"</#if>><@s.m "magic.replenish.noauto"/></option>
+		<option value="2"<#if magic.supplytype==2>selected="selected"</#if>><@s.m "magic.replenish.autoday"/></option>
+		<option value="3"<#if magic.supplytype==3>selected="selected"</#if>><@s.m "magic.replenish.autoweek"/></option>
+		<option value="4"<#if magic.supplytype==4>selected="selected"</#if>><@s.m "magic.replenish.automonth"/></option>
+	</select>
+</@p.td>
+<@p.tr/>
+<@p.td label="magic.use.cycle" help="magic.use.help">
+	<select name="useperoid">
+		<option value="1" <#if magic.useperoid==1>selected="selected"</#if>><@s.m "magic.use.always"/></option>
+		<option value="2" <#if magic.useperoid==2>selected="selected"</#if>><@s.m "magic.use.oneday"/></option>
+		<option value="3" <#if magic.useperoid==3>selected="selected"</#if>><@s.m "magic.use.24th"/></option>
+		<option value="4" <#if magic.useperoid==4>selected="selected"</#if>><@s.m "magic.use.oneweek"/></option>
+		<option value="5" <#if magic.useperoid==5>selected="selected"</#if>><@s.m "magic.use.onemonth"/></option>
+	</select>
+</@p.td>
+<@p.tr/>
+<@p.text label="magic.use.num" name="usenum" value=magic.usenum size="40" required="true" class="required" maxlength="3" help="magic.use.num.help"/>
+<@p.tr/>
+ -->
+<@p.textarea label="magic.description" name="description" value=magic.description size="40" required="true" class="required" rows="10" cols="60"/>
+<@p.tr/>
+<@p.td label="magic.allow.usergroup">
+	<input type='checkbox' onclick='Pn.checkbox("groupIds",this.checked)'/> <@s.m "magic.selectall"/>
+	<@p.checkboxlist valueList=groupIds list=groups listKey="id" listValue="name" name="groupIds"/>
+</@p.td>
+<@p.tr/>
+<#if hasBeUsedGroups>
+<@p.td label="magic.beused.usergroup">
+	<input type='checkbox' onclick='Pn.checkbox("beUsedGroupIds",this.checked)'/> <@s.m "magic.selectall"/>
+	<@p.checkboxlist valueList=beUsedGroupIds list=groups listKey="id" listValue="name" name="beUsedGroupIds"/>
+</@p.td>
+<@p.tr/>
+</#if>
+<@p.td><@p.hidden name="id" value=magic.id/><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>

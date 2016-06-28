@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>${channel.title!channel.name} - ${site.name} - Powered by JEECMS</title>
+</head>
+
+<body>
+[@process_time/]
+${channel.nodeList[0].name}
+[#list channel.nodeList as n]
+${n.name}<br/>
+[/#list]
+<h1>${channel.name}</h1>
+<ul>
+<li><a href="${base}/">首页</a></li>
+[@cms_channel_list tpl='1'/]
+</ul>
+<h4>子栏目列表</h4>
+[@cms_channel_list parentId=channel.id count='10' tpl='1' tplSub='my'/]
+<h4>文章列表</h4>
+<ul>
+[@cms_content_page channelId=channel.id channelOption='1' count=channel.pageSize tpl='2' sysPage='1' styleList='1-1'/]
+</ul>
+[@process_time/]
+</body>
+</html>

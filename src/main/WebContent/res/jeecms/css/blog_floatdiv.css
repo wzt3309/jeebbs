@@ -1,0 +1,15 @@
+@CHARSET "UTF-8";
+
+#fdiv{ 
+width:200px; 
+height: 500px; 
+background: yellow; 
+position: fixed; 
+top: 128px; 
+_position: absolute; 
+_top: expression(eval(document.documentElement.scrollTop) ); 
+} 
+#fdiv img{ 
+margin-left: 190px; 
+margin-top: 470px; 
+} 

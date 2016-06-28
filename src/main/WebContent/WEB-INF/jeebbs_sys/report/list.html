@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jeebbs_sys/head.html"/>
+<script type="text/javascript">
+function getTableForm() {
+	return document.getElementById('tableForm');
+}
+function optDelete() {
+	if(Pn.checkedCount('ids')<=0) {
+		alert("<@s.m 'error.checkRecord'/>");
+		return;
+	}
+	if(!confirm("<@s.m 'global.confirm.delete'/>")) {
+		return;
+	}
+	var f = getTableForm();
+	f.action="o_delete.do";
+	f.submit();
+}
+function optProcess() {
+	if(Pn.checkedCount('ids')<=0) {
+		alert("<@s.m 'error.checkRecord'/>");
+		return;
+	}
+	var f = getTableForm();
+	f.action="o_process.do";
+	f.submit();
+}
+function selectIds(){
+	var id;
+	$("input[name='ids']").each(function(i){
+		id=$(this).attr("id");
+		if($(this).attr("checked")!=true){
+				$("#result_"+id).attr("disabled","disabled");
+				$("#point_"+id).attr("disabled","disabled");
+			}else{
+				$("#result_"+id).removeAttr("disabled");
+				$("#point_"+id).removeAttr("disabled");
+				}
+		});
+}
+function changeValue(obj){
+	var selectIndex=obj.selectedIndex; 
+	var selectId=obj.id;
+	var id=selectId.split("_")[1];
+	var pointValue=0;
+	if(selectIndex==0){
+			pointValue=3;
+		}else if(selectIndex==1){
+			pointValue=2;
+			}else if(selectIndex==2){
+			pointValue=1;
+			}else if(selectIndex==3){
+			pointValue=0;
+			}else if(selectIndex==4){
+			pointValue=-1;
+			}else if(selectIndex==5){
+			pointValue=-2;
+			}else if(selectIndex==6){
+			pointValue=-3;
+			}
+	$("#point_"+id).val(pointValue);
+}
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "report.function"/> - <@s.m "global.list"/></div>
+	<div  class="ropt">
+	<a href="v_list.do?status=true">已处理举报</a>&nbsp;&nbsp;&nbsp;<a href="v_list.do?status=false">未处理举报</a>
+	</div>
+	<div class="clear"></div>
+</div>
+<form id="tableForm" method="post">
+<input type="hidden" name="pageNo" value="${pageNo!}"/>
+<input type="hidden" name="status" <#if status??><#if status>value="true"<#else>value="false"</#if></#if>/>
+<@p.table value=pagination;report,i,has_next><#rt/>
+	<@p.column title="<input type='checkbox' onclick='Pn.checkbox(\"ids\",this.checked)'/>" width="20">
+		<input type='checkbox' name='ids' value='${report.id}' id="${report.id}" onclick="selectIds()"/><#t/>
+	</@p.column><#t/>
+	<@p.column title="ID">${report.id}</@p.column><#t/>
+	<@p.column code="report.url"><a href="${report.reportUrl!}" target="_blank">${report.reportUrl!}</a></@p.column><#t/>
+	<@p.column code="report.time">${report.reportTime?string("yyyy-MM-dd HH:mm:ss")}</@p.column><#t/>
+	<@p.column code="report.user" align="center">${report.reportExt.reportUser.username!}</@p.column><#t/>
+	<@p.column code="global.operate" align="center">
+	积分<select name="results" id="result_${report.id}" disabled="disabled" onchange="changeValue(this)">
+			<option value="积分+3">+3</option>
+			<option value="积分+2">+2</option>
+			<option value="积分+1">+1</option>
+			<option value="不奖惩" selected="selected">不奖惩</option>
+			<option value="积分-1">-1</option>
+			<option value="积分-2">-2</option>
+			<option value="积分-3">-3</option>
+		</select>
+		<input name="points" id="point_${report.id}" disabled="disabled" value="0" type="hidden"/>
+		<a href="v_more.do?reportId=${report.id}" class="pn-opt"><@s.m "report.view"/></a> | <#rt/>
+		<a href="o_delete.do?ids=${report.id}&pageNo=${pageNo!}" onclick="if(!confirm('<@s.m "global.confirm.delete"/>')) {return false;}" class="pn-opt"><@s.m "global.delete"/></a><#t/>
+	</@p.column><#t/>
+</@p.table>
+<div><input type="button" value="<@s.m "global.delete"/>" onclick="optDelete();"/><input type="button" value="<@s.m "report.process"/>" onclick="optProcess();"/></div>
+</form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

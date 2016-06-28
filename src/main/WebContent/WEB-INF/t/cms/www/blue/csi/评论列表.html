@@ -1,0 +1,70 @@
+[#--评论列表--]
+<dl>
+[#list list as c]
+<dt>${(c.commentUser.username)!"匿名网友"}</dt>
+<dd>${c.textHtml!}</dd>
+[/#list]
+</dl>
+
+[#--评论输入表单--]
+[#if commentControl=="0" || (commentControl=="1" && user??)]
+<h4>发表评论：</h4>
+<form id="commentForm" action="${base}/comment.jspx" method="post">
+<div><textarea name="text" rows="5" cols="70" class="required" maxlength="65535"></textarea></div>
+<div>验证码：<input type="text" class="required" name="captcha"/><img id="commentCaptcha" src="${base}/captcha.svl" onclick="this.src='${base}/captcha.svl?d='+new Date()"/></div>
+<div><input type="hidden" name="contentId" value="${contentId}"/><input type="submit" value="提交"/></div>
+</form>
+<script type="text/javascript">
+$(function() {
+/*
+	$("#commentForm").validate( {
+		submitHandler : function(form) {
+			$(form).ajaxSubmit( {
+				"success" : function(data) {
+					if(data.success) {
+						alert("评论成功");
+						location.href=location.href;
+					} else {
+						alert("评论失败");
+					}
+				},
+				"dataType" : "json"
+			});
+		}
+	});
+*/
+	Cms.comment(function(data) {
+		if(data.status==0) {
+			alert("评论成功");
+			location.href=location.href;
+		} else if(data.status==1) {	
+			alert("验证码错误");
+			$("#commentCaptcha").click();
+		} else if(data.status==2) {	
+			alert("内容不存在");
+			$("#commentCaptcha").click();
+		} else if(data.status==3) {	
+			alert("评论关闭");
+			$("#commentCaptcha").click();
+		} else if(data.status==4) {	
+			alert("需要登录评论");
+			$("#commentCaptcha").click();
+		} else if(data.status==100) {	
+			alert("内容不存在");
+			$("#commentCaptcha").click();
+		} else if(data.status==101) {	
+			alert("评论不能为空");
+			$("#commentCaptcha").click();
+		} else {
+			alert("评论失败");
+			$("#commentCaptcha").click();
+		}
+	});
+});
+</script>
+[#elseif commentControl=="1" && !user??]
+[#--登录评论，且未登录--]
+<div>请登录后评论</div>
+[#else]
+[#--不允许评论--]
+[/#if]

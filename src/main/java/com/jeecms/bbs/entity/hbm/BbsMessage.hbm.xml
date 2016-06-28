@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.jeecms.bbs.entity">
+	<class name="BbsMessage" table="jb_message">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="integer" column="msg_id"><generator class="identity"/></id>
+		<property name="content" type="string" not-null="false"></property>
+		<property name="createTime" column="create_time" type="timestamp" not-null="true"></property>
+		<property name="sys" column="is_sys" type="java.lang.Boolean" not-null="true"></property>
+		<property name="msgType" column="msg_type" type="integer" not-null="true"></property>
+		<property name="status" column="is_read" type="java.lang.Boolean" not-null="true"></property>
+		<many-to-one name="user" column="user_id" class="BbsUser" not-null="true"></many-to-one>
+		<many-to-one name="sender" class="BbsUser"></many-to-one>
+		<many-to-one name="receiver" class="BbsUser" not-null="true"></many-to-one>
+		<set name="reply" inverse="true" cascade="all-delete-orphan">
+			<cache usage="read-write"/>
+			<key column="msg_id"></key>
+			<one-to-many class="BbsMessageReply"></one-to-many>
+		</set>
+	</class>
+</hibernate-mapping>

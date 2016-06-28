@@ -1,0 +1,21 @@
+<div>总票数：<span class="red">${topic.totalCount!}</span></div>
+[#if voted??]
+[#list voteItems as item]
+<div style="width:300px">
+	${item.name}
+	<div style="width:200;"><img src="/${res}/bbs_forum/img/vote_bar.gif" width="${item.percent}%" height="10px"/><div>
+	${item.percent}%
+</div>
+[/#list]
+您已经投过票了
+[#else]
+[#list voteItems as item]
+<div style="width:300px">
+	<input type="checkbox" name="itemIds" value="${item.id}"/>
+	${item.name}
+	<div style="width:200;"><img src="/${res}/bbs_forum/img/vote_bar.gif" width="${item.percent}%" height="10px"/><div>
+	${item.percent}%
+</div>
+[/#list]
+<input type="button" value="提交" onclick="vote('itemIds', '${topic.id}');">
+[/#if]

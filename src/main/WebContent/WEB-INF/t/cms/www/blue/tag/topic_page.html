@@ -1,0 +1,25 @@
+[#list tag_pagination.list as topic]
+<tr align="center" class="tr3 t_one">
+<td>
+			[#if topic.category==100]
+				  [#if topic.replyCount gt 10]
+				  <img align="absmiddle" src="/${res}/bbs_forum/img/hot.gif" alt="热帖" />			  
+				  [#else]
+				     [#if topic.frontStatus==1]<img align="absmiddle" src="/${res}/bbs_forum/img/rtopic.jpg" alt="新帖" />
+				     [#elseif topic.frontStatus==2]<img align="absmiddle" src="/${res}/bbs_forum/img/topic.gif"/>
+				     [#elseif topic.frontStatus==3]锁[/#if]
+				  [/#if]
+			 [#else]
+			 	  <img align="absmiddle" src="/${res}/bbs_forum/img/votenew.gif" alt="投票" />
+			 [/#if] 		  	  
+</td>
+<td style="text-align: left; line-height: 23px;">
+<a href="${topic.url!}">${topic.title?html!}</a>
+</td>
+<td class="tal y-style">${topic.creater.username}
+<div class="f10 gray2">${topic.createTime?string("yyyy-MM-dd HH:mm:ss")}</div></td>
+<td class="tal y-style f10"><span class="s8">${topic.replyCount}</span> / ${topic.viewCount}</td>
+<td class="tal y-style">${topic.lastTime?string("yyyy-MM-dd HH:mm:ss")}<br />
+<span class="b">by:${topic.lastReply.username}</span></td>
+</tr>
+[/#list]

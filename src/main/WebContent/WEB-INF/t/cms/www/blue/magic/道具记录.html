@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>道具记录 - ${site.name}</title>
+    <meta content="java,cms,jsp,cms,jsp bbs,开源网站内容管理系统,网站群,站群,多站点,jeecms" name="keywords" />
+    <meta content="讨论jsp cms、jsp bbs相关资讯，struts,hibernate,spring,freemarker最新技术研究" name="description" />
+	<link href="${resSys}/front.css" rel="stylesheet" type="text/css"/>
+    <script src="${resSys}/jquery.js" type="text/javascript"></script>
+    <link href="/${res}/bbs_forum/css/whole.css" type="text/css" rel="stylesheet" />
+    <link href="/${res}/bbs_forum/css/layout.css" type="text/css" rel="stylesheet" />
+    <link href="/${res}/bbs_member/css/set.css" type="text/css" rel="stylesheet" />
+    <style type="text/css">
+    #set-menu li.current2{background:url(/${res}/bbs_member/img/fav-cur.gif) no-repeat 0 0.5em;}
+    #set-menu li.current2 a{color:#707070;font-weight:700}
+    </style>
+    <script type="text/javascript">
+	function g(o){
+		return document.getElementById(o);
+	}
+	function HoverLi(m,n,counter){
+		for(var i=1;i<=counter;i++){
+			g('tb_'+m+i).className='';
+			g('tbc_'+m+i).className='undis';
+		}
+		//alert('tbc_'+m+n);
+		g('tb_'+m+n).className='current';
+		g('tbc_'+m+n).className='dis';
+		$("input[name='tab']").each(function(){
+			$(this).val(0);
+			});
+		$("#tab"+n).val(n);
+	}
+	function _gotoPage(pageNo,id) {
+        try{
+            var tableForm = document.getElementById("tableForm"+id);
+            $("#pageNo"+id).val(pageNo);
+            tableForm.action="magiclog.jhtml";
+            tableForm.onsubmit=null;
+            tableForm.submit();
+        } catch(e) {
+            alert('_gotoPage(pageNo)方法出错');
+        }
+    }
+</script>
+  </head>
+  <body>
+    <!--header-->[#include "../include/页头.html"/]<!--/header-->
+    <!--main-->
+    <div class="main-wrap">
+    <div id="main">
+    <div id="breadCrumb"><img alt="" align="absMiddle" style="cursor: pointer" src="/${res}/bbs_forum/img/home.gif" /> <a href="${base}/">${site.name}</a> &raquo; <a href="${base}/member/index.jhtml">会员中心</a> &raquo;我的道具</div>
+    <div id="set-wrap">
+    <div id="set-side">
+    <div id="set-side-wrap">
+    [#include "../member/会员中心页_导航.html"/]
+    </div>
+    </div>
+    <div style="width:820px; margin:auto;background:#fff;float:right;">
+    <div class="cc" id="set-content-wrap">
+    <div>
+    <div class="set-tab-table">
+    <table cellspacing="0" cellpadding="0" border="0">
+      <tbody>
+        <tr class="tac" id="infolist">
+          <td id="tb_11" [#if tab??][#if tab==1]class="current"[#else]class=""[/#if][#else]class="current"[/#if]><a onClick="HoverLi(1,1,3);" style="cursor: pointer">使用记录</a></td>
+          <td id="tb_12" [#if tab??][#if tab==2]class="current"[#else]class=""[/#if][#else][/#if]><a onClick="HoverLi(1,2,3);" style="cursor: pointer">购买记录</a></td>
+          <td id="tb_13" [#if tab??][#if tab==3]class="current"[#else]class=""[/#if][#else][/#if]><a onClick="HoverLi(1,3,3);" style="cursor: pointer">获赠记录</a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+     <div class="set-tab-box" style="height:600px;">
+      <div  id="tbc_11" [#if tab??][#if tab==1]class="dis"[#else]class="undis"[/#if][#else]class="dis"[/#if] >
+      	<form id="tableForm1" action="magiclog.jhtml" method="post">
+            [#if pagination1.list?size gt 0]
+            <table border="0" cellpadding="0" cellspacing="1" >
+            <tr>
+                <th width="25%">名称</th>
+                <th width="25%">使用时间</th>
+            </tr>
+            [#list pagination1.list as log]
+            <tr>	
+                <td bgcolor="#FFFFFF">${log.magic.name!}</td>
+                <td bgcolor="#FFFFFF">${log.logTime?string("yyyy-MM-dd HH:mm:ss")}</td>
+            </tr>
+            [/#list]
+            </table>
+            <input type="hidden" name="pageNo1" id="pageNo1"/>
+            <input type="hidden" name="tab" id="tab1" value="${tab!}"/>
+            <table width="100%" border="0" cellpadding="0" cellspacing="0"><tr><td align="center" class="pn-sp">
+                共 ${pagination1.totalCount} 条&nbsp;
+                每页 ${pagination1.pageSize} 条&nbsp;
+                <input type="button" value="首 页" onclick="_gotoPage('1','1');"[#if pagination1.firstPage] disabled="disabled"[/#if]/>
+                <input type="button" value="上一页" onclick="_gotoPage('${pagination1.prePage}','1');"[#if pagination1.firstPage] disabled="disabled"[/#if]/>
+                <input type="button" value="下一页" onclick="_gotoPage('${pagination1.nextPage}','1');"[#if pagination1.lastPage] disabled="disabled"[/#if]/>
+                <input type="button" value="尾 页" onclick="_gotoPage('${pagination1.totalPage}','1');"[#if pagination1.lastPage] disabled="disabled"[/#if]/>&nbsp;
+                当前 ${pagination1.pageNo}/${pagination1.totalPage} 页 &nbsp;转到第<input type="text" id="_goPs" style="width:50px" onfocus="this.select();" onkeypress="if(event.keyCode==13){$('#_goPage').click();return false;}"/>页
+                <input id="_goPage" type="button" value="转" onclick="_gotoPage($('#_goPs').val(),'1');"[#if pagination1.totalPage==1] disabled="disabled"[/#if]/>
+            </td>
+            </tr>
+            </table>
+            [#else]
+                <div>暂无记录</div>
+            [/#if]
+            </form>
+      </div>
+      <div  id="tbc_12" [#if tab??][#if tab==2]class="dis"[#else]class="undis"[/#if][#else]class="undis"[/#if]>
+     	 <form id="tableForm2" action="magiclog.jhtml" method="post">
+            [#if pagination2.list?size gt 0]
+            <table border="0" cellpadding="0" cellspacing="1" >
+            <tr>
+                <th width="25%">名称</th>
+                <th width="25%">购买时间</th>
+                <th width="25%">购买数量</th>
+                <th width="25%">购买价格</th>
+            </tr>
+            [#list pagination2.list as log]
+            <tr>	
+                <td bgcolor="#FFFFFF">${log.magic.name!}</td>
+                <td bgcolor="#FFFFFF">${log.logTime?string("yyyy-MM-dd HH:mm:ss")}</td>
+                <td bgcolor="#FFFFFF">${log.num!}</td>
+                <td bgcolor="#FFFFFF">${log.price!}</td>
+            </tr>
+            [/#list]
+            </table>
+            <input type="hidden" name="pageNo2" id="pageNo2"/>
+            <input type="hidden" name="tab" id="tab2" value="${tab!}"/>
+            <table width="100%" border="0" cellpadding="0" cellspacing="0"><tr><td align="center" class="pn-sp">
+                共 ${pagination2.totalCount} 条&nbsp;
+                每页 ${pagination2.pageSize} 条&nbsp;
+                <input type="button" value="首 页" onclick="_gotoPage('1','2');"[#if pagination2.firstPage] disabled="disabled"[/#if]/>
+                <input type="button" value="上一页" onclick="_gotoPage('${pagination2.prePage}','2');"[#if pagination2.firstPage] disabled="disabled"[/#if]/>
+                <input type="button" value="下一页" onclick="_gotoPage('${pagination2.nextPage}','2');"[#if pagination2.lastPage] disabled="disabled"[/#if]/>
+                <input type="button" value="尾 页" onclick="_gotoPage('${pagination2.totalPage}','2');"[#if pagination2.lastPage] disabled="disabled"[/#if]/>&nbsp;
+                当前 ${pagination2.pageNo}/${pagination2.totalPage} 页 &nbsp;转到第<input type="text" id="_goPs" style="width:50px" onfocus="this.select();" onkeypress="if(event.keyCode==13){$('#_goPage').click();return false;}"/>页
+                <input id="_goPage" type="button" value="转" onclick="_gotoPage($('#_goPs').val(),'2');"[#if pagination2.totalPage==1] disabled="disabled"[/#if]/>
+            </td>
+            </tr>
+            </table>
+            [#else]
+                <div>暂无记录</div>
+            [/#if]
+            </form>
+      </div>
+      <div  id="tbc_13" [#if tab??][#if tab==3]class="dis"[#else]class="undis"[/#if][#else]class="undis"[/#if]>
+            <form id="tableForm3" action="magiclog.jhtml" method="post">
+            [#if pagination3.list?size gt 0]
+            <table border="0" cellpadding="0" cellspacing="1" >
+            <tr>
+                <th width="25%">名称</th>
+                <th width="25%">获赠时间</th>
+                <th width="25%">获赠数量</th>
+                <th width="25%">赠送人</th>
+            </tr>
+            [#list pagination3.list as log]
+            <tr>	
+                <td bgcolor="#FFFFFF">${log.magic.name!}</td>
+                <td bgcolor="#FFFFFF">${log.logTime?string("yyyy-MM-dd HH:mm:ss")}</td>
+                <td bgcolor="#FFFFFF">${log.num!}</td>
+                <td bgcolor="#FFFFFF">${log.user.username!}</td>
+            </tr>
+            [/#list]
+            </table>
+            <input type="hidden" name="pageNo3" id="pageNo3"/>
+            <input type="hidden" name="tab" id="tab3" value="${tab!}"/>
+            <table width="100%" border="0" cellpadding="0" cellspacing="0"><tr><td align="center" class="pn-sp">
+                共 ${pagination3.totalCount} 条&nbsp;
+                每页 ${pagination3.pageSize} 条&nbsp;
+                <input type="button" value="首 页" onclick="_gotoPage('1','3');"[#if pagination3.firstPage] disabled="disabled"[/#if]/>
+                <input type="button" value="上一页" onclick="_gotoPage('${pagination3.prePage}','3');"[#if pagination3.firstPage] disabled="disabled"[/#if]/>
+                <input type="button" value="下一页" onclick="_gotoPage('${pagination3.nextPage}','3');"[#if pagination3.lastPage] disabled="disabled"[/#if]/>
+                <input type="button" value="尾 页" onclick="_gotoPage('${pagination3.totalPage}','3');"[#if pagination3.lastPage] disabled="disabled"[/#if]/>&nbsp;
+                当前 ${pagination3.pageNo}/${pagination3.totalPage} 页 &nbsp;转到第<input type="text" id="_goPs" style="width:50px" onfocus="this.select();" onkeypress="if(event.keyCode==13){$('#_goPage').click();return false;}"/>页
+                <input id="_goPage" type="button" value="转" onclick="_gotoPage($('#_goPs').val(),'3');"[#if pagination3.totalPage==1] disabled="disabled"[/#if]/>
+            </td>
+            </tr>
+            </table>
+            [#else]
+                <div>暂无记录</div>
+            [/#if]
+            </form>
+      </div>
+      </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    <!--/main-->
+    <!--footer-->[#include "../include/页脚.html"/]<!--footer-->
+  </body>
+</html>

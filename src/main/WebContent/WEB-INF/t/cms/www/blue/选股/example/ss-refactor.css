@@ -1,0 +1,51 @@
+/**
+ * Created by chenzhengtong @ 2014-12-03
+ */
+
+.rec-mini {
+  width: 53px;
+  height: 53px;
+  position: absolute;
+  right: 7px;
+  bottom: 7px;
+  cursor: pointer;
+  background: url(../images/mini.png) no-repeat;
+}
+.rec-mini:hover {
+  background-position: -60px top;
+}
+
+.rec-item-summary {
+display: block;
+overflow: hidden;
+text-overflow: ellipsis;
+}
+
+.ss-rec-item-div {
+  display: inline-block;
+  margin-left: 10px;
+  width: 60%;
+  white-space: normal;
+  vertical-align: middle;
+  line-height: 25px;
+}
+.ss-rec-item-div p {
+	padding: 0 0;
+	margin: 0 0;
+}
+.ss-rec-item-div-title {
+	font-size: 14px;
+	padding-top: 4px;
+	/*color: #395f80;*/
+	text-decoration: underline;
+}
+.ss-rec-item-div-count {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	font-size: 11px;
+	padding-top: 4px;
+	color: #bfbfbf;
+}
+.ss-rec-item-div-no-number {
+  line-height: 18px;
+}

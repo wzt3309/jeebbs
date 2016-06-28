@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+	default-lazy-init="true">
+	
+	<!-- stock app bean 内容申明开始 -->
+	<!-- stock app bean 内容申明结束 -->
+	
+	<!-- ================================模板控制器 开始================================-->
+	<bean id="category_list" class="com.jeecms.bbs.action.directive.CategoryDirective"/>
+	<bean id="forum_list" class="com.jeecms.bbs.action.directive.ForumDirective"/>
+	<bean id="topic_page" class="com.jeecms.bbs.action.directive.TopicPageDirective"/>
+	<bean id="post_page" class="com.jeecms.bbs.action.directive.PostPageDirective"/>
+	<bean id="topic_vcount" class="com.jeecms.bbs.action.directive.ViewCountDirective"/>
+	<bean id="my_topic" class="com.jeecms.bbs.action.directive.MyTopicPageDirective"/>
+	<bean id="my_reply" class="com.jeecms.bbs.action.directive.MyReplyPageDirective"/>
+	<bean id="config_count" class="com.jeecms.bbs.action.directive.ConfigCountDirective"/>
+	<bean id="topic_day" class="com.jeecms.bbs.action.directive.TopicDayPageDirective"/>
+	<bean id="newtopic_list" class="com.jeecms.bbs.action.directive.NewTopicDirective"/>
+	<bean id="cms_friendlink_ctg_list" class="com.jeecms.bbs.action.directive.CmsFriendlinkCtgListDirective"/>
+	<bean id="cms_friendlink_list" class="com.jeecms.bbs.action.directive.CmsFriendlinkListDirective"/>
+	<bean id="bbs_posttype" class="com.jeecms.bbs.action.directive.BbsPostTypeDirective"/>
+	<bean id="friend_page" class="com.jeecms.bbs.action.directive.FriendPageDirective"/>
+	<bean id="friendship" class="com.jeecms.bbs.action.directive.FriendDirective"/>
+	<bean id="myfriend_page" class="com.jeecms.bbs.action.directive.MyFriendPageDirective"/>
+	<bean id="friend_apply_page" class="com.jeecms.bbs.action.directive.FriendApplyPageDirective"/>
+	<bean id="mymsg_page" class="com.jeecms.bbs.action.directive.MyMsgPageDirective"/>
+	<bean id="msg_reply_page" class="com.jeecms.bbs.action.directive.MsgReplyPageDirective"/>
+	<bean id="member_online" class="com.jeecms.bbs.action.directive.MemberOnlineDirective"/>
+	<bean id="msg_remember" class="com.jeecms.bbs.action.directive.UnreadMsgDirective"/>
+	<!--  
+	<bean id="stock_message" class="com.jeecms.bbs.action.directive.StockmessageDirective"/>
+	<bean id="stock_data" class="com.jeecms.bbs.action.directive.StockDataDirective"/>
+	<bean id="stock_id" class="com.jeecms.bbs.action.directive.StockIdDirective"/>
+	<bean id="user_online"  class="com.jeecms.bbs.action.directive.UseronlineDrective"/>
+	<bean id="bbs_news" class="com.jeecms.bbs.action.directive.BbsNewsDirective"/>
+	<bean id="bbs_newsmore" class="com.jeecms.bbs.action.directive.BbsNewsMoreDirective"/>-->
+	<!-- ================================模板控制器 结束================================-->
+	
+	<!-- ================================业务逻辑层 开始===================================-->
+	<!--后台权限标签-->
+	<bean id="cms_perm" class="com.jeecms.bbs.web.PermistionDirective"/>
+	
+	<bean id="topicCountEhCache" class="com.jeecms.bbs.cache.TopicCountEhCacheImpl"/>
+	<bean id="bbsConfigEhCache" class="com.jeecms.bbs.cache.BbsConfigEhCacheImpl"/>
+	
+	<bean id="cmsSiteMng" class="com.jeecms.core.manager.impl.CmsSiteMngImpl"/>
+	<bean id="bbsCategoryMng" class="com.jeecms.bbs.manager.impl.BbsCategoryMngImpl"/>
+	<bean id="bbsUserMng" class="com.jeecms.bbs.manager.impl.BbsUserMngImpl"/>
+	<bean id="bbsUserGroupMng" class="com.jeecms.bbs.manager.impl.BbsUserGroupMngImpl"/>
+	<bean id="bbsUserExtMng" class="com.jeecms.bbs.manager.impl.BbsUserExtMngImpl"/>
+	<bean id="bbsPostMng" class="com.jeecms.bbs.manager.impl.BbsPostMngImpl"/>
+	<bean id="bbsTopicMng" class="com.jeecms.bbs.manager.impl.BbsTopicMngImpl"/>	
+	<bean id="bbsConfigMng" class="com.jeecms.bbs.manager.impl.BbsConfigMngImpl"/>
+	<bean id="bbsForumMng" class="com.jeecms.bbs.manager.impl.BbsForumMngImpl"/>
+	<bean id="bbsOperationMng" class="com.jeecms.bbs.manager.impl.BbsOperationMngImpl"/>
+	<bean id="bbsGradeMng" class="com.jeecms.bbs.manager.impl.BbsGradeMngImpl"/>
+	<bean id="attachmentMng" class="com.jeecms.bbs.manager.impl.AttachmentMngImpl"/>
+	<bean id="cmsResourceMng" class="com.jeecms.bbs.template.manager.impl.CmsResourceMngImpl"/>
+	<bean id="cmsConfigMng" class="com.jeecms.core.manager.impl.CmsConfigMngImpl"/>
+	<bean id="cmsSensitivityMng" class="com.jeecms.bbs.manager.impl.CmsSensitivityMngImpl"/>
+	<bean id="cmsFriendlinkCtgMng" class="com.jeecms.bbs.manager.impl.CmsFriendlinkCtgMngImpl"/>
+	<bean id="cmsFriendlinkMng" class="com.jeecms.bbs.manager.impl.CmsFriendlinkMngImpl"/>
+	<bean id="bbsFriendShipMng" class="com.jeecms.bbs.manager.impl.BbsFriendShipMngImpl"/>
+	<bean id="bbsMessageMng" class="com.jeecms.bbs.manager.impl.BbsMessageMngImpl"/>
+	<bean id="bbsMessageReplyMng" class="com.jeecms.bbs.manager.impl.BbsMessageReplyMngImpl"/>
+	<bean id="bbsPostTypeMng" class="com.jeecms.bbs.manager.impl.BbsPostTypeMngImpl"/>
+	<bean id="stockmessageMng" class="com.jeecms.bbs.manager.impl.StockmessageMngImpl"/>
+	<bean id="bbsnewsMng" class="com.jeecms.bbs.manager.impl.BbsNewsMngImpl"/>
+	
+	
+	<bean id="bbsLoginLogMng" class="com.jeecms.bbs.manager.impl.BbsLoginLogMngImpl"/>
+	<bean id="bbsUserOnlineMng" class="com.jeecms.bbs.manager.impl.BbsUserOnlineMngImpl"/>
+	<bean id="bbsCreditExchangeMng" class="com.jeecms.bbs.manager.impl.BbsCreditExchangeMngImpl"/>
+	<bean id="bbsCommonMagicMng" class="com.jeecms.bbs.manager.impl.BbsCommonMagicMngImpl"/>
+	<bean id="bbsVoteItemMng" class="com.jeecms.bbs.manager.impl.BbsVoteItemMngImpl"/>
+	<bean id="bbsVoteRecordMng" class="com.jeecms.bbs.manager.impl.BbsVoteRecordMngImpl"/>
+	<bean id="bbsMagicConfigMng" class="com.jeecms.bbs.manager.impl.BbsMagicConfigMngImpl"/>
+	<bean id="bbsMagicLogMng" class="com.jeecms.bbs.manager.impl.BbsMagicLogMngImpl"/>
+	<bean id="bbsMemberMagicMng" class="com.jeecms.bbs.manager.impl.BbsMemberMagicMngImpl"/>
+	<bean id="bbsReportMng" class="com.jeecms.bbs.manager.impl.BbsReportMngImpl"/>
+	<bean id="bbsReportExtMng" class="com.jeecms.bbs.manager.impl.BbsReportExtMngImpl"/>
+	<!-- ================================业务逻辑层 结束==================================-->
+	
+	<!-- ================================数据库操作层 开始================================-->
+	<bean id="cmsSiteDao" class="com.jeecms.core.dao.impl.CmsSiteDaoImpl"/>
+	<bean id="bbsCategoryDao" class="com.jeecms.bbs.dao.impl.BbsCategoryDaoImpl"/>
+	<bean id="bbsUserDao" class="com.jeecms.bbs.dao.impl.BbsUserDaoImpl"/>
+	<bean id="bbsUserGroupDao" class="com.jeecms.bbs.dao.impl.BbsUserGroupDaoImpl"/>
+	<bean id="bbsUserExtDao" class="com.jeecms.bbs.dao.impl.BbsUserExtDaoImpl"/>
+	<bean id="bbsPostDao" class="com.jeecms.bbs.dao.impl.BbsPostDaoImpl"/>
+	<bean id="bbsTopicDao" class="com.jeecms.bbs.dao.impl.BbsTopicDaoImpl"/>
+	<bean id="bbsConfigDao" class="com.jeecms.bbs.dao.impl.BbsConfigDaoImpl"/>
+	<bean id="bbsForumDao" class="com.jeecms.bbs.dao.impl.BbsForumDaoImpl"/>
+	<bean id="bbsOperationDao" class="com.jeecms.bbs.dao.impl.BbsOperationDaoImpl"/>
+	<bean id="bbsGradeDao" class="com.jeecms.bbs.dao.impl.BbsGradeDaoImpl"/>
+	<bean id="attachmentDao" class="com.jeecms.bbs.dao.impl.AttachmentDaoImpl"/>
+	<bean id="cmsConfigDao" class="com.jeecms.core.dao.impl.CmsConfigDaoImpl"/>
+	<bean id="cmsSensitivityDao" class="com.jeecms.bbs.dao.impl.CmsSensitivityDaoImpl"/>
+	<bean id="cmsFriendlinkCtgDao" class="com.jeecms.bbs.dao.impl.CmsFriendlinkCtgDaoImpl"/>
+	<bean id="cmsFriendlinkDao" class="com.jeecms.bbs.dao.impl.CmsFriendlinkDaoImpl"/>
+	<bean id="bbsFriendShipDao" class="com.jeecms.bbs.dao.impl.BbsFriendShipDaoImpl"/>
+	<bean id="bbsMessageDao" class="com.jeecms.bbs.dao.impl.BbsMessageDaoImpl"/>
+	<bean id="bbsMessageReplyDao" class="com.jeecms.bbs.dao.impl.BbsMessageReplyDaoImpl"/>
+	<bean id="bbsPostTypeDao" class="com.jeecms.bbs.dao.impl.BbsPostTypeDaoImpl"/>
+	<bean id="stockmessageDao" class="com.jeecms.bbs.dao.impl.StockmessageDaoImpl"/>
+	<bean id="bbsnewsDao" class="com.jeecms.bbs.dao.impl.BbsNewsDaoImpl"/>
+	
+	
+	<bean id="bbsLoginLogDao" class="com.jeecms.bbs.dao.impl.BbsLoginLogDaoImpl"/>
+	<bean id="bbsUserOnlineDao" class="com.jeecms.bbs.dao.impl.BbsUserOnlineDaoImpl"/>
+	<bean id="bbsCreditExchangeDao" class="com.jeecms.bbs.dao.impl.BbsCreditExchangeDaoImpl"/>
+	<bean id="bbsCommonMagicDao" class="com.jeecms.bbs.dao.impl.BbsCommonMagicDaoImpl"/>
+	<bean id="bbsVoteItemDao" class="com.jeecms.bbs.dao.impl.BbsVoteItemDaoImpl"/>
+	<bean id="bbsVoteRecordDao" class="com.jeecms.bbs.dao.impl.BbsVoteRecordDaoImpl"/>
+	<bean id="bbsMagicConfigDao" class="com.jeecms.bbs.dao.impl.BbsMagicConfigDaoImpl"/>
+	<bean id="bbsMagicLogDao" class="com.jeecms.bbs.dao.impl.BbsMagicLogDaoImpl"/>
+	<bean id="bbsMemberMagicDao" class="com.jeecms.bbs.dao.impl.BbsMemberMagicDaoImpl"/>
+	<bean id="bbsReportDao" class="com.jeecms.bbs.dao.impl.BbsReportDaoImpl"/>
+	<bean id="bbsReportExtDao" class="com.jeecms.bbs.dao.impl.BbsReportExtDaoImpl"/>
+	<!-- ================================业务逻辑层 结束================================-->
+	</beans>

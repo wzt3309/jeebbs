@@ -1,0 +1,180 @@
+ <table width="100%" cellspacing="0" cellpadding="0" style="border-left:1px solid #c5d8e8;border-right:1px solid #c5d8e8;">
+     <tbody style="table-layout:fixed;">
+    [#if stock_list??]
+		 
+		 
+		<tr class="tr2">
+          <td style="width:0em" class="tac y-style">${x!}</td>
+          <td class="tac">股票代码:${stock.GPDM!}</td>
+          <td style="width:18em" class="y-style">名称: ${stock.GPMC!}</td>
+          <td style="width:10em" class="tal y-style">&nbsp;</td>
+          <td style="width:5.8em" class="y-style">&nbsp;</td>
+         </tr>
+     [#else]
+     <tr class="tr2">
+          <td style="width:0em" class="tac y-style">&nbsp;</td>
+          <td class="tac">未搜索到有关数据，请输入正确股票代码</td>
+          <td style="width:18em" class="y-style">&nbsp;</td>
+          <td style="width:10em" class="tal y-style">&nbsp;</td>
+          <td style="width:5.8em" class="y-style">&nbsp;</td>
+         </tr>
+		 
+		 
+		 
+		 [/#if]
+     </tbody>
+     </table>
+
+    <table width="100%" cellspacing="0" cellpadding="0" style="border-left:1px solid #c5d8e8;border-right:1px solid #c5d8e8;">
+     <tbody style="table-layout:fixed;">
+        
+		 
+		 
+		 [#if stock_list??]
+
+  		  <tr class="tr1">
+		  <td style="width:10em" class="tac y-style">历史数据：</td>
+          <td class="tac">&nbsp;</td>
+          <td style="width:2.8em" class="y-style">&nbsp;</td>
+          <td style="width:9em" class="tal y-style">&nbsp;</td>
+          <td style="width:12em" class="y-style">&nbsp;</td>
+         
+		 </tr>  
+		 
+		
+		 
+		 [#if NUM gt 0 ]
+		 [#assign width=100/(NUM+2)]
+		 <tr class="tr1">
+		 <td style="width:${width}%" class="y-tac">&nbsp;</td>
+          <td style="width:${width}%" class="y-tac">时间</td>
+          [#if MGSY==1]
+          <td style="width:${width}%" class="y-tac">MGSY</td>
+          [/#if]
+          
+          [#if MGWFP==1]
+          <td style="width:${width}%" class="y-tac">MGWFP</td>
+          [/#if]
+          
+          [#if JTSYL==1]
+          <td style="width:${width}%" class="y-tac">JTSYL</td>
+          [/#if]
+          
+          [#if MGJZC==1]
+          <td style="width:${width}%" class="y-tac">MGJZC</td>
+          [/#if]
+          
+          [#if SJL==1]
+          <td style="width:${width}%" class="y-tac">SJL</td>
+          [/#if]
+          
+          [#if JZCSYL==1]
+          <td style="width:${width}%" class="y-tac">JZCSYL</td>
+          [/#if]
+          
+          [#if MGZYSY==1]
+          <td style="width:${width}%" class="y-tac">MGZYSY</td>
+          [/#if]
+          
+          [#if MGJYXJL==1]
+          <td style="width:${width}%" class="y-tac">MGJYXJL</td>
+          [/#if]
+          
+          [#if MGGJJ==1]
+          <td style="width:${width}%" class="y-tac">MGGJJ</td>
+          [/#if]
+          
+          [#if GDQYB==1]
+          <td style="width:${width}%" class="y-tac">GDQYB</td>
+          [/#if]
+          
+          [#if LTGB==1]
+          <td style="width:${width}%" class="y-tac">LTGB</td>
+          [/#if]
+          
+          [#if ZGB==1]
+          <td style="width:${width}%" class="y-tac">ZGB</td>
+          [/#if]
+          
+          [#if LTSZ==1]
+          <td style="width:${width}%" class="y-tac">LTSZ</td>
+          [/#if]
+          
+          [#if ZSZ==1]
+          <td style="width:${width}%" class="y-tac">ZSZ</td>
+          [/#if]
+          
+          
+		 </tr>  
+		 [#list stock_list as topic]
+		 <tr class="tr1">
+		  <td style="width:${width}%" class="y-tac">&nbsp;</td>
+          <td style="width:${width}%" class="y-tac">${topic.RIQI!}</td>
+          [#if MGSY==1]
+          <td style="width:${width}%" class="y-tac">${topic.MGSY!}</td>
+          [/#if]
+          
+          [#if MGWFP==1]
+          <td style="width:${width}%" class="y-tac">${topic.MGWFP!}</td>
+          [/#if]
+          
+          [#if JTSYL==1]
+          <td style="width:${width}%" class="y-tac">${topic.JTSYL!}</td>
+          [/#if]
+          
+          [#if MGJZC==1]
+          <td style="width:${width}%" class="y-tac">${topic.MGJZC!}</td>
+          [/#if]
+          
+          [#if SJL==1]
+          <td style="width:${width}%" class="y-tac">${topic.SJL!}</td>
+          [/#if]
+          
+          [#if JZCSYL==1]
+          <td style="width:${width}%" class="y-tac">${topic.JZCSYL!}</td>
+          [/#if]
+          
+          [#if MGZYSY==1]
+          <td style="width:${width}%" class="y-tac">${topic.MGZYSY!}</td>
+          [/#if]
+          
+          [#if MGJYXJL==1]
+          <td style="width:${width}%" class="y-tac">${topic.MGJYXJL!}</td>
+          [/#if]
+          
+          [#if MGGJJ==1]
+          <td style="width:${width}%" class="y-tac">${topic.MGGJJ!}</td>
+          [/#if]
+          
+          [#if GDQYB==1]
+          <td style="width:${width}%" class="y-tac">${topic.GDQYB!}</td>
+          [/#if]
+          
+          [#if LTGB==1]
+          <td style="width:${width}%" class="y-tac">${topic.LTGB!}</td>
+          [/#if]
+          
+          [#if ZGB==1]
+          <td style="width:${width}%" class="y-tac">${topic.ZGB!}</td>
+          [/#if]
+          
+          [#if LTSZ==1]
+          <td style="width:${width}%" class="y-tac">${topic.LTSZ!}</td>
+          [/#if]
+          
+          [#if ZSZ==1]
+          <td style="width:${width}%" class="y-tac">${topic.ZSZ!}</td>
+          [/#if]
+          
+          
+		 </tr>  
+		 [/#list] 
+		 
+		 [/#if]
+		 
+		 [#else]
+	 
+		 [/#if]
+		
+       </tbody>
+     </table>

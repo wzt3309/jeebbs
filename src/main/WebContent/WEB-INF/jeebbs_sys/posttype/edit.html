@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<#include "/jeebbs_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>： <@s.m "bbsTopicType.function"/> - <@s.m "global.edit"/></div>
+	<form class="ropt">
+		<input name="forumId" value="${forumId!}" type="hidden"/>
+		<input name="parentId" value="${parentId!}" type="hidden"/>
+		<input type="button" value="<@s.m "global.backToList"/>" onclick="history.back();"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<@p.form id="jvForm" action="o_update.do">
+<@p.text label="bbsTopicType.name" name="typeName" value=posttype.typeName size="40" required="true" class="required" maxlength="100"/>
+<@p.text label="bbsTopicType.priority" name="priority" value=posttype.priority required="true" class="required digits" maxlength="10"/>
+<@p.td>
+<@p.hidden name="id" value=posttype.id/>
+<input name="forumId" value="${forumId!}" type="hidden"/>
+<input name="parentId" value="${parentId!}" type="hidden"/>
+<@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="com.jeecms.bbs.entity">
+	<class
+		name="BbsTopicText"
+		table="BBS_TOPIC_TEXT"
+		lazy="true"
+	>
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id
+			name="id"
+			type="java.lang.Integer"
+			column="TOPIC_ID"
+		>
+			<generator class="foreign">
+				<param name="property">topic</param>
+			</generator>
+		</id>
+		<property
+			name="title"
+			column="TITLE"
+			type="string"
+			not-null="true"
+			length="100"
+		/>
+		<one-to-one
+			name="topic"
+			class="BbsTopic"
+			constrained="true"
+			cascade="all"
+		/>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>搜索主题 - ${site.name} - JEECMS官方论坛|开源java cms,jsp cms,jsp bbs</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  
+  <body>
+   <form action="${base}//BbsNews/read.jhtml" name="jvForm" method="get">
+   	<input name="Id" type="text" value="${Id!}"/>
+   </form>
+    
+    [@bbs_news Id=Id]
+    [#if news_list??]      
+       [#list news_list as nl]
+       	<a>名字：${nl.getNewsName()!}</a>
+    	<a>时间：${nl.getTime()!}</a>
+    	<br>
+    	[/#list] 
+    	[#else]
+    	<a>2</a>
+    	
+     [/#if]
+     
+     [/@bbs_news]
+  </body>
+</html>

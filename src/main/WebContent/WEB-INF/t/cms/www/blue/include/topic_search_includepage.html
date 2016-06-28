@@ -1,0 +1,18 @@
+ <div class="set-tab-box" style="height:20px;padding-top:15px;">
+		  <form action="${base}/topic/search.jhtml" name="jvForm" method="get">
+		  <select name="forumId">
+		  <option value="0">整个论坛搜索</option>
+		  [@category_list]
+    		[#list tag_list as ctg]
+   				 [@forum_list categoryId=ctg.id]
+   					 [#list tag_list as f]
+   					 	<option value="${f.id}" [#if forumId??][#if forumId==f.id] selected="selected"[/#if][/#if] [#if forum??][#if forum.id==f.id] selected="selected"[/#if][/#if]>${f.title!}</option>
+   					 [/#list]
+     			[/@forum_list]
+    		[/#list]
+    	 [/@category_list]
+		  </select>
+			关键字：<input type="text" name="keywords" value="${keywords!}"/>
+			<input type="submit" value="搜索"/>
+		  </form>
+ </div>

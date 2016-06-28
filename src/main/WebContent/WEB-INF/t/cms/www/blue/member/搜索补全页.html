@@ -1,0 +1,8 @@
+[#if suggests?size gt 0]
+<script>
+	total = ${suggests?size};
+</script>
+	[#list suggests as user]
+	<div id="${user_index+1}" style="cursor:default;">${user.username!}</div>
+	[/#list]
+[#else][/#if]

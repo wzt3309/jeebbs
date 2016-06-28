@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<#include "/jeebbs_sys/head.html"/>
+<script type="text/javascript">
+function getTableForm() {
+	return document.getElementById('tableForm');
+}
+function optDelete() {
+	if(Pn.checkedCount('ids')<=0) {
+		alert("<@s.m 'error.checkRecord'/>");
+		return;
+	}
+	if(!confirm("<@s.m 'global.confirm.delete'/>")) {
+		return;
+	}
+	var f = getTableForm();
+	f.action="o_delete.do";
+	f.submit();
+}
+function optPriority() {
+	var f = getTableForm();
+	f.action="o_priority.do";
+	f.submit();
+}
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>： <@s.m "bbsTopicType.function"/> - <@s.m "global.list"/></div>
+	<form class="ropt">
+		<input name="forumId" value="${forumId!}" type="hidden"/>
+		<input name="parentId" value="${parentId!}" type="hidden"/>
+		<input type="submit" value="<@s.m "global.add"/>" onclick="this.form.action='v_add.do';"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<form id="tableForm" method="post">
+<input name="forumId" value="${forumId!}" type="hidden"/>
+<input name="parentId" value="${parentId!}" type="hidden"/>
+<input type="hidden" name="pageNo" value="${pageNo!}"/>
+<@p.table value=pagination;type,i,has_next><#rt/>
+	<@p.column title="<input type='checkbox' onclick='Pn.checkbox(\"ids\",this.checked)'/>" width="20">
+		<input type='checkbox' name='ids' value='${type.id}'/><#t/>
+	</@p.column><#t/>
+	<@p.column title="ID">${type.id!}</@p.column><#t/>
+	<@p.column code="bbsTopicType.name">${type.typeName!}</@p.column><#t/>
+	<@p.column code="global.order" align="center">
+		<input type="text" name="prioritys" value="${type.priority!}" style="width:40px"/>
+		<input type="hidden" name="wids" value="${type.id!}"/>
+	</@p.column><#t/>
+	<@p.column code="global.operate" align="center">
+		<a href="v_edit.do?id=${type.id}&forumId=${forumId!}&parentId=${type.id}" class="pn-opt"><@s.m "global.edit"/></a> | <#rt/>
+		<a href="o_delete.do?ids=${type.id}&forumId=${forumId!}&parentId=${type.id}" onclick="if(!confirm('<@s.m "global.confirm.delete"/>')) {return false;}" class="pn-opt"><@s.m "global.delete"/></a><#t/>
+		<a href="v_add.do?forumId=${forumId!}&parentId=${type.id}" class="pn-opt"><@s.m "bbsTopicType.function.addChild"/></a> | <#rt/>
+		<a href="v_list.do?forumId=${forumId!}&parentId=${type.id}" class="pn-opt"><@s.m "bbsTopicType.function.childs"/></a><#rt/>
+	</@p.column><#t/>
+</@p.table>
+<div>
+	<input type="button" value="<@s.m "global.delete"/>" onclick="optDelete();"/>
+&nbsp; <input type="button" value="<@s.m "global.saveOrder"/>" onclick="optPriority();"/>
+</div>
+</form>
+<#include "/common/alert_message.html"/>
+</div>
+</body>
+</html>

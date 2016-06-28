@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>jeecms-left</title>
+<#include "/jeebbs_sys/head.html"/>
+<script type="text/javascript">
+$(function(){
+	Cms.lmenu('lmenu');
+});
+</script>
+</head>
+<body class="lbody">
+<ul id="lmenu">
+<li><a href="config_right.do" target="rightFrame"><@s.m "global.admin.index"/></a></li>
+<@cms_perm url="/site_config/v_system_edit.do">
+<li><a href="../site_config/v_system_edit.do" target="rightFrame"><@s.m "cmsConfig.function"/></a></li>
+</@cms_perm>
+<@cms_perm url="/site_config/v_base_edit.do">
+<li><a href="../site_config/v_base_edit.do" target="rightFrame"><@s.m "cmsSiteConfig.function"/></a></li>
+</@cms_perm>
+<@cms_perm url="/bbs_config/v_edit.do">
+<li><a href="../bbs_config/v_edit.do" target="rightFrame">论坛配置</a></li>
+</@cms_perm>
+<li><a href="../bbs_config/v_login_edit.do" target="rightFrame">登录设置</a></li>
+<li><a href="../bbs_config/v_creditExchangeEdit.do" target="rightFrame">积分设置</a></li>
+</ul>
+</body>
+</html>

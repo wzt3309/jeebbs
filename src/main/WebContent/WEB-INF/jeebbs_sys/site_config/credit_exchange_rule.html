@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jeebbs_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>:  <@s.m "cmsConfig.function"/> - <@s.m "cmsUser.creditExchangeRule"/> - <@s.m "global.edit"/></div>
+	<div class="clear"></div>
+</div>
+<@p.form id="jvForm" action="v_creditExchangeUpdate.do" labelWidth="10">
+<@p.text colspan="1" width="50" label="cmsUser.point" name="expoint" value=creditExchange.expoint maxlength="20" help="cmsUser.creditExchangeRule.expoint"/>
+<@p.text colspan="1" width="50" label="cmsUser.prestige" name="exprestige" value=creditExchange.exprestige maxlength="20" help="cmsUser.creditExchangeRule.exprestige"/>
+<@p.tr/>
+<@p.radio colspan="1" width="50" label="point.pointoutavailable" name="pointoutavailable" value=creditExchange.pointoutavailable required="true" list={"true":"global.true","false":"global.false"}/>
+<@p.radio colspan="1" width="50" label="point.pointinavailable" name="pointinavailable" value=creditExchange.pointinavailable required="true" list={"true":"global.true","false":"global.false"}/>
+<@p.tr/>
+<@p.radio colspan="1" width="50" label="prestige.pointoutavailable" name="prestigeoutavailable" value=creditExchange.prestigeoutavailable required="true" list={"true":"global.true","false":"global.false"}/>
+<@p.radio colspan="1" width="50" label="prestige.pointinavailable" name="prestigeinavailable" value=creditExchange.prestigeinavailable required="true" list={"true":"global.true","false":"global.false"}/>
+<@p.tr/>
+
+<@p.text colspan="1" width="50" label="creditExchange.exchangetax" name="exchangetax" value=creditExchange.exchangetax required="true" class="required" maxlength="50" help="creditExchange.exchangetax.help"/>
+<@p.text colspan="1" width="50" label="creditExchange.miniBalance" name="miniBalance" value=creditExchange.miniBalance required="true" class="required digits" maxlength="50" help="creditExchange.miniBalance.help"/>
+<@p.tr/>
+<@p.td colspan="2"><@p.hidden name="id" value=creditExchange.id/><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

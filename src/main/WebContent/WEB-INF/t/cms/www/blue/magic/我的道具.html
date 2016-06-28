@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>我的道具 - ${site.name}</title>
+    <meta content="java,cms,jsp,cms,jsp bbs,开源网站内容管理系统,网站群,站群,多站点,jeecms" name="keywords" />
+    <meta content="讨论jsp cms、jsp bbs相关资讯，struts,hibernate,spring,freemarker最新技术研究" name="description" />
+	<link href="${resSys}/front.css" rel="stylesheet" type="text/css"/>
+    <link href="/${res}/bbs_forum/css/whole.css" type="text/css" rel="stylesheet" />
+    <link href="/${res}/bbs_forum/css/layout.css" type="text/css" rel="stylesheet" />
+    <link href="/${res}/bbs_member/css/set.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="/${res}/bbs_box/jquery1.4.2.js"></script> 
+	<script type="text/javascript" src="/${res}/bbs_box/wbox.js"></script> 
+	<link rel="stylesheet" type="text/css" href="/${res}/bbs_box/wbox.css" />
+    <style type="text/css">
+    #set-menu li.current2{background:url(/${res}/bbs_member/img/fav-cur.gif) no-repeat 0 0.5em;}
+    #set-menu li.current2 a{color:#707070;font-weight:700}
+    </style>
+  </head>
+  <body>
+    <!--header-->[#include "../include/页头.html"/]<!--/header-->
+    <!--main-->
+    <div class="main-wrap">
+    <div id="main">
+    <div id="breadCrumb"><img alt="" align="absMiddle" style="cursor: pointer" src="/${res}/bbs_forum/img/home.gif" /> <a href="${base}/">${site.name}</a> &raquo; <a href="${base}/member/index.jhtml">会员中心</a> &raquo;我的道具</div>
+    <div id="set-wrap">
+    <div id="set-side">
+    <div id="set-side-wrap">
+    [#include "../member/会员中心页_导航.html"/]
+    </div>
+    </div>
+    <div style="width:820px; margin:auto;background:#fff;float:right;">
+    <div class="cc" id="set-content-wrap">
+    <div>
+    <div class="set-tab-table">
+    <table cellspacing="0" cellpadding="0" border="0">
+      <tbody>
+        <tr class="tac" id="infolist">
+          <td class="current"><a href="#" style="cursor: pointer">我的道具</a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+     <div class="set-tab-box" style="height:600px;">
+     <table>
+     <tr>
+     	<td colspan="2">
+     		我的道具包容量：${user.magicPacketSize!}/${user.group.magicPacketSize!}
+     	</td>
+     </tr>
+     [#if memberMagics?size>0]
+     [#list memberMagics as magic]
+     	[#assign commonmagic=magic.magic/]
+     	[#if magic_index%2==0]
+     	<tr>
+     	<td>
+     		${commonmagic.name!}&nbsp;&nbsp;&nbsp;
+     		${commonmagic.description!}&nbsp;&nbsp;&nbsp;
+     		${magic.num!}&nbsp;&nbsp;&nbsp;
+	        [#if commonmagic.identifier=="money"||commonmagic.identifier=="showip"||commonmagic.identifier=="checkonline"]
+	        	<a href="${base}/magic/getsellmagicpage.jspx?mid=${commonmagic.identifier}&&operator=1" id="magica_${commonmagic.identifier}_1" >使用</a>
+	        [/#if]
+     		[#if discount>0]
+	         <a href="${base}/magic/getsellmagicpage.jspx?mid=${commonmagic.identifier}&&operator=0" id="magica_${commonmagic.identifier}_0" >出售</a>
+	        [#else]
+	         <a href="${base}/magic/getsellmagicpage.jspx?mid=${commonmagic.identifier}&&operator=2" id="magica_${commonmagic.identifier}_2" >丢弃</a>
+	        [/#if]
+     	</td>
+     	[#else]
+     	<td>
+     		${commonmagic.name!}&nbsp;&nbsp;&nbsp;
+     		${commonmagic.description!}&nbsp;&nbsp;&nbsp;
+     		${magic.num!}&nbsp;&nbsp;&nbsp;
+	        [#if commonmagic.identifier=="money"||commonmagic.identifier=="showip"||commonmagic.identifier=="checkonline"]
+	        	<a href="${base}/magic/getsellmagicpage.jspx?mid=${commonmagic.identifier}&&operator=1" id="magica_${commonmagic.identifier}_1" >使用</a>
+	        [/#if]
+     		[#if discount>0]
+	         <a href="${base}/magic/getsellmagicpage.jspx?mid=${commonmagic.identifier}&&operator=0" id="magica_${commonmagic.identifier}_0" >出售</a>
+	        [#else]
+	         <a href="${base}/magic/getsellmagicpage.jspx?mid=${commonmagic.identifier}&&operator=2" id="magica_${commonmagic.identifier}_2" >丢弃</a>
+	        [/#if]
+     	</td>
+     	</tr>
+     	[/#if]
+     [/#list]
+     [#else]
+     	没有道具
+     [/#if]
+     </table>
+<script type="text/javascript"> 
+var id;
+var strs=new Array();
+$("a[id^='magica']").each(function(){
+	id=$(this).attr("id");
+	strs=id.split("_");
+	if(strs[2]==0){
+		$(this).wBox({title: "出售道具",requestType:"iframe",iframeWH:{width:250,height:100},target:"${base}/magic/getsellmagicpage.jspx?mid="+strs[1]+"&operator=0"});
+		}else if(strs[2]==1){
+			$(this).wBox({title: "使用道具",requestType:"iframe",iframeWH:{width:220,height:100},target:"${base}/magic/getsellmagicpage.jspx?mid="+strs[1]+"&operator=1"});
+			}else if(strs[2]==2){
+				$(this).wBox({title: "丢弃道具",requestType:"iframe",iframeWH:{width:200,height:100},target:"${base}/magic/getsellmagicpage.jspx?mid="+strs[1]+"&operator=2"});
+				}
+		
+	});
+</script>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    <!--/main-->
+    <!--footer-->[#include "../include/页脚.html"/]<!--footer-->
+  </body>
+</html>

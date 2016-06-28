@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<#include "/jeebbs_sys/head.html"/>
+<style type="text/css">
+.point-text{width:100px;}
+.image-text{width:70px;}
+.tab-head{}
+.tab-body{border-top:3px solid #0198CB;border-left:1px solid #ccc;border-right:1px solid #ccc;border-bottom:1px solid #ccc;}
+.tab-head-cell{float:left;padding:5px;cursor:pointer;}
+.tab-head-cell-active{background-color:#0198CB;color:#FFF; font-weight:bold;}
+.tab-body-cell{border-left:1px}
+.tab-body-cell tr{border-bottom:1px solid #ccc;}
+</style>
+<script type="text/javascript">
+$(function() {
+	var currHead = '#tab-head-${groupType}';
+	var currBody = '#tab-${groupType}';
+	$(currHead).addClass('tab-head-cell-active');
+	$(currBody).show();
+	$('.tab-head-cell').each(function() {
+		$(this).click(function() {
+			$('.tab-head-cell').each(function() {
+				$(this).removeClass('tab-head-cell-active');
+			});
+			$(this).addClass('tab-head-cell-active');
+			$('.tab-body-cell').each(function() {
+				$(this).hide();
+			});
+			var b = $(this).attr('tabbody');
+			$('#'+b).show();
+		});
+	});
+	$('.jvForm').each(function() {
+		$(this).validate();
+	});
+});
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos">当前位置： 核心功能 - 会员组管理 - 列表</div>
+	<div class="clear"></div>
+</div>
+<div class="tab-head">
+	<div class="tab-head-cell" id="tab-head-1" tabbody="tab-1">会员组</div>
+	<div class="tab-head-cell" id="tab-head-2" tabbody="tab-2">系统组</div>
+	<div class="tab-head-cell" id="tab-head-3" tabbody="tab-3">特殊组</div>
+	<div class="tab-head-cell" id="tab-head-0" tabbody="tab-0">默认组</div>
+	<div style="clear:both"></div>
+</div>
+<div class="tab-body">
+	<div id="tab-1" class="tab-body-cell" style="display:none">
+		<form class="jvForm" action="o_save.do" method="post">
+		<table id="table1" width="100%" border="0">
+			<tr>
+				<th>头衔</th>
+				<th>组头像</th>
+				<th>需要积分</th>
+				<th>操作</th>
+			</tr>
+			<#assign i=0/>
+			<#list list as group>
+			<#if group.type==1>
+			<tr>
+				<td align="center"><input type="text" name="name" value="${group.name}" class="required" maxlength="20"/></td>
+				<td align="center"><input type="text" name="imgPath" value="${group.imgPath!}" class="image-text required" maxlength="20"/></td>
+				<td align="center"><input type="text" name="point" value="${group.point}" class="point-text required digits" maxlength="19"/></td>
+				<td align="center"><input type="hidden" name="id" value="${group.id}"/><a href="v_edit.do?groupType=1&groupId=${group.id}" class="pn-loperator">管理权限</a> <a href="javascript:void(0);" onclick="delRow(this);" class="pn-loperator">删除</a></td>
+			</tr>
+			<#assign i=i+1/>
+			</#if>
+			</#list>
+		</table>
+		<div style="padding:5px 50px;cursor:pointer;" onclick="addRow()"> + 添加新会员组</div>
+		<div style="text-align:center;padding-bottom:10px;"><input type="submit" value="提交"/></div>
+		<input type="hidden" name="groupType" value="1"/>
+		</form>
+	</div>
+	<div id="tab-2" class="tab-body-cell" style="display:none">
+		<form class="jvForm" action="o_save.do" method="post">
+		<table id="table2" width="100%" border="0">
+			<tr>
+				<th>头衔</th>
+				<th>组头像</th>
+				<th>操作</th>
+			</tr>
+			<#assign i=0/>
+			<#list list as group>
+			<#if group.type==2>
+			<tr>
+				<td align="center"><input type="text" name="name" value="${group.name}" class="required" maxlength="20"/></td>
+				<td align="center"><input type="text" name="imgPath" value="${group.imgPath!}" class="image-text required" maxlength="20"/></td>
+				<td align="center"><input type="hidden" name="point" value="${group.point!}"/><input type="hidden" name="id" value="${group.id}"/><a href="v_edit.do?groupType=2&groupId=${group.id}" class="pn-loperator">管理权限</a> <a href="javascript:void(0);" onclick="delRow(this);" class="pn-loperator">删除</a></td>
+			</tr>
+			<#assign i=i+1/>
+			</#if>
+			</#list>
+		</table>
+		<div style="padding:5px 50px;cursor:pointer;" onclick="addRowOther('table2')"> + 添加新会员组</div>
+		<div style="text-align:center;padding-bottom:10px;"><input type="submit" value="提交"/></div>
+		<input type="hidden" name="groupType" value="2"/>
+		</form>
+	</div>
+	<div id="tab-3" class="tab-body-cell" style="display:none">
+		<form class="jvForm" action="o_save.do" method="post">
+		<table id="table3" width="100%" border="0">
+			<tr>
+				<th>头衔</th>
+				<th>组头像</th>
+				<th>操作</th>
+			</tr>
+			<#assign i=0/>
+			<#list list as group>
+			<#if group.type==3>
+			<tr>
+				<td align="center"><input type="text" name="name" value="${group.name}" class="required" maxlength="20"/></td>
+				<td align="center"><input type="text" name="imgPath" value="${group.imgPath!}" class="image-text required" maxlength="20"/></td>
+				<td align="center"><input type="hidden" name="point" value="${group.point!}"/><input type="hidden" name="id" value="${group.id}"/><a href="v_edit.do?groupType=3&groupId=${group.id}" class="pn-loperator">管理权限</a> <a href="javascript:void(0);" onclick="delRow(this);" class="pn-loperator">删除</a></td>
+			</tr>
+			<#assign i=i+1/>
+			</#if>
+			</#list>
+		</table>
+		<div style="padding:5px 50px;cursor:pointer;" onclick="addRowOther('table3')"> + 添加新会员组</div>
+		<div style="text-align:center;padding-bottom:10px;"><input type="submit" value="提交"/></div>
+		<input type="hidden" name="groupType" value="3"/>
+		</form>
+	</div>
+	<div id="tab-0" class="tab-body-cell" style="display:none">
+		<form class="jvForm" action="o_save.do" method="post">
+		<table id="table0" width="100%" border="0">
+			<tr>
+				<th>头衔</th>
+				<th>组头像</th>
+				<th>操作</th>
+			</tr>
+			<#assign i=0/>
+			<#list list as group>
+			<#if group.type==0>
+			<tr>
+				<td align="center"><input type="text" name="name" value="${group.name}" class="required" maxlength="20"/></td>
+				<td align="center"><input type="text" name="imgPath" value="${group.imgPath!}" class="image-text required" maxlength="20"/></td>
+				<td align="center"><input type="hidden" name="point" value="${group.point!}"/><input type="hidden" name="id" value="${group.id}"/><a href="v_edit.do?groupType=0&groupId=${group.id}" class="pn-loperator">管理权限</a> <a href="javascript:void(0);" onclick="delRow(this);" class="pn-loperator">删除</a></td>
+			</tr>
+			<#assign i=i+1/>
+			</#if>
+			</#list>
+		</table>
+		<div style="padding:5px 50px;cursor:pointer;" onclick="addRowOther('table0')"> + 添加新会员组</div>
+		<div style="text-align:center;padding-bottom:10px;"><input type="submit" value="提交"/></div>
+		<input type="hidden" name="groupType" value="0"/>
+		</form>
+	</div>
+</div>
+<textarea style="display:none" id="row">
+<tr>
+	<td align="center"><input type="text" name="name" class="required" maxlength="20"/></td>
+	<td align="center"><input type="text" name="imgPath" class="image-text required" maxlength="20"/></td>
+	<td align="center">
+	<input type="text" name="point" class="point-text required digits" maxlength="20"/>
+	</td>
+	<td align="center"><a href="javascript:void(0);" onclick="delRow(this);" class="pn-loperator">删除</a></td>
+</tr>
+</textarea>
+<textarea style="display:none" id="rowOther">
+<tr>
+	<td align="center"><input type="text" name="name" class="required" maxlength="20"/></td>
+	<td align="center"><input type="text" name="imgPath" class="image-text required" maxlength="20"/></td>
+	<td align="center"><input type="hidden" name="point" value="0"/>
+	<a href="javascript:void(0);" onclick="delRow(this);" class="pn-loperator">删除</a></td>
+</tr>
+</textarea>
+<script type="text/javascript">
+//删除行
+function delRow(o) {
+	$(o).parent().parent().remove();
+}
+//会员组
+var index = 0;
+var tpl = $.format($("#row").val());
+function addRow() {
+	$('#table1').append(tpl(index++));
+}
+//其他组
+var tplOther = $.format($("#rowOther").val());
+function addRowOther(tid) {
+	$('#'+tid).append(tplOther(index++));
+}
+</script>
+</div>
+</body>
+</html>

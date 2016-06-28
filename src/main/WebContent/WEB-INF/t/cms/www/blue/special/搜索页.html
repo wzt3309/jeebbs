@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>搜索主题 </title>
+    <meta content="java,cms,jsp,cms,jsp bbs,开源网站内容管理系统,网站群,站群,多站点,jeecms" name="keywords" />
+    <meta content="讨论jsp cms、jsp bbs相关资讯，struts,hibernate,spring,freemarker最新技术研究" name="description" />
+	<link href="${resSys}/front.css" rel="stylesheet" type="text/css"/>
+    <script src="${resSys}/jquery.js" type="text/javascript"></script>
+    <link href="/${res}/bbs_forum/css/whole.css" type="text/css" rel="stylesheet" />
+    <link href="/${res}/bbs_forum/css/layout.css" type="text/css" rel="stylesheet" />
+    <link href="/${res}/bbs_member/css/set.css" type="text/css" rel="stylesheet" />
+    <style type="text/css">
+    #set-menu li.current2{background:url(/${res}/bbs_member/img/fav-cur.gif) no-repeat 0 0.5em;}
+    #set-menu li.current2 a{color:#707070;font-weight:700}
+    </style>
+  </head>
+  <body>
+    <!--header-->[#include "../include/页头.html"/]<!--/header-->
+    <!--main-->
+    <div class="main-wrap">
+    <div id="set-content">
+    <div class="cc" id="set-content-wrap">
+    <div>
+    <div class="set-tab-table">
+    <table cellspacing="0" cellpadding="0" border="0">
+      <tbody>
+        <tr class="tac" id="infolist">
+          <td class="current"><a href="#" style="cursor: pointer">搜索主题</a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+     <div class="set-tab-box" style="height:20px;">
+		  <form action="${base}/topic/search.jhtml" name="jvForm" method="get">
+		  <select name="forumId">
+		   <option value="0">整个论坛搜索</option>
+		  [@category_list]
+    		[#list tag_list as ctg]
+   				 [@forum_list categoryId=ctg.id]
+   					 [#list tag_list as forum]
+   					 	<option value="${forum.id}" [#if forumId??][#if forumId==forum.id] selected="selected" [/#if][/#if]>${forum.title!}</option>
+   					 [/#list]
+     			[/@forum_list]
+    		[/#list]
+    	 [/@category_list]
+		  </select>
+			关键字：<input type="text" name="keywords" value="${keywords!}"/>
+			<input type="submit" value="搜索"/>
+		  </form>
+    </div>
+     <table width="100%" cellspacing="0" cellpadding="0" style="border-left:1px solid #c5d8e8; border-right:1px solid #c5d8e8;">
+     <tbody style="table-layout:fixed;">
+        <tr class="tr2">
+          <td class="tac y-style" style="width:2.8em">&nbsp;</td>
+          <td class="tac" style="line-height:30px;">标 题</td>
+          <td class="y-style" style="width:10em;line-height:30px;">作 者</td>
+          <td class="tal y-style" style="width:9em;line-height:30px;">回 复 / 人 气</td>
+          <td class="y-style" style="width:12em;line-height:30px;">最后发表</td>
+        </tr>
+       [#if forumId??]
+       [#if forumId==0]
+       [@topic_page keyWords=keywords  count='20' tpl='1'  sysTopicPage='1']
+        [/@topic_page]    
+		[#else]
+		   [@topic_page keyWords=keywords forumId=forumId count='20' tpl='1' sysTopicPage='1'] 
+		    [/@topic_page]       
+		[/#if]
+		[#else]
+			[@topic_page keyWords=keywords count='20' tpl='1' sysTopicPage='1'] 
+		    [/@topic_page]
+		[/#if]
+		</div> 
+       </tbody>
+     </table>
+    </div>
+    </div>
+    </div>
+    <!--/main--><!--footer-->[#include "../include/页脚.html"/]<!--footer-->
+  </body>
+</html>

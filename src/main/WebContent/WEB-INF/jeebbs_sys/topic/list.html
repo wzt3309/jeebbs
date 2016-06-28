@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title></title>
+<#include "/WEB-INF/bbs_sys/head.ftl"/>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos">当前位置： 板块 - 主题管理 - 列表</div>
+	<form class="ropt">
+		<input type="submit" value="添加主题" onclick="this.form.action='Com_add.do';"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<@p.table
+	cols=[{"label":"ID","name":"row.id"},
+		{"label":"名称","name":"row.name"}
+		]
+	rowIndex=false
+	normalOperate=[{"action":"Com_edit","name":"修改"},
+				{"action":"Com_delete","name":"删除","confirm":"您确定删除吗？"}
+				]
+	batchOperate=[{"action":"Com_delete","name":"删除","confirm":"您确定删除吗？"}
+				]
+/>
+<#include "/WEB-INF/common/alert_message.ftl"/>
+</div>
+</body>
+</html>

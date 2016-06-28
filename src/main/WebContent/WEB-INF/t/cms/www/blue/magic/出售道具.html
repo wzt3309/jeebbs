@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>${site.name}</title>
+    <meta content="java,cms,jsp,cms,jsp bbs,开源网站内容管理系统,网站群,站群,多站点,jeecms" name="keywords" />
+    <meta content="讨论jsp cms、jsp bbs相关资讯，struts,hibernate,spring,freemarker最新技术研究" name="description" />
+	<link href="${resSys}/front.css" rel="stylesheet" type="text/css"/>
+    <script src="${resSys}/jquery.js" type="text/javascript"></script>
+    <link href="/${res}/bbs_forum/css/whole.css" type="text/css" rel="stylesheet" />
+    <link href="/${res}/bbs_forum/css/layout.css" type="text/css" rel="stylesheet" />
+    <link href="/${res}/bbs_member/css/set.css" type="text/css" rel="stylesheet" />
+    <style type="text/css">
+    #set-menu li.current2{background:url(/${res}/bbs_member/img/fav-cur.gif) no-repeat 0 0.5em;}
+    #set-menu li.current2 a{color:#707070;font-weight:700}
+    </style>
+<script type="">
+function useMagic(){
+			var operator=$("#operator").val();
+				var mid=$("#mid").val();
+				var num=$("#num").val();
+				var name=$("#username").val();
+				if(num>0){
+				if((mid=="money"||mid=="checkonline"||mid=="showip")&&operator==1){
+				$.post('${base}/magic/usemagic.jspx', {
+					'mid':mid,
+					'name':name
+				}, function(data) {
+					if (data.pass) {
+						if(data.magicswitch){
+						$("#magicName").html(data.magicName);
+						$("#magicMsg").html(data.magicMsg);
+						$("#pid").val(data.pid);
+						}else{
+							$("#magicParent").html("道具中心已经关闭!");
+							}
+					}else{
+						$("#magicParent").html("您尚未登录");
+					}
+				},"json");
+				}else{
+					if(!confirm("确认该操作？")) {
+						return;
+					}
+					$.post('${base}/magic/sellmagic.jspx', {
+					'mid':mid,
+					'operator':operator,
+					'num':num
+					}, function(data) {
+						if (data.pass) {
+							$("#closeSellParent").prepend(data.magicMsg);
+							$("#magicSellParent").show();
+						}else{
+							$("#magicParent").html("您尚未登录");
+						}
+					},"json");
+					}
+				$("#magicParent").show();
+			}else{
+				alert("您输入有误！");
+			}
+		}
+		function hiddenSellParentDiv(){
+			$("#magicSellParent").hide();
+			window.parent.location.reload();
+		}
+		function commonHide(){
+			$("#ope_num").show();
+			$("#ope_username").hide();
+		}
+	</script>
+  </head>
+  <body>
+     <div id="magicParent">
+     	 <span id="operator_1">[#if operator==0]出售[#elseif operator==1]使用[#elseif operator==2]丢弃[/#if]</span>道具
+     	
+    	<span id="ope_num" [#if operator==1]style="display: none;"[/#if]>
+    		<span id="operator_2">[#if operator==0]出售[#elseif operator==1]使用[#elseif operator==2]丢弃[/#if]</span>
+    		<input name="num" id="num" type="text" value="1"/>张</span>
+    	
+    		<span id="magicName">${magicName!}</span>
+    	<div id="magicMsg">${magicMsg!}</div>
+    	<input name="mid" id="mid" type="hidden" value="${mid!}"/>
+    	<input name="operator" id="operator" type="hidden" value="${operator!}"/>
+    	[#if operator==1][#if mid!="money"]<span id="ope_username"><input name="username" id="username" type="text"/></span>[#else]<span id="ope_username" style="display: none;"><input name="username" id="username" type="text" /></span>[/#if][/#if]
+   		<a href="#" id="useMagicA" onclick="useMagic()"><span id="operator_3">[#if operator==0]出售[#elseif operator==1]使用[#elseif operator==2]丢弃[/#if]</span></a>
+      </div>
+      <div id="magicSellParent" style="display: none;">
+      	&nbsp;&nbsp;&nbsp;<span onclick="hiddenSellParentDiv()" id="closeSellParent" style="cursor: pointer;">关闭</span>
+      </div>
+  </body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>${tag.name} - ${site.name} - Powered by JEECMS</title>
+</head>
+
+<body>
+[@process_time/]
+<h1>标签详情</h1>
+<h1>${tag.name}</h1>
+
+[@cms_content_list tagId=tag.id count='5']
+<ul>
+[#list tag_list as c]
+<li><a href="${c.url}">${c.title}</a></li>
+[/#list]
+</ul>
+[/@cms_content_list]
+
+[@cms_content_page tpl='2' styleList='1-1' sysPage='1' tagId=tag.id count='2'/]
+
+[@process_time/]
+</body>
+</html>

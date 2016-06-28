@@ -1,0 +1,239 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>${forum.title} - ${site.name} - powered by jeebbs</title>
+    <meta name="keywords" content="${forum.keywords!}" />
+    <meta name="description" content="${(forum.description!)?html}" />
+	<link href="${resSys}/front.css" rel="stylesheet" type="text/css"/>
+    <script src="${resSys}/jquery.js" type="text/javascript"></script>
+    <script src="${resSys}/front.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="/${res}/bbs_forum/css/whole.css" />
+    <link rel="stylesheet" type="text/css" href="/${res}/bbs_forum/css/layout.css" />
+	<script type="text/javascript">
+	function editTitle(id) {
+		$('#title'+id).show();
+		$('#link'+id).hide();
+		$('#title'+id).select();
+	}
+	function updateTitle(id) {
+		var title = $('#title'+id).val();
+		if($('#link'+id).text() == title) {
+			//do nothing
+		} else if($.trim(title).length<2) {
+			alert("标题不能小于2个字符");
+		} else  {
+			$.postJson('${base}/jeebbs/TopicTitleUpdate.do', {
+				'topicId' : id,
+				'title' : title
+			}, function(data) {
+				if (!data.success) {
+					alert(date.msg);
+				}
+			});
+		}
+		$('#title'+id).hide();
+		$('#link'+id).text(title).show();
+	}
+	function manageTopic(url) {
+		var batchChecks = document.getElementsByName('topicIds');
+		var hasChecked = false;
+		for(var i=0; i<batchChecks.length; i++) {
+			if(batchChecks[i].checked) {
+				hasChecked = true;
+				break;
+			}
+		}
+		if(!hasChecked) {
+			alert('请选择要操作的数据！');
+			return;
+		}
+		var form = document.getElementById('jvForm');
+		form.action=url;
+		form.submit();
+   }
+
+	function checkall(){
+	        var batchChecks = document.getElementsByName('topicIds');
+	        var onCheck = document.getElementById('checkAll');
+	        if(onCheck.checked){
+			for(var i=0; i<batchChecks.length; i++) {
+				batchChecks[i].setAttribute("checked","checked");
+			}
+			}else{
+			for(var i=0; i<batchChecks.length; i++) {
+				batchChecks[i].setAttribute("checked","");
+			}
+			}
+	}
+	</script>
+  </head>
+  
+  <body>
+    <!--header--> [#include "../include/页头.html"/]<!--/header--> 
+	
+	<!--main-->
+	
+    <div class="main-wrap">
+    <div id="main">
+    <!--登录统计栏_Begin-->[#include "../include/登录统计.html"/]<!--登录统计栏_End-->
+    <div class="c"></div>
+    <div class="cc" id="breadCrumb"><img align="absmiddle" style="cursor: pointer;" src="/${res}/bbs_forum/img/home.gif" alt="" /> 
+	<a href="${base}/">${site.name}</a> &raquo; <a href="${forum.url}">${forum.title}</a></div>
+    <div class="c"></div>
+    <div class="t">
+    <table width="100%" cellspacing="0" cellpadding="0">
+      [#if forum.description?? && forum.description?trim!='']
+      <tbody>
+        <tr class="tr2">
+          <td><strong>板块介绍：</strong><br />
+          ${forum.description!}</td>
+        </tr>
+        [/#if]
+		[#if forum.forumRule?? && forum.forumRule?trim!='']
+        <tr class="tr3">
+          <td><strong>本版规则：</strong><br />
+          ${forum.forumRule!}</td>
+        </tr>
+        [/#if]
+      </tbody>
+    </table>
+    </div>
+    <div id="c" class="c"></div>
+    <div class="t3">[#if user??]<span class="fr"> 	<a href="${base}/topic/v_add${forum.id!}.jspx"><img id="td_post" src="/${res}/bbs_forum/img/post.png" alt="" /></a></span>[/#if]
+    <span class="fl">[@topic_day forumId=forum.id day=day count='15' tpl='0'][#include "../tag/topic.html"/] [/@topic_day]</span>
+    <div class="c"></div>
+    </div>
+    <div class="c"></div>
+    <div style="display: none;" class="menu menu-post cc f14 tac" id="menu_post">
+    <div style="width: 75px;" class="menu-b"><a href="post-htm-fid-40.html">新 帖</a></div>
+    </div>
+    <div style="margin: auto;" class="t z">
+	<form method="post" action="" id="jvForm">
+    <table width="100%" cellspacing="0" cellpadding="0">
+	  <tr>
+	  <th class="h" colspan="5">
+	  【<a href="${forum.url}">全部主题</a>】 【<a href="${forum.url?substring(0,forum.url?length-6)}_jing${forum.url?substring(forum.url?length-6,forum.url?length)}">精华</a>】
+	  </th></tr>
+	  <tbody style="table-layout:fixed;">
+        <tr class="tr2">
+          <td style="width:2.8em" class="tac y-style">&nbsp;</td>
+          <td class="tac">标 题</td>
+          <td style="width:10em" class="y-style">作 者</td>
+          <td style="width:9em" class="tal y-style">回 复 / 人 气</td>
+          <td style="width:12em" class="y-style">最后发表</td>	  
+        </tr>
+		<!--置顶主题列表_Begin-->
+		<tr class="tr2"><td colspan="6" class="tac" style="border-top:0">主题列表</td></tr>
+		<!--普通主题列表_Begin-->
+        [@topic_day forumId=forum.id day=day count='15' tpl='0']
+        [#list tag_pagination.list as topic]
+		<tr align="center" class="tr3 t_one">
+		<td>		
+			  [#if topic.replyCount gt 10]
+			  <img align="absmiddle" src="/${res}/bbs_forum/img/hot.gif" alt="热帖" />			  
+			  [#else]
+			     [#if topic.frontStatus==1]<img align="absmiddle" src="/${res}/bbs_forum/img/rtopic.jpg" alt="新帖" />
+			     [#elseif topic.frontStatus==2]<img align="absmiddle" src="/${res}/bbs_forum/img/topic.gif"/>
+			     [#elseif topic.frontStatus==3]锁[/#if]
+			  [/#if] 		  
+		</td>
+		<td style="text-align: left; line-height: 23px;">
+		[#if moderators]
+		<input type="checkbox" name="topicIds" value="${topic.id}"/>
+		[/#if]
+		[#if topic.style]
+		[#if topic.styleBold]<strong>[/#if]
+		[#if topic.styleItalic]<em>[/#if]
+		<a id="link${topic.id}" href="${topic.url!}" [#if topic.styleColor?? && topic.styleColor?length>0] style="color:#${topic.styleColor};"[/#if]>${topic.title?html!}</a>&nbsp;[#if topic.moderatorReply??&&topic.moderatorReply]<img src="/${res}/bbs_forum/img/banzhu.gif"/>[/#if][#if topic.affix??&&topic.affix]<img src="/${res}/bbs_forum/img/comm.gif"/>[/#if]
+		[#if topic.styleItalic]</em>[/#if]
+		[#if topic.styleBold]</strong>[/#if]
+		[#else]
+				<a id="link${topic.id}" href="${topic.url}">${topic.title?html}</a>
+		[/#if]
+		</td>
+		<td class="tal y-style">${topic.creater.username!}
+		<div class="f10 gray2">${topic.createTime!?string("yyyy-MM-dd HH:MM:ss")}</div></td>
+		<td class="tal y-style f10"><span class="s8">${topic.replyCount!}</span> / [@topic_vcount topicId=topic.id]${viewCount!}[/@topic_vcount]</td>
+		[#if topic.lastReply??]
+		<td class="tal y-style">${topic.lastTime!?string("yyyy-MM-dd HH:MM:ss")}<br />
+		<span class="b">by: ${topic.lastReply.username!}</span></td>
+		[/#if]
+		</tr>
+		[/#list]
+        [/@topic_day]
+		<!--普通主题列表_End-->
+		[#if user??]
+		<tr align="center" class="tr3 t_one">
+          <td></td>
+          <td colspan="4" style="line-height: 23px; text-align: left">
+   [#if uptop]
+   <input id="checkAll" type="checkbox" onclick="checkall();" value="on" />全选
+  <input class="bta" type="button" onclick="manageTopic('${base}/topic/v_upTopInput.jspx');" value="置顶" />
+  [/#if]
+  [#if manager]
+  <input class="bta" type="button" onclick="manageTopic('${base}/topic/v_primeInput.jspx');" value="精华" />
+  <input class="bta" type="button" onclick="manageTopic('${base}/topic/v_highlightInput.jspx');" value="加亮" />
+  <input class="bta" type="button" onclick="manageTopic('${base}/topic/v_lockInput.jspx');" value="锁定/打开" />
+  <input class="bta" type="button" onclick="manageTopic('${base}/topic/v_upordownInput.jspx');" value="提升/下沉" />
+  [/#if]
+  [#if sheild]
+  <input class="bta" type="button" onclick="manageTopic('${base}/topic/v_moveInput.jspx');" value="移动" />
+  <input class="bta" type="button" onclick="manageTopic('${base}/topic/v_shieldInput.jspx');" value="屏蔽" />
+  [/#if]
+  [#if moderators]
+  <input class="bta" type="button" onclick="manageTopic('${base}/topic/o_delete.jspx');" value="删除" />
+  [/#if]
+          </td>
+		</tr>		
+		[/#if]
+        <tr>
+          <td style="height: 8px;" class="f_one" colspan="6"></td>
+        </tr>
+      </tbody>
+    </table>
+	<input type="hidden" value="${forum.id}" name="forumId" />
+    </form>
+    </div>
+    <div class="t3">
+    <table width="100%" cellspacing="0" cellpadding="0">
+      <tbody>
+        <tr>
+          <td>
+          <form action="${base}/topic/v_searchDayTopic.jspx">
+            <input type="hidden" name="forumId" value="${forum.id}"/>
+			<select name="day">
+            <option value="1" [#if day==1]selected="selected"[/#if]>1天内的主题</option>
+            <option value="2" [#if day==2]selected="selected"[/#if]>2天内的主题</option>
+            <option value="7" [#if day==7]selected="selected"[/#if]>1星期内的主题</option>
+            <option value="30" [#if day==30]selected="selected"[/#if]>1个月内的主题</option>
+            <option value="60" [#if day==60]selected="selected"[/#if]>2个月内的主题</option>
+            <option value="90" [#if day==90]selected="selected"[/#if]>3个月内的主题</option>
+            <option value="180" [#if day==180]selected="selected"[/#if]>6个月内的主题</option>
+            <option value="365" [#if day==365]selected="selected"[/#if]>1年内的主题</option>
+            </select>
+			<input type="button" onclick="this.form.submit();" value="提 交" class="btn" />
+          </form>
+          </td>
+          <td width="40%" align="right">
+          <form method="post" name="jump">
+            <a href="javascript:scroll(0,0)">版块权限查看</a>
+          </form>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="t3">
+	[#if user??]<span class="fr"><a href="${base}/topic/v_add${forum.id!}.jspx"><img id="td_post1" src="/${res}/bbs_forum/img/post.png" alt="" /></a></span>
+	[/#if]
+	<span class="fl">[@topic_day forumId=forum.id day=day count='15' tpl='0'][#include "../tag/topic.html"/] [/@topic_day]</span>
+    <div class="c"></div>
+    </div>
+    <div class="c"></div>
+    </div>
+    </div>
+    <!--/main-->
+	<!--footer--> [#include "../include/页脚.html"/] <!--footer-->
+  </body>
+</html>

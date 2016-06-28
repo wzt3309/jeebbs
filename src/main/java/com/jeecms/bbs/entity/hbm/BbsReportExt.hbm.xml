@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="com.jeecms.bbs.entity">
+	<class name="BbsReportExt" table="bbs_report_ext">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		
+		<id name="id" type="java.lang.Integer" column="id">
+			<generator class="identity"/>
+		</id>
+		<property
+			name="reportTime"
+			column="report_time"
+			type="timestamp"
+			not-null="true"
+			length="19"
+		/>
+		<property
+			name="reportReason"
+			column="report_reason"
+			type="string"
+			not-null="false"
+			length="255"
+		/>
+		<many-to-one
+			name="reportUser"
+			column="report_user"
+			class="BbsUser"
+			not-null="true"
+		>
+		</many-to-one>
+		<many-to-one
+			name="report"
+			column="report_id"
+			class="BbsReport"
+			not-null="true"
+		>
+		</many-to-one>
+</class>
+</hibernate-mapping>
