@@ -1,13 +1,143 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration>
-	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+	<!-- 定义日志文件 输入位置 -->  
+    <property name="log_dir" value="../webapps/jeebbs/LogFile" />  
+    <!-- 日志最大的历史 60天 -->  
+    <property name="maxHistory" value="60"/>
+    <!--日志文件最大的大小--> 
+    <property name="maxSize" value="10MB"/>  
+     
+     <!-- 控制台输出ERROR内容 -->
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">		
+		<encoder charset="UTF-8">
 			<Pattern>%d{HH:mm:ss.SSS} %-5level %logger{80} - %msg%n</Pattern>
 		</encoder>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 只打印ERROR日志 -->  
+	        <level>ERROR</level>  
+	        <onMatch>ACCEPT</onMatch>  
+	        <onMismatch>DENY</onMismatch>  
+	    </filter>
 	</appender>
-	<root>
-		<level value="ERROR" />
+	
+	<!-- 文件输出ERROR内容 -->
+	<appender name="FILEERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">	
+		<file>${log_dir}/Error/WebAppError.Today.log</file>			
+		<encoder charset="UTF-8">
+			<Pattern>%d{HH:mm:ss.SSS} %-5level %logger{80} - %msg%n</Pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">			
+			<FileNamePattern>${log_dir}/Error/WebAppError.%d{yyyy-MM-dd}.log</FileNamePattern>
+			<!-- keep 60 days worth of history -->
+			<MaxHistory>${maxHistory}</MaxHistory>
+		</rollingPolicy>		
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+        	<MaxFileSize>${maxSize}</MaxFileSize>
+        </triggeringPolicy> 
+		<filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 只打印ERROR日志 -->  
+	        <level>ERROR</level>  
+	        <onMatch>ACCEPT</onMatch>  
+	        <onMismatch>DENY</onMismatch>  
+	    </filter>  		
+	</appender>	
+	
+	<!-- 文件输出WARN内容 -->
+	<appender name="FILEWARN" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log_dir}/Warn/WebAppWarn.Today.log</file>				
+		<encoder charset="UTF-8">
+			<Pattern>%d{HH:mm:ss.SSS} %-5level %logger{80} - %msg%n</Pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">			
+			<FileNamePattern>${log_dir}/Warn/WebAppWarn.%d{yyyy-MM-dd}.log</FileNamePattern>
+			<!-- keep 60 days worth of history -->
+			<MaxHistory>${maxHistory}</MaxHistory>
+		</rollingPolicy>
+		<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+        	<MaxFileSize>${maxSize}</MaxFileSize>
+        </triggeringPolicy> 
+		<filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 只打印WARN日志 -->  
+	        <level>WARN</level>  
+	        <onMatch>ACCEPT</onMatch>  
+	        <onMismatch>DENY</onMismatch>  
+	    </filter>  		
+	</appender>	
+	
+	<!-- 文件输出INFO内容 -->
+	<appender name="FILEINFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log_dir}/Info/WebAppInfo.Today.log</file>				
+		<encoder charset="UTF-8">
+			<Pattern>%d{HH:mm:ss.SSS} %-5level %logger{80} - %msg%n</Pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">			
+			<FileNamePattern>${log_dir}/Info/WebAppInfo.%d{yyyy-MM-dd}.log</FileNamePattern>
+			<!-- keep 60 days worth of history -->
+			<MaxHistory>${maxHistory}</MaxHistory>
+		</rollingPolicy>
+		<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+        	<MaxFileSize>${maxSize}</MaxFileSize>
+        </triggeringPolicy> 
+		<filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 只打印INFO日志 -->  
+	        <level>INFO</level>  
+	        <onMatch>ACCEPT</onMatch>  
+	        <onMismatch>DENY</onMismatch>  
+	    </filter>  		
+	</appender>
+	
+	<!-- 文件输出Hibernate Sql语句内容 -->
+	<appender name="SQL" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log_dir}/Sql/WebAppSql.Today.log</file>				
+		<encoder charset="UTF-8">
+			<Pattern>%d{HH:mm:ss.SSS} %-5level %logger{80} - %msg%n</Pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">			
+			<FileNamePattern>${log_dir}/Sql/WebAppSql.%d{yyyy-MM-dd}.log</FileNamePattern>
+			<!-- keep 60 days worth of history -->
+			<MaxHistory>${maxHistory}</MaxHistory>
+		</rollingPolicy>
+		<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+        	<MaxFileSize>${maxSize}</MaxFileSize>
+        </triggeringPolicy> 		
+	</appender>		
+	
+	<!--日志异步到数据库 -->  
+    <appender name="DB" class="ch.qos.logback.classic.db.DBAppender">
+    	<filter class="ch.qos.logback.classic.filter.ThresholdFilter"><!-- 保存WARN级别以上的日志 -->  
+	        <level>WARN</level>  
+	        <onMatch>ACCEPT</onMatch>  
+	        <onMismatch>DENY</onMismatch>  
+	    </filter>     	
+        <!--日志异步到数据库 --> 
+        <connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">
+           <!--连接池 --> 
+           <dataSource class="com.mchange.v2.c3p0.ComboPooledDataSource">
+              <driverClass>com.mysql.jdbc.Driver</driverClass>
+              <url>jdbc:mysql://localhost:3306/jeebbs_3</url>
+              <user>root</user>
+              <password>root</password>
+            </dataSource>
+        </connectionSource>
+    </appender> 
+	<!-- show parameters for hibernate sql 专为 Hibernate 定制 -->  
+    <logger name="org.hibernate.type.descriptor.sql.BasicBinder"  level="TRACE" >
+    	<appender-ref ref="SQL" />
+    </logger>  
+    <logger name="org.hibernate.type.descriptor.sql.BasicExtractor"  level="DEBUG" >
+    	<appender-ref ref="SQL" />
+    </logger>   
+    <logger name="org.hibernate.SQL" level="DEBUG" >
+    	<appender-ref ref="SQL" />
+    </logger>   
+    <logger name="org.hibernate.engine.QueryParameters" level="DEBUG" >
+    	<appender-ref ref="SQL" />
+    </logger>  
+    <logger name="org.hibernate.engine.query.HQLQueryPlan" level="DEBUG" >
+    	<appender-ref ref="SQL" />
+    </logger>  
+	<root level="DEBUG">		
 		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILEERROR" />
+		<appender-ref ref="FILEINFO" />	
+		<appender-ref ref="FILEWARN" />	
+		<appender-ref ref="DB" />			
 	</root>
 </configuration>
 

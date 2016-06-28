@@ -47,7 +47,7 @@ public class DynamicPageAct {
 	
 	public static final String LOGIN_INPUT = "tpl.loginInput";
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String index(HttpServletRequest request, ModelMap model,HttpServletResponse response) {
+	public String index(HttpServletRequest request, ModelMap model,HttpServletResponse response) {		
 		CmsSite site = CmsUtils.getSite(request);
 		FrontUtils.frontData(request, model, site);
 		String processCookies = (String) session.getAttribute(request, "processCookies");
