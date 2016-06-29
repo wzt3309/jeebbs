@@ -365,16 +365,17 @@
   <!-- 构建发布包 -->
   <build>
   	<finalName>jeebbs</finalName>
-  	<defaultGoal>compile</defaultGoal>
-  	<plugins>
-  		<plugin>
-  			<artifactId>maven-compiler-plugin</artifactId>
-  			<configuration>
-  				<encoding>${project.build.sourceEncoding}</encoding> 
+   <defaultGoal>compile</defaultGoal>
+    <plugins>
+
+		<plugin>
+			<artifactId>maven-war-plugin</artifactId>
+			<configuration>
 				<target>1.6</target>
 				<source>1.6</source>
+				<webXml>src/main/WebContent/WEB-INF/web.xml</webXml>
 			</configuration>
-  		</plugin>
+		</plugin> 
   	</plugins>
   </build>
 </project>
