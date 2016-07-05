@@ -45,7 +45,7 @@ public class BaseBbsNews {
 	public String getTime(){
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String dateStr = sdf.format(NewsDate.getTime());
-		System.out.println(dateStr);
+		//System.out.println(dateStr);
 		return dateStr;
 	}
 	public java.lang.String getNewsFrom() {
@@ -59,6 +59,13 @@ public class BaseBbsNews {
 	}
 	public void setNewsHref(java.lang.String newsHref) {
 		NewsHref = newsHref;
+	}
+	
+	@Override
+	public String toString() {
+		return "BaseBbsNews [Id=" + Id + ", NewsFrom=" + NewsFrom
+				+ ", NewsHref=" + NewsHref + ", NewsName=" + NewsName
+				+ ", NewsDate=" + getTime() + "]";
 	}
 	
 
