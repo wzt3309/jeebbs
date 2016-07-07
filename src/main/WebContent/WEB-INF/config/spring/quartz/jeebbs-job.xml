@@ -40,18 +40,52 @@
 		<property name="cronExpression" value="0 40/30 17-20 ? * 2-6" />
 	</bean>-->
 	
-	<!-- 收集每日每小时的财经新闻 每日整点执行一次
-	<bean id="CaijingNewsJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+	<!-- 收集财经新闻 每日每小时每分钟执行一次 开始-->
+	<bean id="CrawlNewsXiuqiuJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail">
 			<bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
 				<property name="targetObject">
-					<bean class="com.jeecms.bbs.schedule.CaijingNewsJob"/>
+					<bean class="com.jeecms.bbs.schedule.CrawlNewsXiuqiuJob"/>
 				</property>
 				<property name="targetMethod" value="execute" />
 			</bean>
 		</property>
 		<property name="cronExpression" value="0 * 6-23 * * ?" />
-	</bean>-->
+	</bean>
+	<bean id="CrawlNewsSinaJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+				<property name="targetObject">
+					<bean class="com.jeecms.bbs.schedule.CrawlNewsSinaJob"/>
+				</property>
+				<property name="targetMethod" value="execute" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="0 * 6-23 * * ?" />
+	</bean>
+	<bean id="CrawlNewsSohuJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+				<property name="targetObject">
+					<bean class="com.jeecms.bbs.schedule.CrawlNewsSohuJob"/>
+				</property>
+				<property name="targetMethod" value="execute" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="0 * 6-23 * * ?" />
+	</bean>
+	<bean id="CrawlNewsEastJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+				<property name="targetObject">
+					<bean class="com.jeecms.bbs.schedule.CrawlNewsEastJob"/>
+				</property>
+				<property name="targetMethod" value="execute" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="0 * 6-23 * * ?" />
+	</bean>
+	<!-- 收集财经新闻 每日每小时每分钟执行一次 结束-->
 	
 	<!--清除今日主题帖子 -->
 	<bean id="bbsJob" class="com.jeecms.bbs.schedule.BbsJob"></bean>
@@ -64,7 +98,7 @@
 		<property name="cronExpression" value="* * 21 * * ?" />
 	</bean>	
 	
-	<!--  -->
+	<!--论坛基础设置  -->
 	<bean id="configJobAct" class="com.jeecms.bbs.action.ConfigJobAct"/>
 	<bean id="configJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
 		<property name="targetObject" ref="configJobAct" />
@@ -126,8 +160,11 @@
 	<property name="triggers">  
 		<list>	
 			<ref local="configTrigger"/>	
-			<!--  <ref bean="bbsTrigger" />  
-			<ref bean="clearUserOnlineDayTrigger" />  
+			<ref local="CrawlNewsXiuqiuJobTrigger" />  
+			<ref local="CrawlNewsSinaJobTrigger" />
+			<ref local="CrawlNewsSohuJobTrigger" />
+			<ref local="CrawlNewsEastJobTrigger" />
+			<!--  <ref bean="clearUserOnlineDayTrigger" />  
 			<ref bean="clearUserOnlineWeekTrigger" /> 
 			<ref bean="clearUserOnlineMonthTrigger" /> 
 			<ref bean="clearUserOnlineYearTrigger" /> 

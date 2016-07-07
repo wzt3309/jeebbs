@@ -1,6 +1,5 @@
 package com.jeecms.common.bbsnews.impl;
 
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -8,29 +7,29 @@ import java.util.List;
 import java.util.Map;
 
 import org.htmlparser.Node;
-import org.htmlparser.Tag;
+import org.htmlparser.tags.LinkTag;
 import org.htmlparser.util.NodeList;
+import org.htmlparser.util.SimpleNodeIterator;
 
 import com.jeecms.bbs.entity.BbsNews;
 import com.jeecms.common.bbsnews.BbsNewsCrawlerBase;
 import com.jeecms.common.httputil.HtmlResourParserUtil;
 import com.jeecms.common.httputil.HtmlResourUtil;
 
-public class XueQiuNews extends BbsNewsCrawlerBase {
-
-	private static final String URL="http://xueqiu.com/today/";
+public class SohuNews extends BbsNewsCrawlerBase{
+	private static final String URL="http://business.sohu.com/";
 	/**
 	 * 找到今日新闻的列表部分的css
 	 */
-	private static final String TODAY_NEWS_FIELD="news.xueqiu.today";
+	private static final String TODAY_NEWS_FIELD="news.sohu.today";
 	/**
 	 * 给新闻链接加上前缀
 	 */
-	private static final String HREF_PREFIX="news.xueqiu.hrefprefix";
+	private static final String HREF_PREFIX="news.sohu.hrefprefix";
 	/**
 	 * 新闻来源在数据库中的表示
 	 */
-	private static final String NEWS_FROM="f4";
+	private static final String NEWS_FROM="f2";
 	
 	/**
 	 * 今日新闻的列表部分Node元素集合
@@ -56,10 +55,10 @@ public class XueQiuNews extends BbsNewsCrawlerBase {
 				.getMessage(TODAY_NEWS_FIELD),htmlStr);
 		getNewsMap();
 	}
-	public XueQiuNews(){
+	public SohuNews(){
 		init();
 	}
-	
+
 	@Override
 	public List<BbsNews> getTodayBbsNews() {
 		List<BbsNews> todayBbsNews=new ArrayList<BbsNews>();
@@ -115,37 +114,32 @@ public class XueQiuNews extends BbsNewsCrawlerBase {
 		}
 		return newsAbstractBf.toString();
 	}
-	/**
-	 * 返回放置News的Maps（是一个List）
-	 * Maps内的每一个Map中统一有三个元素 
-	 * abstract（摘要） topic（标题） href（链接）
-	 */
+
 	@Override
-	public List<Map<String, String>> getNewsMap() {		
+	public List<Map<String, String>> getNewsMap() {
 		if(fieldNodeList!=null&&fieldNodeList.size()>0){
 			this.newsMaps=new ArrayList<Map<String,String>>();
 			for(int i=0;i<fieldNodeList.size();i++){
 				Map<String,String> newsMap=new HashMap<String,String>();
 				Node node=fieldNodeList.elementAt(i);
-				NodeList children=node.getChildren();
-				if(children!=null&&children.size()>0){
-					if(children.size()>1){
-						Tag aTag=(Tag)children.elementAt(1);
-						if(children.size()>2){
-							Tag divTag=(Tag)children.elementAt(2);
-							newsMap.put(ABSTRACT, divTag.toPlainTextString());
-						}else{
-							newsMap.put(ABSTRACT, "");
-						}
-						newsMap.put(HREF, HtmlResourUtil.getMessage(HREF_PREFIX)
-								+aTag.getAttribute("href"));
-						newsMap.put(TOPIC, aTag.toPlainTextString());	
-					}else{
-						newsMap.put(HREF,"");
-						newsMap.put(TOPIC,"");
-					}
-				}
-				
+				NodeList children=node.getChildren();				
+				if(children!=null&&children.size()>0){			 	
+					SimpleNodeIterator it=children.elements();
+					while(it.hasMoreNodes()){
+						Node aNode=it.nextNode();
+						if(aNode instanceof LinkTag){
+							String text=aNode.toPlainTextString();
+							String href=((LinkTag) aNode).getLink();
+							if(text!=null&&text.length()>2
+									&&href!=null&&href.length()>2){
+								newsMap.put(HREF, HtmlResourUtil.getMessage(HREF_PREFIX)
+										+href);
+								newsMap.put(TOPIC, text);
+								newsMap.put(ABSTRACT, "");
+							}							
+						}					
+					}					
+				}				
 				this.newsMaps.add(newsMap);
 			}
 			
@@ -153,8 +147,6 @@ public class XueQiuNews extends BbsNewsCrawlerBase {
 		}	
 		return this.newsMaps;
 	}
-	
-	//=============================get and set method=============================//
 	public NodeList getFieldNodeList() {
 		return fieldNodeList;
 	}
@@ -167,6 +159,12 @@ public class XueQiuNews extends BbsNewsCrawlerBase {
 	public void setHtmlStr(String htmlStr) {
 		this.htmlStr = htmlStr;
 	}
+	public List<Map<String, String>> getNewsMaps() {
+		return newsMaps;
+	}
+	public void setNewsMaps(List<Map<String, String>> newsMaps) {
+		this.newsMaps = newsMaps;
+	}
 	public static String getUrl() {
 		return URL;
 	}
@@ -176,8 +174,8 @@ public class XueQiuNews extends BbsNewsCrawlerBase {
 	public static String getHrefPrefix() {
 		return HREF_PREFIX;
 	}
-	
-	
-	
+	public static String getNewsFrom() {
+		return NEWS_FROM;
+	}
 	
 }

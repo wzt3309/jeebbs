@@ -1,9 +1,10 @@
 package com.jeecms.common.httputil;
 
-import java.io.BufferedReader;
+
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -22,13 +23,18 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
+import org.apache.http.util.Args;
+import org.apache.http.util.ByteArrayBuffer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 
 public class HttpUtil {
 	private static int DEFAULT_STOCK_TIME_OUT=5000;
 	private static int DEFAULT_CONN_TIME_OUT=5000;
+	/**
+	 * 默认编码格式为utf-8
+	 */
 	private static String DEFAULT_CHARSET="UTF-8";
 	private static final Logger log = LoggerFactory.getLogger(HttpUtil.class);
 	/**
@@ -36,9 +42,7 @@ public class HttpUtil {
 	 * @return
 	 */
 	public static String getHtmlByGetMethod(String url){
-		String resultHtml=null;
-		InputStream inHtml=null;
-		BufferedReader brHtml=null;
+		String resultHtml=null;			
 		
 		CloseableHttpClient httpClient=null;
 		HttpGet httpGet=null;	
@@ -86,17 +90,17 @@ public class HttpUtil {
 						}
 					}
 				}
-				if("".equals(charset)){
-					charset=getCharsetFromPageHeader(httpEntity);
-				}
-				inHtml=httpEntity.getContent();
-				brHtml=new BufferedReader(new InputStreamReader(inHtml,charset));
-				StringBuffer htmlBuffer=new StringBuffer();
-				String tempStr=null;
-				while((tempStr=brHtml.readLine())!=null){
-					htmlBuffer.append(tempStr);
-				}
-				resultHtml=htmlBuffer.toString();
+				byte[] bytes=toByteArray(httpEntity);
+				if("".equals(charset)){					
+					charset=getCharsetFromPageHeader(bytes);
+				}			
+//				brHtml=new BufferedReader(new InputStreamReader(inHtml,charset));
+//				StringBuffer htmlBuffer=new StringBuffer();
+//				String tempStr=null;
+//				while((tempStr=brHtml.readLine())!=null){
+//					htmlBuffer.append(tempStr);
+//				}
+				resultHtml=new String(bytes,charset);				
 				//System.out.println(resultHtml);
 			}
 		} catch (ClientProtocolException e) {			
@@ -106,13 +110,7 @@ public class HttpUtil {
 		} catch (Exception e){
 			log.error(e.getMessage(), e);
 		}finally{
-			try {
-				if(inHtml!=null){
-					inHtml.close();
-				}
-				if(brHtml!=null){
-					brHtml.close();
-				}
+			try {							
 				if(response!=null){
 					response.close();
 				}
@@ -202,15 +200,54 @@ public class HttpUtil {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String getCharsetFromPageHeader(HttpEntity entity)throws Exception{
-		byte[] bytes=EntityUtils.toByteArray(entity);
+	public static String getCharsetFromPageHeader(byte[] bytes)throws Exception{
+		String charset=DEFAULT_CHARSET;		
 		String regEx="(?=<meta).*?(?<=charset=[\\'|\\\"]?)([[a-z]|[A-Z]|[0-9]|-]*)";
 		Pattern p=Pattern.compile(regEx,Pattern.CASE_INSENSITIVE);
 		Matcher m=p.matcher(new String(bytes));
-		if(m.groupCount()==1){
-			return m.group(1);
-		}else{
-			return DEFAULT_CHARSET;
+		if(m.groupCount()==1&&m.find()){
+			String tmpCharset=m.group(1);
+			if(tmpCharset!=null&&!"".equals(tmpCharset))
+				charset=tmpCharset;
+			//gbk与gb2312兼容且编码范围大于gb2312 比如“珺”gb2312是乱码gbk是正常
+			if(charset.equalsIgnoreCase("gb2312"))
+				charset="GBK";
 		}
+		return charset;
 	}
+	/**
+	 * 解析返回的HttpEntity 
+	 * 虽然EntityUtils里有这个方法，
+	 * 但此处列出来的原因是当调用此方法时 entity的流就被关闭了，
+	 * 这个应该是对response操作得最后一步
+	 * @param entity
+	 * @return
+	 * @throws IOException
+	 */
+	private static byte[] toByteArray(final HttpEntity entity) throws IOException {
+        Args.notNull(entity, "Entity");
+        final InputStream instream = entity.getContent();
+        if (instream == null) {
+            return null;
+        }
+        try {
+            Args.check(entity.getContentLength() <= Integer.MAX_VALUE,
+                    "HTTP entity too large to be buffered in memory");
+            int i = (int)entity.getContentLength();
+            if (i < 0) {
+                i = 4096;
+            }
+            final ByteArrayBuffer buffer = new ByteArrayBuffer(i);
+            final byte[] tmp = new byte[4096];
+            int l;
+            while((l = instream.read(tmp)) != -1) {
+                buffer.append(tmp, 0, l);
+            }
+            return buffer.toByteArray();
+        } finally {
+            instream.close();
+        }
+    }
 }
+	
+	

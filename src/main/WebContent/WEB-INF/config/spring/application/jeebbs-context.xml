@@ -69,7 +69,7 @@
 	<bean id="bbsMessageReplyMng" class="com.jeecms.bbs.manager.impl.BbsMessageReplyMngImpl"/>
 	<bean id="bbsPostTypeMng" class="com.jeecms.bbs.manager.impl.BbsPostTypeMngImpl"/>
 	<bean id="stockmessageMng" class="com.jeecms.bbs.manager.impl.StockmessageMngImpl"/>
-	<bean id="bbsnewsMng" class="com.jeecms.bbs.manager.impl.BbsNewsMngImpl"/>
+	<bean id="bbsNewsMng" class="com.jeecms.bbs.manager.impl.BbsNewsMngImpl"/>
 	
 	
 	<bean id="bbsLoginLogMng" class="com.jeecms.bbs.manager.impl.BbsLoginLogMngImpl"/>
@@ -107,7 +107,7 @@
 	<bean id="bbsMessageReplyDao" class="com.jeecms.bbs.dao.impl.BbsMessageReplyDaoImpl"/>
 	<bean id="bbsPostTypeDao" class="com.jeecms.bbs.dao.impl.BbsPostTypeDaoImpl"/>
 	<bean id="stockmessageDao" class="com.jeecms.bbs.dao.impl.StockmessageDaoImpl"/>
-	<bean id="bbsnewsDao" class="com.jeecms.bbs.dao.impl.BbsNewsDaoImpl"/>
+	<bean id="bbsNewsDao" class="com.jeecms.bbs.dao.impl.BbsNewsDaoImpl"/>
 	
 	
 	<bean id="bbsLoginLogDao" class="com.jeecms.bbs.dao.impl.BbsLoginLogDaoImpl"/>

@@ -6,9 +6,24 @@ import com.jeecms.bbs.entity.BbsNews;
 import com.jeecms.common.page.Pagination;
 
 public interface BbsNewsMng {
-	
-	public Pagination getNews(Integer Id, int pageNo, int pageSize);
-	public List<BbsNews> getList(String sql);
+	/**
+	 * 分页获取新闻
+	 * @param pageNo
+	 * @param pageSize
+	 * @return
+	 */
+	public Pagination getPage(int pageNo, int pageSize);
+	/**
+	 * 根据新闻来源获取新闻列表
+	 * @param newsFrom
+	 * @return
+	 */
+	public List<BbsNews> getList(String newsFrom);
+	public BbsNews findById(Integer id);
+	public BbsNews save(BbsNews bean);
+	public BbsNews update(BbsNews bean);
+	public BbsNews deleteById(Integer id);
+	public BbsNews[] deleteByIds(Integer[] ids);
 		
 	
 }
