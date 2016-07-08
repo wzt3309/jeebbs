@@ -1,6 +1,7 @@
 package com.jeecms.bbs.manager.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,8 +24,8 @@ public class BbsNewsMngImpl implements BbsNewsMng {
 	}
 	@Transactional(readOnly = true)
 	@Override
-	public Pagination getPage(int pageNo, int pageSize) {
-		Pagination page =dao.getPage(pageNo, pageSize);
+	public Pagination getPage(Map<String,String> params,String orderBy,int pageNo, int pageSize) {
+		Pagination page =dao.getPage(params,orderBy,pageNo, pageSize);
 		return page;
 	}
 	@Transactional(readOnly = true)

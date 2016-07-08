@@ -1,6 +1,7 @@
 package com.jeecms.bbs.manager;
 
 import java.util.List;
+import java.util.Map;
 
 import com.jeecms.bbs.entity.BbsNews;
 import com.jeecms.common.page.Pagination;
@@ -12,7 +13,7 @@ public interface BbsNewsMng {
 	 * @param pageSize
 	 * @return
 	 */
-	public Pagination getPage(int pageNo, int pageSize);
+	public Pagination getPage(Map<String,String> params,String orderBy,int pageNo, int pageSize);
 	/**
 	 * 根据新闻来源获取新闻列表
 	 * @param newsFrom

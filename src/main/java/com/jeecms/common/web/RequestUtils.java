@@ -94,7 +94,15 @@ public class RequestUtils {
 		}
 		return params;
 	}
-
+	public static Integer getIntParam(HttpServletRequest request,String paramName){
+		String paramValue=getQueryParam(request,paramName);		
+		if(paramValue==null||"".equals(paramValue)){
+			return new Integer("0");
+		}else{
+			return new Integer(paramValue);
+		}
+		
+	}
 	/**
 	 * 
 	 * Parses a query string passed from the client to the server and builds a

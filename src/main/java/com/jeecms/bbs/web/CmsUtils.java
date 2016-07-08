@@ -67,7 +67,7 @@ public class CmsUtils {
 	 * @return
 	 */
 	public static CmsSite getSite(HttpServletRequest request) {
-		System.out.println(request.getAttribute(SITE_KEY));
+		//System.out.println(request.getAttribute(SITE_KEY));
 		return (CmsSite) request.getAttribute(SITE_KEY);
 	}
 

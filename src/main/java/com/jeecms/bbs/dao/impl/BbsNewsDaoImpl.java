@@ -1,12 +1,18 @@
 package com.jeecms.bbs.dao.impl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
-import org.hibernate.Criteria;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Repository;
 
 import com.jeecms.bbs.dao.BbsNewsDao;
 import com.jeecms.bbs.entity.BbsNews;
+import com.jeecms.common.hibernate3.Finder;
 import com.jeecms.common.hibernate3.HibernateBaseDao;
 import com.jeecms.common.page.Pagination;
 
@@ -15,16 +21,58 @@ public class BbsNewsDaoImpl
 	extends HibernateBaseDao<BbsNews, Integer> implements BbsNewsDao {
 	
 	@Override
-	public Pagination getPage(int pageNo, int pageSize) {
-		Criteria crit = createCriteria();
-		Pagination page = findByCriteria(crit, pageNo, pageSize);
-		return page;
+	public Pagination getPage(Map<String,String> params,String orderBy,int pageNo, int pageSize) {
+		Finder finder=Finder.create(" select bean from BbsNews bean ");
+		finder.append(" where 1=1 ");
+		if(params!=null&&!params.isEmpty()){
+			String newsFrom=params.get("newsFrom");
+			if(!StringUtils.isBlank(newsFrom)){
+				finder.append(" and bean.NewsFrom =:newsFrom ");
+				finder.setParam("newsFrom", newsFrom);				
+			}
+			String newsHref=params.get("newsHref");
+			if(!StringUtils.isBlank(newsHref)){
+				finder.append(" and bean.NewsHref like:newsHref ");
+				finder.setParam("newsHref", newsHref);
+			}
+			String newsName=params.get("newsName");
+			if(!StringUtils.isBlank(newsName)){
+				finder.append(" and bean.NewsName like:newsName ");
+				finder.setParam("newsName", newsName);
+			}
+			String newsDate=params.get("newsDate");
+			if(!StringUtils.isBlank(newsDate)){
+				finder.append(" and bean.NewsDate >=:newsDate ");
+				SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
+				Date date;
+				try {
+					date = sdf.parse(newsDate);
+					Calendar calendar = Calendar.getInstance();
+					calendar.setTime(date);
+					finder.setParam("newsDate", calendar);
+				} catch (ParseException e) {
+					log.error(e.getMessage(),e);
+				}				
+			}
+		}
+		if(orderBy!=null&&!"".equals(orderBy)){
+			if("0".equals(orderBy)){
+				finder.append(" order by bean.NewsFrom desc ");
+			}else if("1".equals(orderBy)){
+				finder.append(" order by bean.NewsName desc ");
+			}
+			finder.append(" and bean.NewsDate desc ");
+		}else{
+			finder.append(" order by bean.NewsDate desc ");
+		}		
+		
+		return find(finder,pageNo,pageSize);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<BbsNews> getList(String newsFrom) {
-		String hql="select bean from BbsNews bean where bean.NewsFrom = ? order by bean.NewsDate";
+		String hql="select bean from BbsNews bean where bean.NewsFrom = ? order by bean.NewsDate desc";
 		return find(hql,newsFrom);
 	}
 

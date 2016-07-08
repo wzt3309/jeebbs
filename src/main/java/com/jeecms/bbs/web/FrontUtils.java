@@ -142,6 +142,10 @@ public class FrontUtils {
 	 * 国际化参数
 	 */
 	public static final String ARGS = "args";
+	/**
+	 * 导航条高亮
+	 */
+	public static final String ACTIVE="active";
 
 	/**
 	 * 获得模板路径。将对模板文件名称进行本地化处理。
@@ -319,6 +323,7 @@ public class FrontUtils {
 			Map<String, Object> map, CmsSite site) {
 		BbsUser user = CmsUtils.getUser(request);
 		String location = RequestUtils.getLocation(request);
+		navbarLight(location,map);
 		Long startTime = (Long) request.getAttribute(START_TIME);
 		frontData(map, site, user, location, null, startTime);
 	}
@@ -347,7 +352,47 @@ public class FrontUtils {
 		map.put(RES_TPL, res.substring(1));
 		map.put(LOCATION, location);
 	}
+	/**
+	 * 临时方法，用于测试新的页面布局资源
+	 * 资源在r/cms/wwww/ocean
+	 * @param request
+	 * @param map
+	 * @param site
+	 */
+	public static void frontDataNew(HttpServletRequest request,
+			Map<String, Object> map, CmsSite site){
+		BbsUser user = CmsUtils.getUser(request);
+		String location = RequestUtils.getLocation(request);
+		navbarLight(location,map);
+		Long startTime = (Long) request.getAttribute(START_TIME);
+		frontDataNew(map, site, user, location, null, startTime);
+	}
+	//此处新的布局资源为ocean
+	public static void frontDataNew(Map<String, Object> map, CmsSite site,
+			BbsUser user, String location, String base, Long startTime){
+		if (startTime != null) {
+			map.put(START_TIME, startTime);
+		}
+		if (base != null) {
+			map.put(BASE, base);
+		}
+		if (user != null) {
+			map.put(USER, user);
+		}
+		map.put(SITE, site);
+		String ctxPath = site.getContextPath();
+		if ((ctxPath + "").equals("null")) {
+			ctxPath = "";
+		}
+		map.put(RES_SYS, ctxPath + RES_PATH);
 
+		String res = ctxPath + RES_PATH + "/" + site.getPath() + "/"
+				+ "ocean";
+		// res路径需要去除第一个字符'/'
+		map.put(RES_TPL, res.substring(1));
+		map.put(LOCATION, location);
+	}
+	
 	public static void putLocation(Map<String, Object> map, String location) {
 		map.put(LOCATION, location);
 	}
@@ -553,5 +598,27 @@ public class FrontUtils {
 		sb.append(StringUtils.replaceEach(s, searchArr,
 				replacementArr));
 		return sb.toString();
+	}
+	/**
+	 * 导航条高亮
+	 * @param location
+	 * @param map
+	 */
+	public static void navbarLight(String location,Map<String, Object> map){
+		if(location.indexOf("stockmessage/collection")>0){
+			map.put(ACTIVE, 1);
+		}else if(location.indexOf("bsnews/index")>0){
+			map.put(ACTIVE, 2);
+		}else if(location.indexOf("stockmessage/analyse")>0){
+			map.put(ACTIVE, 3);
+		}else if(location.indexOf("topic/search")>0){
+			map.put(ACTIVE, 4);
+		}else if(location.indexOf("BbsApp/list")>0){
+			map.put(ACTIVE, 5);
+		}else if(location.indexOf("bbsmember/index")>0){
+			map.put(ACTIVE, 6);
+		}else{
+			map.put(ACTIVE, 0);
+		}
 	}
 }

@@ -63,6 +63,10 @@ public class Constants {
 	 * 列表样式模板
 	 */
 	public static final String TPLDIR_STYLE_PAGE = "style_page";
+	/**
+	 * 论坛财经新闻模板
+	 */
+	public static final String TPLDIR_BBSNEWS="bbsnews";
 
 	/**
 	 * 模板后缀
@@ -115,4 +119,10 @@ public class Constants {
 	 * 每日毫秒数
 	 */
 	public static final long DAY_MILLIS = 24 * 60 * 60 * 1000;
+	
+	/**
+	 * 临时页面解决路径变量
+	 * 用于测试新的页面
+	 */
+	public static final String TEMP_SOLUTION_TPL_PATH="/WEB-INF/t/cms/www/ocean";
 }

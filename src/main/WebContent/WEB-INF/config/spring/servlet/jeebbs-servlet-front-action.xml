@@ -30,5 +30,5 @@
 	<bean id="exampleAct" class="com.jeecms.bbs.action.front.exampleAct"/>
 	<bean id="searchTextAct" class="com.jeecms.bbs.action.front.searchTextAct"/>
 	<bean id="HistoricAct" class="com.jeecms.bbs.action.front.HistoricAct"/>	
-	
+	<bean id="bbsNewsAct" class="com.jeecms.bbs.action.front.BbsNewsAct"/>
 </beans>
