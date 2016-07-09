@@ -9,9 +9,10 @@ public class XueQiuNewsTest {
 	@Test
 	public void test() {
 		//XueQiuNews.getHtmlByGetMethod(XueQiuNews.getUrl());
-		XueQiuNews xueqiu=new XueQiuNews();
-		//System.out.println(xueqiu.getNewsMap());
-		System.out.println(xueqiu.getNewsMap());
+		XueQiuNews news=new XueQiuNews();
+		//System.out.println(news.getNewsMap());
+		System.out.println(news.getTodayBbsNews().size());
+		System.out.println(news.getTodayBbsNews());
 		
 	}
 

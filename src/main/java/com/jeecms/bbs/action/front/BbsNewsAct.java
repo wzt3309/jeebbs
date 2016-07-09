@@ -29,6 +29,7 @@ public class BbsNewsAct {
 		FrontUtils.frontDataNew(request, model, site);
 		
 		Integer pageNo=RequestUtils.getIntParam(request, "pageNo");
+		pageNo=(pageNo==0?1:pageNo);
 		Integer pageSize=RequestUtils.getIntParam(request, "pageSize");	
 		String newsFrom=RequestUtils.getQueryParam(request, "newsFrom");
 		model.put("pageNo", pageNo);	

@@ -9,6 +9,7 @@ public class BaseBbsNews {
 	private java.lang.String NewsHref;	//新闻链接地址
 	private java.lang.String NewsName;	//新闻的标题
 	private java.util.Calendar NewsDate;	//新闻获取的时间
+	private java.lang.String NewsAbstract;	//新闻的摘要
 	
 	
 	
@@ -16,12 +17,13 @@ public class BaseBbsNews {
 		
 	}
 	public BaseBbsNews(java.lang.Integer Id,String NewsFrom,String NewsHref,String NewsName,
-			java.util.Calendar NewsDate){
+			java.util.Calendar NewsDate,String NewsAbstract){
 		this.setId(Id);
 		this.setNewsFrom(NewsFrom);
 		this.setNewsHref(NewsHref);
 		this.setNewsName(NewsName);
 		this.setNewsDate(NewsDate);
+		this.setNewsAbstract(NewsAbstract);
 		
 	}
 	public java.lang.Integer getId() {
@@ -61,12 +63,20 @@ public class BaseBbsNews {
 		NewsHref = newsHref;
 	}
 	
+	public java.lang.String getNewsAbstract() {
+		return NewsAbstract;
+	}
+	public void setNewsAbstract(java.lang.String newsAbstract) {
+		NewsAbstract = newsAbstract;
+	}
 	@Override
 	public String toString() {
 		return "BaseBbsNews [Id=" + Id + ", NewsFrom=" + NewsFrom
 				+ ", NewsHref=" + NewsHref + ", NewsName=" + NewsName
-				+ ", NewsDate=" + getTime() + "]";
+				+ ", NewsDate=" + getTime() + ", NewsAbstract=" + NewsAbstract
+				+ "]";
 	}
+	
 	
 
 }

@@ -7,7 +7,17 @@ h1 ,h2, h3, h4, h5, h6,a {
 	font-family: Microsoft YaHei,'宋体' , 
 		Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif;	
 }
-
+blockquote footer{
+    display: block;
+    font-size: 80%;    
+    line-height: 1.42857143;
+    color: #777;
+    letter-spacing:3px;	
+}
+blockquote footer cite{   
+    letter-spacing:2px;
+    font-weight:700;	
+}
 /*导航栏再设计*/
 .navbar-static-top {
 	margin-bottom: 19px;
@@ -40,7 +50,25 @@ h1 ,h2, h3, h4, h5, h6,a {
 .jeebbs-bg-blue{
 	background-color: #3d9ac4;
 }
-
+.jeebbs-line-hr{
+    width:100%;
+}
+.jeebbs-line-hr b{
+    background: #ddd;
+    margin-top: 4px;
+    display: inline-block;
+    width: 45%;
+    height: 1px;
+    _overflow: hidden;
+    vertical-align: middle;
+}
+.jeebbs-line-hr a{
+    display: inline-block;
+    width: 10%;
+    vertical-align: middle;
+    text-align:center;
+    font-size:18px;
+}
 /*新增类-控制盒子*/
 .jeebbs-box-gray{	
 	margin-bottom:20px;	

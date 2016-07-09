@@ -62,9 +62,13 @@ public class XueQiuNews extends BbsNewsCrawlerBase {
 	
 	@Override
 	public List<BbsNews> getTodayBbsNews() {
+		if(this.newsMaps==null){
+			return null;
+		}
 		List<BbsNews> todayBbsNews=new ArrayList<BbsNews>();
-		String[] topics=getNewsTopic().split(",");
-		String[] hrefs=getNewsHref().split(",");
+		String[] topics=getNewsTopic().split("&&");
+		String[] hrefs=getNewsHref().split("&&");
+		String[] abstracts=getNewsAbstract().split("&&");
 		Calendar today= Calendar.getInstance();
 		for(int i=0;i<topics.length;i++){
 			String topic=topics[i];
@@ -72,10 +76,11 @@ public class XueQiuNews extends BbsNewsCrawlerBase {
 			if(topic!=null&&!"".equals(topic)
 					&&href!=null&&!"".equals(href)){
 				BbsNews bbsNews=new BbsNews();
-				bbsNews.setNewsName(topics[i]);
+				bbsNews.setNewsName(cutString(topics[i]));
 				bbsNews.setNewsHref(hrefs[i]);
 				bbsNews.setNewsDate(today);
 				bbsNews.setNewsFrom(NEWS_FROM);
+				bbsNews.setNewsAbstract(abstracts[i]);
 				todayBbsNews.add(bbsNews);
 			}
 			
@@ -84,10 +89,13 @@ public class XueQiuNews extends BbsNewsCrawlerBase {
 	}	
 	@Override
 	public String getNewsTopic() {
+		if(this.newsMaps==null){
+			return "";
+		}
 		StringBuffer newsAbstractBf=new StringBuffer();
 		for(Map<String,String> newsMap:this.newsMaps){
 			if(newsAbstractBf.length()>0){
-				newsAbstractBf.append(",");
+				newsAbstractBf.append("&&");
 			}
 			newsAbstractBf.append(newsMap.get(TOPIC));
 		}
@@ -95,21 +103,27 @@ public class XueQiuNews extends BbsNewsCrawlerBase {
 	}
 	@Override
 	public String getNewsHref() {
+		if(this.newsMaps==null){
+			return "";
+		}
 		StringBuffer newsAbstractBf=new StringBuffer();
 		for(Map<String,String> newsMap:this.newsMaps){
 			if(newsAbstractBf.length()>0){
-				newsAbstractBf.append(",");
+				newsAbstractBf.append("&&");
 			}
 			newsAbstractBf.append(newsMap.get(HREF));
 		}
 		return newsAbstractBf.toString();
 	}
 	@Override
-	public String getNewsAbstract() {		
+	public String getNewsAbstract() {
+		if(this.newsMaps==null){
+			return "";
+		}
 		StringBuffer newsAbstractBf=new StringBuffer();
 		for(Map<String,String> newsMap:this.newsMaps){
 			if(newsAbstractBf.length()>0){
-				newsAbstractBf.append(",");
+				newsAbstractBf.append("&&");
 			}
 			newsAbstractBf.append(newsMap.get(ABSTRACT));
 		}
@@ -134,15 +148,14 @@ public class XueQiuNews extends BbsNewsCrawlerBase {
 						if(children.size()>2){
 							Tag divTag=(Tag)children.elementAt(2);
 							newsMap.put(ABSTRACT, divTag.toPlainTextString());
-						}else{
-							newsMap.put(ABSTRACT, "");
+						}else{							
+							newsMap.put(ABSTRACT, DEFAULT_ABSTRACT);
 						}
 						newsMap.put(HREF, HtmlResourUtil.getMessage(HREF_PREFIX)
 								+aTag.getAttribute("href"));
 						newsMap.put(TOPIC, aTag.toPlainTextString());	
 					}else{
-						newsMap.put(HREF,"");
-						newsMap.put(TOPIC,"");
+						continue;
 					}
 				}
 				

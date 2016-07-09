@@ -31,12 +31,15 @@ public class BbsNewsDirective  implements TemplateDirectiveModel{
 	public void execute(Environment env, Map params, TemplateModel[] loopVars,
 			TemplateDirectiveBody body) throws TemplateException, IOException {	
 		Integer pageNo=DirectiveUtils.getInt("pageNo", params);
-		Integer pageSize=DirectiveUtils.getInt("pageSize", params);		
-		Pagination pagination =mng.getPage(params,null,pageNo, pageSize);
+		Integer pageSize=DirectiveUtils.getInt("pageSize", params);
+		String newsFrom=DirectiveUtils.getString("newsFrom", params);
+		Map<String,String> searchMap=new HashMap<String,String>();
+		searchMap.put("newsFrom", newsFrom);
+		Pagination pagination =mng.getPage(searchMap,null,pageNo, pageSize);
 		Map<String, TemplateModel> paramWrap = new HashMap<String, TemplateModel>(
 				params);
-		System.out.println("财经数据当前为"+pageNo+"页");
-		System.out.println("财经数据当前显示"+pageSize+"条");	
+//		System.out.println("财经数据当前为"+pageNo+"页");
+//		System.out.println("财经数据当前显示"+pageSize+"条");	
 		paramWrap.put(OUT_PAGINATION, DEFAULT_WRAPPER.wrap(pagination));		
 		Map<String, TemplateModel> origMap = DirectiveUtils
 				.addParamsToVariable(env, paramWrap);

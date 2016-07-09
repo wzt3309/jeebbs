@@ -31,12 +31,13 @@
 	<bean id="msg_reply_page" class="com.jeecms.bbs.action.directive.MsgReplyPageDirective"/>
 	<bean id="member_online" class="com.jeecms.bbs.action.directive.MemberOnlineDirective"/>
 	<bean id="msg_remember" class="com.jeecms.bbs.action.directive.UnreadMsgDirective"/>
+	<bean id="bbs_news" class="com.jeecms.bbs.action.directive.BbsNewsDirective"/>
 	<!--  
 	<bean id="stock_message" class="com.jeecms.bbs.action.directive.StockmessageDirective"/>
 	<bean id="stock_data" class="com.jeecms.bbs.action.directive.StockDataDirective"/>
 	<bean id="stock_id" class="com.jeecms.bbs.action.directive.StockIdDirective"/>
 	<bean id="user_online"  class="com.jeecms.bbs.action.directive.UseronlineDrective"/>
-	<bean id="bbs_news" class="com.jeecms.bbs.action.directive.BbsNewsDirective"/>
+	
 	<bean id="bbs_newsmore" class="com.jeecms.bbs.action.directive.BbsNewsMoreDirective"/>-->
 	<!-- ================================模板控制器 结束================================-->
 	

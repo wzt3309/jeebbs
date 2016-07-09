@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.htmlparser.Node;
 import org.htmlparser.NodeFilter;
@@ -248,21 +250,69 @@ public class HtmlResourParserUtil extends HtmlResourUtil{
 			String[] conditionOrs=condition.split(";");
 			for(String conditionOr:conditionOrs){				
 				if(conditionOr!=null&&!"".equals(conditionOr)){
+					//处理带nth-child(...)的情况
+					String child="";
+					int indexOfChild=0;
+					//处理带nth-child(...)的情况
+					if(conditionOr.contains(":nth-child(")){
+						indexOfChild=conditionOr.lastIndexOf(":nth-child(");
+						child=conditionOr.substring(indexOfChild+11).replace(")", "");
+						conditionOr=conditionOr.substring(0,indexOfChild);
+					}
+					
 					AndFilter andFilter=new AndFilter();
 					NodeList temNodeList=null;
 					String[] conditionAnds=conditionOr.split("&&");
 					CssSelectorNodeFilter[] cssNodeFilters=new CssSelectorNodeFilter[conditionAnds.length];
-					for(int i=0;i<cssNodeFilters.length;i++){
-						cssNodeFilters[i]=new CssSelectorNodeFilter(conditionAnds[i]);
+					for(int i=0;i<cssNodeFilters.length;i++){						
+						cssNodeFilters[i]=new CssSelectorNodeFilter(conditionAnds[i]);						
 					}	
 					andFilter.setPredicates(cssNodeFilters);
-					parser=new Parser(htmlStr);
-					temNodeList=parser.extractAllNodesThatMatch(andFilter);	
+					try{
+						parser=new Parser(htmlStr);
+					}catch(Exception e){
+						continue;
+					}
+					
+					temNodeList=parser.extractAllNodesThatMatch(andFilter);
+					int temNodeListSize=temNodeList.size();
+					//处理带nth-child(...)的情况
+					if(!"".equals(child)){
+						if(child.contains("n+")){
+							int i=Integer.parseInt(child.replace("n+", ""))-1;
+							for(int j=0,k=i<temNodeListSize?i:temNodeListSize
+									;j<k;j++){
+								temNodeList.remove(j);
+							}
+						}else if(child.contains("-n")){
+							int i=Integer.parseInt(child.replace("-n", ""));
+							for(int j=0,k=(temNodeListSize-i)>0
+									?(temNodeListSize-i):temNodeListSize;j<k;j++){
+								temNodeList.remove(j);
+							}
+						}else if(child.indexOf("n")<0){
+							int i=Integer.parseInt(child);
+							if(i<0){
+								for(int j=0,k=temNodeListSize;j<k;j++){
+									if(j==(k+i))
+										continue;
+									temNodeList.remove(j);
+								}
+							}else if(i>0){
+								for(int j=0,k=temNodeListSize;j<k;j++){
+									if(j==(i-1))
+										continue;
+									temNodeList.remove(j);
+								}
+							}
+						}
+					}
+					
 					nodeList.add(temNodeList);
 				}				
 			}
 		} catch (ParserException e) {
-			log.error(e.getMessage(),e);
+			log.error("----html文件解析错误----",e);
 		}
 		
 		return nodeList;

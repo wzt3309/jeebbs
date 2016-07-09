@@ -28,6 +28,14 @@ public class SinaNews extends BbsNewsCrawlerBase {
 	 */
 	private static final String HREF_PREFIX="news.sina.hrefprefix";
 	/**
+	 * 找到每个新闻摘要的css
+	 */
+	private static final String ABSTRACT_FILED="news.sina.abstract";
+	/**
+	 * 每个新闻摘要的字数限制
+	 */
+	private static final String ABSTRACT_TEXT_NUM="news.sina.abstract.num";
+	/**
 	 * 新闻来源在数据库中的表示
 	 */
 	private static final String NEWS_FROM="f1";
@@ -61,9 +69,13 @@ public class SinaNews extends BbsNewsCrawlerBase {
 	}
 	@Override
 	public List<BbsNews> getTodayBbsNews() {
+		if(this.newsMaps==null){
+			return null;
+		}
 		List<BbsNews> todayBbsNews=new ArrayList<BbsNews>();
-		String[] topics=getNewsTopic().split(",");
-		String[] hrefs=getNewsHref().split(",");
+		String[] topics=getNewsTopic().split("&&");
+		String[] hrefs=getNewsHref().split("&&");
+		String[] abstracts=getNewsAbstract().split("&&");
 		Calendar today= Calendar.getInstance();
 		for(int i=0;i<topics.length;i++){
 			String topic=topics[i];
@@ -71,10 +83,11 @@ public class SinaNews extends BbsNewsCrawlerBase {
 			if(topic!=null&&!"".equals(topic)
 					&&href!=null&&!"".equals(href)){
 				BbsNews bbsNews=new BbsNews();
-				bbsNews.setNewsName(topics[i]);
+				bbsNews.setNewsName(cutString(topics[i]));
 				bbsNews.setNewsHref(hrefs[i]);
 				bbsNews.setNewsDate(today);
 				bbsNews.setNewsFrom(NEWS_FROM);
+				bbsNews.setNewsAbstract(abstracts[i]);
 				todayBbsNews.add(bbsNews);
 			}
 			
@@ -83,10 +96,13 @@ public class SinaNews extends BbsNewsCrawlerBase {
 	}	
 	@Override
 	public String getNewsTopic() {
+		if(this.newsMaps==null){
+			return "";
+		}
 		StringBuffer newsAbstractBf=new StringBuffer();
 		for(Map<String,String> newsMap:this.newsMaps){
 			if(newsAbstractBf.length()>0){
-				newsAbstractBf.append(",");
+				newsAbstractBf.append("&&");
 			}
 			newsAbstractBf.append(newsMap.get(TOPIC));
 		}
@@ -94,21 +110,27 @@ public class SinaNews extends BbsNewsCrawlerBase {
 	}
 	@Override
 	public String getNewsHref() {
+		if(this.newsMaps==null){
+			return "";
+		}
 		StringBuffer newsAbstractBf=new StringBuffer();
 		for(Map<String,String> newsMap:this.newsMaps){
 			if(newsAbstractBf.length()>0){
-				newsAbstractBf.append(",");
+				newsAbstractBf.append("&&");
 			}
 			newsAbstractBf.append(newsMap.get(HREF));
 		}
 		return newsAbstractBf.toString();
 	}
 	@Override
-	public String getNewsAbstract() {		
+	public String getNewsAbstract() {
+		if(this.newsMaps==null){
+			return "";
+		}
 		StringBuffer newsAbstractBf=new StringBuffer();
 		for(Map<String,String> newsMap:this.newsMaps){
 			if(newsAbstractBf.length()>0){
-				newsAbstractBf.append(",");
+				newsAbstractBf.append("&&");
 			}
 			newsAbstractBf.append(newsMap.get(ABSTRACT));
 		}
@@ -135,12 +157,20 @@ public class SinaNews extends BbsNewsCrawlerBase {
 						if(aNode instanceof LinkTag){
 							String text=aNode.toPlainTextString();
 							String href=((LinkTag) aNode).getLink();
+							String Abstract=DEFAULT_ABSTRACT;
 							if(text!=null&&text.length()>2
-									&&href!=null&&href.length()>2){
+									&&href!=null&&href.length()>2){								
+								Abstract=getTextContent(href
+										,HtmlResourUtil.getMessage(ABSTRACT_FILED)
+										,Integer.parseInt(HtmlResourUtil
+												.getMessage(ABSTRACT_TEXT_NUM)));
+								if(Abstract==null||"".equals(Abstract)){
+									Abstract=DEFAULT_ABSTRACT;
+								}
 								newsMap.put(HREF, HtmlResourUtil.getMessage(HREF_PREFIX)
 										+href);
-								newsMap.put(TOPIC, text);
-								newsMap.put(ABSTRACT, "");
+								newsMap.put(TOPIC, text);							
+								newsMap.put(ABSTRACT, Abstract);
 							}							
 						}					
 					}					

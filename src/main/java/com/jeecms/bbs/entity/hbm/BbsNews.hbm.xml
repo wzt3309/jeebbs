@@ -57,7 +57,13 @@
 		   not-null="false"
 		/>
 		
-		
+		<property
+		   name="NewsAbstract"
+		   column="NewsAbstract"
+		   type="string"
+		   not-null="false"
+		   length="500"
+		/>
 
 
 
