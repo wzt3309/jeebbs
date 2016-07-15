@@ -12,12 +12,10 @@
     	var  j=1;
     	for(var i=0;i<ele.length;i++){
     		 if(ele[i].className=="app01Date"){    			
-    				 data.push(ele[i].innerHTML);	 
-    			
+    				 data.push(ele[i].innerHTML);    				 
         	}
 			else if(ele[i].className=="app04Date"){    			
     				 data2.push(ele[i].innerHTML);	 
-    			
         	}
         	else if(ele[i].className=="app01Rate"){
         		qrrate.push(parseFloat(ele[i].innerHTML));

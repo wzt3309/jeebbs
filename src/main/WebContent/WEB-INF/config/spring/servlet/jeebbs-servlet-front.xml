@@ -86,18 +86,18 @@
 				<entry key="member_online" value-ref="member_online"/>
 				<entry key="msg_remember" value-ref="msg_remember"/>
 				<entry key="bbs_news" value-ref="bbs_news"/>
+				<entry key="stock_upanddown_rate" value-ref="stock_upanddown_rate"/>
+				<entry key="finance_leading_index" value-ref="finance_leading_index"/>
+				<entry key="future_leading_index" value-ref="future_leading_index"/>
+				<entry key="user_online" value-ref="user_online"/>
+				
 				<!-- 
 				<entry key="stock_message" value-ref="stock_message"/>
 				<entry key="stock_data" value-ref="stock_data"/>
 				
 				<entry key="bbs_newsmore" value-ref="bbs_newsmore"/>
 				<entry key="stock_id" value-ref="stock_id"/>
-				<entry key="user_online" value-ref="user_online"/> -->
-				<!-- stock app directive 
-				<entry key="stockUpDownRate" value-ref="stock_UpAndDown_Rate"/>
-				<entry key="financeLeadingIndex" value-ref="finance_leading_index"/>
-				<entry key="futureLeadingIndex" value-ref="future_leading_index"/>	
-				 -->			
+				 -->						
 			</map>
 		</property>
 		<!--

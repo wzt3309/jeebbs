@@ -246,6 +246,13 @@
 	    <artifactId>htmlparser</artifactId>
 	    <version>1.6</version>
 	</dependency>
+	<dependency>
+	    <groupId>jsoup</groupId>
+	    <artifactId>jsoup</artifactId>
+	    <version>1.8.1</version>
+	    <scope>system</scope>
+		<systemPath>${basedir}/src/main/WebContent/WEB-INF/lib/jsoup-1.8.1.jar</systemPath>
+	</dependency>
 	<!--javassist -->
 	<dependency>
 	    <groupId>javassist</groupId>

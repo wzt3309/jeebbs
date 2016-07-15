@@ -1,0 +1,37 @@
+package com.jeecms.bbs.schedule;
+
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.jeecms.bbs.entity.FinanceLeadingIndex;
+import com.jeecms.bbs.manager.FinanceLeadingIndexMng;
+import com.jeecms.common.bbsaly.GetFinAndFurLeadingIndex;
+
+
+
+public class FinanceLeadingIndexJob {
+	@Autowired
+	private FinanceLeadingIndexMng mng;
+	private static final Logger log = LoggerFactory.getLogger(FinanceLeadingIndexJob.class);
+	
+	public void execute() {		
+		try{
+			System.out.println("------->融资融券领先指数 计算开始");	
+			List<FinanceLeadingIndex> list=GetFinAndFurLeadingIndex.getFinIndexList(1);
+			for(FinanceLeadingIndex l:list){
+				mng.save(l);
+			}
+			System.out.println("<-------融资融券领先指数 计算结束");
+		}catch(Exception e){
+			log.error("融资融券领先指数 计算失败",e);
+		}
+		
+			
+	}
+
+	
+
+}

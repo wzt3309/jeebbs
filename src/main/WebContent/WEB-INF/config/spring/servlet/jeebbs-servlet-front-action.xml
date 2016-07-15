@@ -4,11 +4,7 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd"
-	default-lazy-init="true">
-	
-	<!-- stock app action 开始 -->
-    
-    <!-- stock app action 结束-->
+	default-lazy-init="true">	
     
     <bean id="dynamicPageAct" class="com.jeecms.bbs.action.front.DynamicPageAct"/>
     <bean id="bbsPostAct" class="com.jeecms.bbs.action.front.BbsPostAct"/>
@@ -31,4 +27,5 @@
 	<bean id="searchTextAct" class="com.jeecms.bbs.action.front.searchTextAct"/>
 	<bean id="HistoricAct" class="com.jeecms.bbs.action.front.HistoricAct"/>	
 	<bean id="bbsNewsAct" class="com.jeecms.bbs.action.front.BbsNewsAct"/>
+	<bean id="stockUpAndDownRateAct" class="com.jeecms.bbs.action.front.StockUpAndDownRateAct"/>
 </beans>

@@ -32,12 +32,14 @@
 	<bean id="member_online" class="com.jeecms.bbs.action.directive.MemberOnlineDirective"/>
 	<bean id="msg_remember" class="com.jeecms.bbs.action.directive.UnreadMsgDirective"/>
 	<bean id="bbs_news" class="com.jeecms.bbs.action.directive.BbsNewsDirective"/>
+	<bean id="user_online"  class="com.jeecms.bbs.action.directive.UseronlineDrective"/>
+	<bean id="stock_upanddown_rate" class="com.jeecms.bbs.action.directive.StockUpAndDownRateDirective"/>
+	<bean id="finance_leading_index" class="com.jeecms.bbs.action.directive.FinanceLeadingIndexDirective"/>
+	<bean id="future_leading_index" class="com.jeecms.bbs.action.directive.FutureLeadingIndexDirective"/>
 	<!--  
 	<bean id="stock_message" class="com.jeecms.bbs.action.directive.StockmessageDirective"/>
 	<bean id="stock_data" class="com.jeecms.bbs.action.directive.StockDataDirective"/>
-	<bean id="stock_id" class="com.jeecms.bbs.action.directive.StockIdDirective"/>
-	<bean id="user_online"  class="com.jeecms.bbs.action.directive.UseronlineDrective"/>
-	
+	<bean id="stock_id" class="com.jeecms.bbs.action.directive.StockIdDirective"/>	
 	<bean id="bbs_newsmore" class="com.jeecms.bbs.action.directive.BbsNewsMoreDirective"/>-->
 	<!-- ================================模板控制器 结束================================-->
 	
@@ -71,7 +73,9 @@
 	<bean id="bbsPostTypeMng" class="com.jeecms.bbs.manager.impl.BbsPostTypeMngImpl"/>
 	<bean id="stockmessageMng" class="com.jeecms.bbs.manager.impl.StockmessageMngImpl"/>
 	<bean id="bbsNewsMng" class="com.jeecms.bbs.manager.impl.BbsNewsMngImpl"/>
-	
+	<bean id="stockUpDownRateMng" class="com.jeecms.bbs.manager.impl.StockUpDownRateMngImpl" />	
+	<bean id="financeLeadingIndexMng" class="com.jeecms.bbs.manager.impl.FinanceLeadingIndexMngImpl" />
+	<bean id="futureLeadingIndexMng" class="com.jeecms.bbs.manager.impl.FutureLeadingIndexMngImpl" />
 	
 	<bean id="bbsLoginLogMng" class="com.jeecms.bbs.manager.impl.BbsLoginLogMngImpl"/>
 	<bean id="bbsUserOnlineMng" class="com.jeecms.bbs.manager.impl.BbsUserOnlineMngImpl"/>
@@ -109,7 +113,9 @@
 	<bean id="bbsPostTypeDao" class="com.jeecms.bbs.dao.impl.BbsPostTypeDaoImpl"/>
 	<bean id="stockmessageDao" class="com.jeecms.bbs.dao.impl.StockmessageDaoImpl"/>
 	<bean id="bbsNewsDao" class="com.jeecms.bbs.dao.impl.BbsNewsDaoImpl"/>
-	
+	<bean id="stockUpDownRateDao" class="com.jeecms.bbs.dao.impl.StockUpDownRateDaoImpl" />
+	<bean id="financeLeadingIndexDao" class="com.jeecms.bbs.dao.impl.FinanceLeadingIndexDaoImpl" />
+	<bean id="futureLeadingIndexDao" class="com.jeecms.bbs.dao.impl.FutureLeadingIndexDaoImpl" />
 	
 	<bean id="bbsLoginLogDao" class="com.jeecms.bbs.dao.impl.BbsLoginLogDaoImpl"/>
 	<bean id="bbsUserOnlineDao" class="com.jeecms.bbs.dao.impl.BbsUserOnlineDaoImpl"/>

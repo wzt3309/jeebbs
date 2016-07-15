@@ -116,6 +116,11 @@ public class Constants {
 	public static final String TPLDIR_MAGIC = "magic";
 	
 	/**
+	 * 特色分析页
+	 */
+	public static final String TPLDIR_BBSALY = "bbsaly";
+	
+	/**
 	 * 每日毫秒数
 	 */
 	public static final long DAY_MILLIS = 24 * 60 * 60 * 1000;

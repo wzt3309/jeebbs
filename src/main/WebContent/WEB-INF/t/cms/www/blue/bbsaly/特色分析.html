@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>论坛应用</title>
+<link href="/${res}/bbs_forum/css/news.css" type="text/css" rel="stylesheet" />
+ <link href="/${res}/bbs_forum/css/whole.css" type="text/css" rel="stylesheet" />
+    <link href="/${res}/bbs_forum/css/layout.css" type="text/css" rel="stylesheet" />
+    <link href="/${res}/bbs_member/css/set.css" type="text/css" rel="stylesheet" />
+</head>
+	
+<body>	
+	<!-- 画图表的核心js文件 -->
+	<script src="http://cdn.hcharts.cn/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+	<script src="http://cdn.hcharts.cn/highcharts/highcharts.js" type="text/javascript"></script> 
+	<!-- /画图表的核心js文件 -->
+	<!-- stock_upanddown_rate js文件 -->
+	<script src="/${res}/bbsaly/stockUpAndDownRate.js" type="text/javascript"></script> 
+	<!-- /stock_upanddown_rate js文件  -->
+     <!--header-->[#include "../include/页头.html"/]<!--/header-->
+	<br/>		   
+	<div class="main">				
+			<div class="content">
+				<div class="indexLeft">
+					<!--网站01-->
+					<div class="webNews01">					
+						<div class="tt">
+							<b>股票强弱比</b>							
+						</div>
+						<div class="inforBox" id="stockQiangRuoRate">		
+							
+										
+							[@stock_upanddown_rate  day="20"]
+							[#if stockUpDownRateList?? ]
+							[#list stockUpDownRateList as item]
+							<a class="app01Date" style="display:none;">${item.getDate()!}</a>
+							<a class="app01Rate" style="display:none;">${item.getQiangRuoRate()!}</a>
+							[/#list]  
+							[#else]
+    						<a>无</a>
+							[/#if]
+							
+							 [/@stock_upanddown_rate]									 
+ 						</div>
+					</div>
+					<!--网站02-->
+					<div class="webNews02">
+						<div class="tt">
+							<b>股票涨跌比</b>							
+						</div>
+						<div class="inforBox" id="stockUpAndDownRate">		
+							
+										
+							[@stock_upanddown_rate  day="20"]
+							[#if stockUpDownRateList?? ]
+							[#list stockUpDownRateList as item]
+							<a class="app02Date" style="display:none;">${item.getDate()!}</a>
+							<a class="app02Rate" style="display:none;">${item.getUpAndDownRate()!}</a>
+							[/#list]  
+							[#else]
+    						<a>无</a>
+							[/#if]
+							
+							 [/@stock_upanddown_rate]	
+												
+ 						</div>
+					</div>
+					<!--网站03-->
+					<div class="webNews03">
+						<div class="tt">
+							<b>期指领先指数</b>							
+						</div>
+						<div class="inforBox" id="futureLeadingIndex">
+							[@future_leading_index day="3"]
+							[#if FutureLeadingIndexList?? ]
+							[#list FutureLeadingIndexList as item]
+							<a class="app03Date" style="display:none;">${item.getDate()!}</a>
+							<a class="app03Rate" style="display:none;">${item.getIndex()!}</a>
+							[/#list]  
+							[#else]
+    						<a>无</a>
+							[/#if]
+							
+							 [/@future_leading_index]								
+ 						</div>
+					</div>
+					<!--网站04-->
+					<div class="webNews04">
+						<div class="tt">
+							<b>融资融券领先指数</b>							
+						</div>
+						<div class="inforBox"id="financeLeadingIndex">						
+							[@finance_leading_index day="30"]
+							[#if FinanceLeadingIndexList?? ]							
+							[#list FinanceLeadingIndexList as item]
+							<a class="app04Date" style="display:none;">${item.getDate()!}</a>
+							<a class="app04Rate" style="display:none;">${item.getIndex()!}</a>
+							[/#list]  
+							[#else]
+    						<a>无</a>
+							[/#if]							
+							[/@finance_leading_index]											
+ 						</div>
+					</div>
+				</div>
+				<div class="indexRight">
+				</div>
+			</div>
+		
+		
+	</div>
+	<br/>		
+	 [#include "../include/广告栏.html"/]
+	 <!--footer-->[#include "../include/页脚.html"/]<!--footer-->
+</body>
+</html>
