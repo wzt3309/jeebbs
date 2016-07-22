@@ -9,10 +9,10 @@ import com.jeecms.bbs.manager.BbsForumMng;
 public class BbsJob {
 	private static final Logger log = LoggerFactory.getLogger(BbsJob.class);
 
-	public void execute() {
+	public synchronized void execute() {
 		try {
-			manager.updateAll_topic_today();
-			log.info("update updateAll_topic_today success!");
+			manager.updateAll_topic_today();Thread current=Thread.currentThread();
+			log.info("线程:"+current.getId()+"["+current.getName()+"]"+"update updateAll_topic_today success!");
 			System.out.println("hahaha,test quartz b");
 		} catch (Exception e) {
 			// TODO: handle exception

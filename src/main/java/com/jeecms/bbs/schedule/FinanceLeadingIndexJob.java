@@ -18,17 +18,19 @@ public class FinanceLeadingIndexJob {
 	private FinanceLeadingIndexMng mng;
 	private static final Logger log = LoggerFactory.getLogger(FinanceLeadingIndexJob.class);
 	
-	public void execute() {		
+	public synchronized void execute() {		
 		try{
-			System.out.println("------->融资融券领先指数 计算开始");	
+			Thread current=Thread.currentThread();
+			log.info("线程:"+current.getId()+"["+current.getName()+"]"+"------->融资融券领先指数 计算开始");	
+			System.out.println("线程:"+current.getId()+"["+current.getName()+"]"+"------->融资融券领先指数 计算开始");
 			List<FinanceLeadingIndex> list=GetFinAndFurLeadingIndex.getFinIndexList(1);
 			if(list!=null){
 				for(FinanceLeadingIndex l:list){
 					mng.save(l);
 				}
 			}
-			
-			System.out.println("<-------融资融券领先指数 计算结束");
+			System.out.println("线程:"+current.getId()+"["+current.getName()+"]"+"<-------融资融券领先指数 计算结束");
+			log.info("线程:"+current.getId()+"["+current.getName()+"]"+"<-------融资融券领先指数 计算结束");
 		}catch(Exception e){
 			log.error("融资融券领先指数 计算失败",e);
 		}

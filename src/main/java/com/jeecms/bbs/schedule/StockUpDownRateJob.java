@@ -15,18 +15,21 @@ public class StockUpDownRateJob {
 	private StockUpDownRateMng mng;
 	private static final Logger log = LoggerFactory.getLogger(StockUpDownRateJob.class);
 
-	public void execute() {
+	public synchronized void execute() {
 //		Date logDate=new Date();
 //		SimpleDateFormat s=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //		String edate=s.format(logDate);
 		try{
-			System.out.println("------->股票涨跌率计算开始");			
+			Thread current=Thread.currentThread();
+			log.info("线程:"+current.getId()+"["+current.getName()+"]"+"------->股票涨跌率计算开始");	
+			System.out.println("线程:"+current.getId()+"["+current.getName()+"]"+"------->股票涨跌率计算开始");
 			StockUpDownRate bean=new StockUpDownRate();
 			bean.setQiangRuoRate(GetStockDataFromSina.getQiangRuoRate());
 			bean.setUpAndDownRate(GetStockDataFromSina.getUpAndDownRate());
 			bean.setDate(GetStockDataFromSina.getDateNow());			
 			mng.saveRate(bean);
-			System.out.println("<-------股票涨跌率计算完成");
+			System.out.println("线程:"+current.getId()+"["+current.getName()+"]"+"<-------股票涨跌率计算完成");
+			log.info("线程:"+current.getId()+"["+current.getName()+"]"+"<-------股票涨跌率计算完成");
 		}catch(Exception e){
 			log.error("股票涨跌率计算失败",e);
 		}

@@ -13,10 +13,11 @@ import com.jeecms.common.bbsnews.impl.XueQiuNews;
 public class CrawlNewsXiuqiuJob {
 	private static final Logger log = LoggerFactory.getLogger(CrawlNewsXiuqiuJob.class);
 	
-	public void execute(){
+	public synchronized void execute(){
 		try{
-			log.info("Crawl News From Xue qiu Daily Job begin");
-			System.out.println("Crawl News From Xue qiu Daily Job begin");
+			Thread current=Thread.currentThread();
+			log.info("线程:"+current.getId()+"["+current.getName()+"]"+"Crawl News From Xue qiu Daily Job begin");
+			System.out.println("线程:"+current.getId()+"["+current.getName()+"]"+"Crawl News From Xue qiu Daily Job begin");
 			XueQiuNews crawlNews=new XueQiuNews();
 			List<BbsNews> bbsNews=crawlNews.getTodayBbsNews();
 			if(bbsNews!=null){
@@ -25,8 +26,8 @@ public class CrawlNewsXiuqiuJob {
 				
 				}
 			}
-			System.out.println("Crawl News From Xue qiu Daily Job end");
-			log.info("Crawl News From Xue qiu Daily Job end");
+			System.out.println("线程:"+current.getId()+"["+current.getName()+"]"+"Crawl News From Xue qiu Daily Job end");
+			log.info("线程:"+current.getId()+"["+current.getName()+"]"+"Crawl News From Xue qiu Daily Job end");
 		}catch(Exception e){
 			log.error("Crawl News From Xue qiu Daily Job Fail",e);
 		}

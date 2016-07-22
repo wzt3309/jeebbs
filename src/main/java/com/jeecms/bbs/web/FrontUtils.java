@@ -613,7 +613,7 @@ public class FrontUtils {
 			map.put(ACTIVE, 3);
 		}else if(location.indexOf("topic/search")>0){
 			map.put(ACTIVE, 4);
-		}else if(location.indexOf("BbsApp/list")>0){
+		}else if(location.indexOf("bbsaly/list")>0){
 			map.put(ACTIVE, 5);
 		}else if(location.indexOf("bbsmember/index")>0){
 			map.put(ACTIVE, 6);

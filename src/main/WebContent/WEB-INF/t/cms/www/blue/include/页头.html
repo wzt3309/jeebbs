@@ -7,23 +7,23 @@
 	}
 	keepsession();	
 	/*载入页头时，高亮导航栏的当前页*/
-	$(function(){
-		[#assign fromStr = location?last_index_of('/')]		
-		var pageUrl="${location?substring(fromStr+1)}";				
-		$(".dhlmenu-list li").each(function(){			
-			if($(this).children("a").attr("href").indexOf(pageUrl)>0){			
-				$(this).addClass("dhlmenu-list-index").addClass("current");
-				return false;				
-			}else{
-				$(this).removeClass("dhlmenu-list-index").removeClass("current");
-			}
-		});
-		if(pageUrl==""||pageUrl==null){			
-			$(".dhlmenu-list li:first-child")
-				.addClass("dhlmenu-list-index").addClass("current");
-				return false;
-		}	
-	});	
+	//$(function(){
+		//[#assign fromStr = location?last_index_of('/')]		
+		//var pageUrl="${location?substring(fromStr+1)}";				
+		//$(".dhlmenu-list li").each(function(){			
+			//if($(this).children("a").attr("href").indexOf(pageUrl)>0){			
+				//$(this).addClass("dhlmenu-list-index").addClass("current");
+				//return false;				
+			//}else{
+				//$(this).removeClass("dhlmenu-list-index").removeClass("current");
+			//}
+		//});
+		//if(pageUrl==""||pageUrl==null){			
+			//$(".dhlmenu-list li:first-child")
+				//.addClass("dhlmenu-list-index").addClass("current");
+				//return false;
+		//}	
+	//});	
 </script>
 <div>
 	<div class="wrapper" style="margin-top:5px !important; margin-top:12px;">
@@ -32,13 +32,15 @@
 		  	<a title="牵牛网－－投资者家园" href="${base}/" class="logo" id="logo"></a>
 		  <!--<a href="http://localhost:8080"><img src="/jforum/templates/default/images/logo.jpg" vspace="1" border="0" alt="[Logo]"></a>-->
 			<ul class="dhlmenu-list">
-			  <li ><a href="${base}/" >牵牛论坛</a></li>
-			  <li ><a href="${base}/stockmessage/collection.jhtml">数据查询</a></li>
-			  <li ><a href="${base}/bbsnews/index.jhtml">财经头条</a></li>
-			  <li ><a href="${base}/stockmessage/analyse.jhtml?TYPE=1">数据分析</a></li>
-			  <li ><a href="${base}/topic/search.jhtml">主题搜索</a></li>
-			  <li ><a href="${base}/bbsaly/list.jhtml">特色分析</a></li>
-			  [#if bbsMember??]<li ><a href="${base}/bbsmember/index.htm" target="_blank">用户中心</a></li>[/#if]
+			 <li [#if active==0]class="dhlmenu-list-index current"[/#if] ><a href="${base}/" >牵牛论坛</a></li>
+			 <li [#if active==1]class="dhlmenu-list-index current"[/#if]><a href="${base}/stockmessage/collection.jhtml">数据查询</a></li>
+			 <li [#if active==2]class="dhlmenu-list-index current"[/#if]><a href="${base}/bbsnews/index.jhtml">财经头条</a></li>
+			 <li [#if active==3]class="dhlmenu-list-index current"[/#if]><a href="${base}/stockmessage/analyse.jhtml?TYPE=1">数据分析</a></li>
+			 <li [#if active==4]class="dhlmenu-list-index current"[/#if]><a href="${base}/topic/search.jhtml">主题搜索</a></li>
+			 <li [#if active==5]class="dhlmenu-list-index current"[/#if]><a href="${base}/bbsaly/list.jhtml">特色分析</a></li>
+			 [#if bbsMember??]
+				<li [#if active==6]class="dhlmenu-list-index current"[/#if]><a href="${base}/bbsmember/index.htm" target="_blank">用户中心</a></li>
+			 [/#if]
 			</ul>
 		  </div>
 		</div>

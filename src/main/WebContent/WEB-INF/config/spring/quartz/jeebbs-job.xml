@@ -27,7 +27,7 @@
 		<property name="cronExpression" value="30 2 16 ? * 2-6" />
 	</bean>-->
 	
-	<!--StockUpDownRateJob 计算每日股票强弱比与涨跌比  周一到周五 每日17:20 40各执行一次-->
+	<!--StockUpDownRateJob 计算每日股票强弱比与涨跌比  周一到周五 每日15:30执行一次-->
 	<bean id="StockUpDownRateJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail">
 			<bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
@@ -37,8 +37,8 @@
 				<property name="targetMethod" value="execute" />
 			</bean>
 		</property>
-		<property name="cronExpression" value="0 40/20 17 ? * 2-6" />
-		<!-- <property name="cronExpression" value="0 * 6-23 * * ?" />-->
+		<property name="cronExpression" value="0 30 16 ? * 2-6" />
+		<!-- <property name="cronExpression" value="0 54 2-23 * * ?" />-->
 	</bean>
 	
 	<!--FinanceLeadingIndexJob 计算融资融券领先指数  周一到周五 每日17:20 40 ~19:20 40各执行一次-->
@@ -65,7 +65,7 @@
 				<property name="targetMethod" value="execute" />
 			</bean>
 		</property>
-		<property name="cronExpression" value="0 0/5 6-23 * * ?" />
+		<property name="cronExpression" value="0 0/30 6-23 * * ?" />
 	</bean>
 	<bean id="CrawlNewsSinaJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail">
@@ -76,7 +76,7 @@
 				<property name="targetMethod" value="execute" />
 			</bean>
 		</property>
-		<property name="cronExpression" value="0 0/5 6-23 * * ?" />
+		<property name="cronExpression" value="0 0/30 6-23 * * ?" />
 	</bean>
 	<bean id="CrawlNewsSohuJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail">
@@ -87,7 +87,7 @@
 				<property name="targetMethod" value="execute" />
 			</bean>
 		</property>
-		<property name="cronExpression" value="0 0/5 6-23 * * ?" />
+		<property name="cronExpression" value="0 0/30 6-23 * * ?" />
 	</bean>
 	<bean id="CrawlNewsEastJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail">
@@ -98,7 +98,7 @@
 				<property name="targetMethod" value="execute" />
 			</bean>
 		</property>
-		<property name="cronExpression" value="0 0/5 6-23 * * ?" />
+		<property name="cronExpression" value="0 0/30 6-23 * * ?" />
 	</bean>
 	<!-- 收集财经新闻 每日每小时每分钟执行一次 结束-->
 	

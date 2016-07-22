@@ -13,10 +13,11 @@ import com.jeecms.common.bbsnews.impl.SinaNews;
 public class CrawlNewsSinaJob {
 private static final Logger log = LoggerFactory.getLogger(CrawlNewsXiuqiuJob.class);
 	
-	public void execute(){
+	public synchronized void execute(){
 		try{
-			log.info("Crawl News From Sina Daily Job begin");
-			System.out.println("Crawl News From Sina Daily Job begin");
+			Thread current=Thread.currentThread();
+			log.info("线程:"+current.getId()+"["+current.getName()+"]"+"Crawl News From Sina Daily Job begin");
+			System.out.println("线程:"+current.getId()+"["+current.getName()+"]"+"Crawl News From Sina Daily Job begin");
 			SinaNews crawlNews=new SinaNews();
 			List<BbsNews> bbsNews=crawlNews.getTodayBbsNews();
 			if(bbsNews!=null){
@@ -25,8 +26,8 @@ private static final Logger log = LoggerFactory.getLogger(CrawlNewsXiuqiuJob.cla
 				
 				}
 			}
-			System.out.println("Crawl News From Sina Daily Job end");
-			log.info("Crawl News From Sina Daily Job end");
+			System.out.println("线程:"+current.getId()+"["+current.getName()+"]"+"Crawl News From Sina Daily Job end");
+			log.info("线程:"+current.getId()+"["+current.getName()+"]"+"Crawl News From Sina Daily Job end");
 		}catch(Exception e){
 			log.error("Crawl News From Sina Daily Job Fail",e);
 		}

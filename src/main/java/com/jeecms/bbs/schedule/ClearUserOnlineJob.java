@@ -16,7 +16,7 @@ public class ClearUserOnlineJob {
 	/**
 	 * 日在线时长统计清零
 	 */
-	public void executeByDay() {
+	public synchronized void executeByDay() {
 		List<BbsUserOnline> onlines = manager.getList();
 		for (BbsUserOnline online : onlines) {
 			online.setOnlineDay(0d);
@@ -27,7 +27,7 @@ public class ClearUserOnlineJob {
 	/**
 	 * 周在线时长统计清零
 	 */
-	public void executeByWeek() {
+	public synchronized void executeByWeek() {
 		List<BbsUserOnline> onlines = manager.getList();
 		for (BbsUserOnline online : onlines) {
 			online.setOnlineWeek(0d);
@@ -38,7 +38,7 @@ public class ClearUserOnlineJob {
 	/**
 	 * 月在线时长统计清零
 	 */
-	public void executeByMonth() {
+	public synchronized void executeByMonth() {
 		List<BbsUserOnline> onlines = manager.getList();
 		for (BbsUserOnline online : onlines) {
 			online.setOnlineMonth(0d);
@@ -49,7 +49,7 @@ public class ClearUserOnlineJob {
 	/**
 	 * 年在线时长统计清零
 	 */
-	public void executeByYear() {
+	public synchronized void executeByYear() {
 		List<BbsUserOnline> onlines = manager.getList();
 		for (BbsUserOnline online : onlines) {
 			online.setOnlineYear(0d);

@@ -52,12 +52,12 @@ public class HttpUtil {
 			httpGet=createDefaultHttpGet(url);
 			response=httpClient.execute(httpGet);
 			//记录响应信息
-			log.info("---------------HttpUtil Response BEGIN---------------");
-			log.info("Location: " + response.getLastHeader("Location"));
-			log.info("StatusCode: "+response.getStatusLine().getStatusCode());
-			log.info("Content-Type: "+response.getLastHeader("Content-Type"));
-			log.info("Content-Length: "+response.getLastHeader("Content-Length"));
-			log.info("---------------HttpUtil Response END---------------");
+//			log.info("---------------HttpUtil Response BEGIN---------------");
+//			log.info("Location: " + response.getLastHeader("Location"));
+//			log.info("StatusCode: "+response.getStatusLine().getStatusCode());
+//			log.info("Content-Type: "+response.getLastHeader("Content-Type"));
+//			log.info("Content-Length: "+response.getLastHeader("Content-Length"));
+//			log.info("---------------HttpUtil Response END---------------");
 			int statusCode=response.getStatusLine().getStatusCode();
 			if ((statusCode == HttpStatus.SC_MOVED_PERMANENTLY) ||  
 		            (statusCode == HttpStatus.SC_MOVED_TEMPORARILY) ||  
@@ -72,11 +72,11 @@ public class HttpUtil {
 			HttpEntity httpEntity=response.getEntity();
 			//记录Response Header信息
 			Header[] headers=response.getAllHeaders();
-			log.info("---------------HttpUtil Response Header BEGIN---------------");
-			for(Header header:headers){
-				log.info(header.getName()+":\t"+header.getValue());
-			}
-			log.info("---------------HttpUtil Response Header END---------------");
+//			log.info("---------------HttpUtil Response Header BEGIN---------------");
+//			for(Header header:headers){
+//				log.info(header.getName()+":\t"+header.getValue());
+//			}
+//			log.info("---------------HttpUtil Response Header END---------------");
 			if(httpEntity!=null){
 				String charset="";
 				Header contentType=httpEntity.getContentType();
@@ -186,6 +186,7 @@ public class HttpUtil {
 	 * @return
 	 */
 	public static HttpGet createDefaultHttpGet(String url)throws Exception{
+		url=url.trim();
 		HttpGet httpGet=new HttpGet(url);
 		RequestConfig requestConfig=RequestConfig.custom()
 				.setSocketTimeout(DEFAULT_STOCK_TIME_OUT)

@@ -89,8 +89,12 @@ public class BbsNewsDaoImpl
 		List<BbsNews> exist=find(hqlIsExist,bean.getNewsFrom(),bean.getNewsName());
 		if(exist==null||exist.size()<1){
 			getSession().save(bean);
+//			log.info("-----向Bbsnews插入："+bean.getNewsName()+"["+bean.getNewsHref()+"]");
+//			System.out.println("-----向Bbsnews插入："+bean.getNewsName()+"["+bean.getNewsHref()+"]");
 			return bean;
-		}		
+		}
+//		log.info("-----news："+bean.getNewsName()+"已经存在");
+//		System.out.println("-----news："+bean.getNewsName()+"已经存在");
 		return null;
 	}
 	@Override

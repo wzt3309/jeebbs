@@ -13,20 +13,20 @@ import com.jeecms.common.bbsnews.impl.SohuNews;
 public class CrawlNewsSohuJob {
 private static final Logger log = LoggerFactory.getLogger(CrawlNewsXiuqiuJob.class);
 	
-	public void execute(){
+	public synchronized void execute(){
 		try{
-			log.info("Crawl News From Sohu Daily Job begin");
-			System.out.println("Crawl News From Sohu Daily Job begin");
+			Thread current=Thread.currentThread();
+			log.info("线程:"+current.getId()+"["+current.getName()+"]"+"Crawl News From Sohu Daily Job begin");
+			System.out.println("线程:"+current.getId()+"["+current.getName()+"]"+"Crawl News From Sohu Daily Job begin");
 			SohuNews crawlNews=new SohuNews();
 			List<BbsNews> bbsNews=crawlNews.getTodayBbsNews();
 			if(bbsNews!=null){
 				for(BbsNews bbsNew:bbsNews){					
-					mng.save(bbsNew);
-				
+					mng.save(bbsNew);				
 				}
 			}
-			System.out.println("Crawl News From Sohu Daily Job end");
-			log.info("Crawl News From Sohu Daily Job end");
+			System.out.println("线程:"+current.getId()+"["+current.getName()+"]"+"Crawl News From Sohu Daily Job end");
+			log.info("线程:"+current.getId()+"["+current.getName()+"]"+"Crawl News From Sohu Daily Job end");
 		}catch(Exception e){
 			log.error("Crawl News From Sohu Daily Job Fail",e);
 		}
