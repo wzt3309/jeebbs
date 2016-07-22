@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true" scanPeriod="60 seconds" debug="false">
 	<!-- 定义日志文件 输入位置 -->  
-    <property name="log_dir" value="../webapps/jeebbs/LogFile" />  
+    <property name="log_dir" value="../apache-tomcat7/webapps/jeebbs/LogFile" />  
     <!-- 日志最大的历史 60天 -->  
     <property name="maxHistory" value="60"/>
     <!--日志文件最大的大小--> 
@@ -20,8 +20,7 @@
 	</appender>
 	
 	<!-- 文件输出ERROR内容 -->
-	<appender name="FILEERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">	
-		<file>${log_dir}/Error/WebAppError.Today.log</file>			
+	<appender name="FILEERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">				
 		<encoder charset="UTF-8">
 			<Pattern>%d{HH:mm:ss.SSS} %-5level %logger{80} - %msg%n</Pattern>
 		</encoder>
@@ -41,8 +40,7 @@
 	</appender>	
 	
 	<!-- 文件输出WARN内容 -->
-	<appender name="FILEWARN" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>${log_dir}/Warn/WebAppWarn.Today.log</file>				
+	<appender name="FILEWARN" class="ch.qos.logback.core.rolling.RollingFileAppender">					
 		<encoder charset="UTF-8">
 			<Pattern>%d{HH:mm:ss.SSS} %-5level %logger{80} - %msg%n</Pattern>
 		</encoder>
@@ -62,8 +60,7 @@
 	</appender>	
 	
 	<!-- 文件输出INFO内容 -->
-	<appender name="FILEINFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>${log_dir}/Info/WebAppInfo.Today.log</file>				
+	<appender name="FILEINFO" class="ch.qos.logback.core.rolling.RollingFileAppender">						
 		<encoder charset="UTF-8">
 			<Pattern>%d{HH:mm:ss.SSS} %-5level %logger{80} - %msg%n</Pattern>
 		</encoder>
@@ -83,8 +80,7 @@
 	</appender>
 	
 	<!-- 文件输出Hibernate Sql语句内容 -->
-	<appender name="SQL" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>${log_dir}/Sql/WebAppSql.Today.log</file>				
+	<appender name="SQL" class="ch.qos.logback.core.rolling.RollingFileAppender">					
 		<encoder charset="UTF-8">
 			<Pattern>%d{HH:mm:ss.SSS} %-5level %logger{80} - %msg%n</Pattern>
 		</encoder>
