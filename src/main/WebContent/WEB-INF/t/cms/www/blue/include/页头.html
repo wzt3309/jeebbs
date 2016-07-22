@@ -8,8 +8,8 @@
 	keepsession();	
 	/*载入页头时，高亮导航栏的当前页*/
 	$(function(){
-		[#assign fromStr = location?last_index_of('/')]
-		var pageUrl="${location?substring(fromStr+1)}";		
+		[#assign fromStr = location?last_index_of('/')]		
+		var pageUrl="${location?substring(fromStr+1)}";				
 		$(".dhlmenu-list li").each(function(){			
 			if($(this).children("a").attr("href").indexOf(pageUrl)>0){			
 				$(this).addClass("dhlmenu-list-index").addClass("current");
@@ -25,7 +25,6 @@
 		}	
 	});	
 </script>
-
 <div>
 	<div class="wrapper" style="margin-top:5px !important; margin-top:12px;">
 		<div class="dhlheader">

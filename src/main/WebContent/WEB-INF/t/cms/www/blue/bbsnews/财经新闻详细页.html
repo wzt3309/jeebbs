@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>财经新闻详细页</title>
+<script src="/${res}/bbs_common/js/jquery.min.js"></script>  
+</head>
+<body>
+	 <!--header-->[#include "../include/页头.html"/]<!--/header-->
+	<!--mian的内容begin-->
+	<div class="main">
+		<div class="position">
+			<a href="${base}/BbsNews/read.jhtml">财经头条 >></a>
+			<i>${newsFromName}</i>			
+		</div>
+		<div class="content">
+			<div class="leftBox">
+				<div class="boxTop"></div>				
+				<div class="leftMenu">
+					<div [#if newsFrom="f1"]class="mOn"[#else]class="mOff" [/#if]><a href="${base}/bbsnews/more.jhtml?newsFrom=f1" id="strange">新浪财经</a></div>
+					<div [#if newsFrom="f2"]class="mOn"[#else]class="mOff" [/#if]><a href="${base}/bbsnews/more.jhtml?newsFrom=f2">搜狐财经</a></div>
+					<div [#if newsFrom="f3"]class="mOn"[#else]class="mOff" [/#if]><a href="${base}/bbsnews/more.jhtml?newsFrom=f3">东方财经</a></div>
+					<div [#if newsFrom="f4"]class="mOn"[#else]class="mOff" [/#if]><a href="${base}/bbsnews/more.jhtml?newsFrom=f4">雪球财经</a></div>
+				</div>
+				<div class="boxBottom"></div>
+			</div>
+			<div class="rightBox">
+				<div class="boxTop"></div>
+				<div class="boxInfo">
+					<div class="tt"><b>${newsFromName}</b></div>
+					<div class="typeInfo"> 
+				
+					[@bbs_news pageNo=pageNo pageSize=10 newsFrom=newsFrom]							  							  
+    								[#list tag_pagination.list as nl]
+       									<table width="100%" border="0" cellspacing="0">
+       										<tbody>
+       											<tr>
+       												<td><a  href=${nl.getNewsHref()!} target="_blank">${nl.getNewsName()!}</a></td>       											
+       												<td align="center" width="14%" nowrap><a  >${nl.getTime()!}</a></td>
+       											</tr>       											
+       										</tbody>      									
+       									</table>  
+       								[/#list]  
+    				
+    				[#include "../tag/bbsnews_page.html"/]
+    				<link href="/${res}/bbs_forum/css/more_web_css01.css" rel="stylesheet" type="text/css" />
+					<link href="/${res}/bbs_forum/css/whole.css" type="text/css" rel="stylesheet" />
+					<link href="/${res}/bbs_forum/css/layout.css" type="text/css" rel="stylesheet" />
+					</div>
+				</div>				
+			</div>
+		</div>
+	</div>	
+	[/@bbs_news]
+	<!--mian的内容end-->
+	[#include "../include/广告栏.html"/]
+	 <!--footer-->[#include "../include/页脚.html"/]<!--footer-->
+</body>
+</html>

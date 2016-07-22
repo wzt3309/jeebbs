@@ -19,9 +19,10 @@ private static final Logger log = LoggerFactory.getLogger(CrawlNewsXiuqiuJob.cla
 			System.out.println("Crawl News From Sohu Daily Job begin");
 			SohuNews crawlNews=new SohuNews();
 			List<BbsNews> bbsNews=crawlNews.getTodayBbsNews();
-			for(BbsNews bbsNew:bbsNews){
-				if(bbsNews!=null){
+			if(bbsNews!=null){
+				for(BbsNews bbsNew:bbsNews){					
 					mng.save(bbsNew);
+				
 				}
 			}
 			System.out.println("Crawl News From Sohu Daily Job end");

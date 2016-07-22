@@ -15,7 +15,7 @@ width: 1000px;
 min-height: 100px;
 margin: 0 auto;
 overflow: hidden;
-font-family:"ËÎÌå";
+font-family:"ï¿½ï¿½ï¿½ï¿½";
 font-size:9pt;
 }
 
@@ -59,12 +59,12 @@ height:500px;
 background-position:-200px -102px;
 }
 .boxTop,.boxBottom{
-width: 190px;
+width: 100%;
 height: 10px;
 background:url(../img/webnews/skin.gif) no-repeat;
 }
 .leftBox div.leftMenu{
-width: 168px;
+width: 100%;
 min-height: 50px;
 line-height: 25px;
 padding: 0 10px 30px 10px;
@@ -122,7 +122,7 @@ background:url(../img/webnews/skin_copy.jpg) no-repeat;
 background-position:0 -135px;
 }
 .boxInfo{
-width:723px;
+width:100%;
 min-height:100px;
 background:#FFFFFF url(../img/webnews/bg-rightBox.jpg) repeat-x;
 border-left:1px solid #C9DFED;

@@ -19,9 +19,10 @@ public class CrawlNewsXiuqiuJob {
 			System.out.println("Crawl News From Xue qiu Daily Job begin");
 			XueQiuNews crawlNews=new XueQiuNews();
 			List<BbsNews> bbsNews=crawlNews.getTodayBbsNews();
-			for(BbsNews bbsNew:bbsNews){
-				if(bbsNews!=null){
+			if(bbsNews!=null){
+				for(BbsNews bbsNew:bbsNews){					
 					mng.save(bbsNew);
+				
 				}
 			}
 			System.out.println("Crawl News From Xue qiu Daily Job end");

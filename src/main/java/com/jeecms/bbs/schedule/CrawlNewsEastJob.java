@@ -19,11 +19,13 @@ private static final Logger log = LoggerFactory.getLogger(CrawlNewsXiuqiuJob.cla
 			System.out.println("Crawl News From East Daily Job begin");
 			EastNews crawlNews=new EastNews();
 			List<BbsNews> bbsNews=crawlNews.getTodayBbsNews();
-			for(BbsNews bbsNew:bbsNews){
-				if(bbsNews!=null){
+			if(bbsNews!=null){
+				for(BbsNews bbsNew:bbsNews){					
 					mng.save(bbsNew);
+				
 				}
 			}
+			
 			System.out.println("Crawl News From East Daily Job end");
 			log.info("Crawl News From East Daily Job end");
 		}catch(Exception e){

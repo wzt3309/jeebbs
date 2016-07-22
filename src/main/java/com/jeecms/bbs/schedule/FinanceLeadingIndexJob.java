@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.jeecms.bbs.entity.BbsNews;
 import com.jeecms.bbs.entity.FinanceLeadingIndex;
 import com.jeecms.bbs.manager.FinanceLeadingIndexMng;
 import com.jeecms.common.bbsaly.GetFinAndFurLeadingIndex;
@@ -21,9 +22,12 @@ public class FinanceLeadingIndexJob {
 		try{
 			System.out.println("------->融资融券领先指数 计算开始");	
 			List<FinanceLeadingIndex> list=GetFinAndFurLeadingIndex.getFinIndexList(1);
-			for(FinanceLeadingIndex l:list){
-				mng.save(l);
+			if(list!=null){
+				for(FinanceLeadingIndex l:list){
+					mng.save(l);
+				}
 			}
+			
 			System.out.println("<-------融资融券领先指数 计算结束");
 		}catch(Exception e){
 			log.error("融资融券领先指数 计算失败",e);
