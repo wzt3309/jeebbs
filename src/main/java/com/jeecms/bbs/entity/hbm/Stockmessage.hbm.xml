@@ -12,13 +12,30 @@
 		discriminator-value="0">
        <cache usage="read-write"/>
        
-       <composite-id>
-           <key-property name="RIQI" column="RIQI" type="string" />
-           <key-property name="GPDM" column="GPDM" type="string"/>
-        </composite-id>
+      <id
+			name="Id"
+			type="java.lang.Integer"
+			column="Id"
+		>
+			<generator class="native"/>
+		</id>
 		
 		
+		<property
+		   name="RIQI"
+		   column="RIQI"
+		   type="string"
+		   not-null="true"
+		   length="255"
+		/>
 		
+		<property
+		   name="GPDM"
+		   column="GPDM"
+		   type="string"
+		   not-null="true"
+		   length="255"
+		/>
 		
 		<property
 		   name="NUM"

@@ -11,13 +11,13 @@ import com.jeecms.bbs.manager.BbsNewsMng;
 import com.jeecms.common.bbsnews.impl.EastNews;
 
 public class CrawlNewsEastJob {
-private static final Logger log = LoggerFactory.getLogger(CrawlNewsXiuqiuJob.class);
+private static final Logger log = LoggerFactory.getLogger(CrawlNewsEastJob.class);
 	
 	public synchronized void execute(){
 		try{
 			Thread current=Thread.currentThread();
-			log.info("线程:"+current.getId()+"["+current.getName()+"]"+"Crawl News From East Daily Job begin");
-			System.out.println("线程:"+current.getId()+"["+current.getName()+"]"+"Crawl News From East Daily Job begin");
+			log.info("线程:"+current.getId()+"["+"]"+"Crawl News From East Daily Job begin");
+			System.out.println("线程:"+current.getId()+"["+"]"+"Crawl News From East Daily Job begin");
 			EastNews crawlNews=new EastNews();
 			List<BbsNews> bbsNews=crawlNews.getTodayBbsNews();
 			if(bbsNews!=null){
@@ -27,8 +27,8 @@ private static final Logger log = LoggerFactory.getLogger(CrawlNewsXiuqiuJob.cla
 				}
 			}
 			
-			System.out.println("线程:"+current.getId()+"["+current.getName()+"]"+"Crawl News From East Daily Job end");
-			log.info("线程:"+current.getId()+"["+current.getName()+"]"+"Crawl News From East Daily Job end");
+			System.out.println("线程:"+current.getId()+"["+"]"+"Crawl News From East Daily Job end");
+			log.info("线程:"+current.getId()+"["+"]"+"Crawl News From East Daily Job end");
 		}catch(Exception e){
 			log.error("Crawl News From East Daily Job Fail",e);
 		}

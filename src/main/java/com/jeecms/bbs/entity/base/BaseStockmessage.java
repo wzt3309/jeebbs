@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class BaseStockmessage implements Serializable{
 	
+	  private Integer id;
 	  private String NUM;// varchar(255) NOT NULL,
 	  private String RIQI;// varchar(255) NOT NULL,
 	  private String GPDM;// varchar(255) NOT NULL,
@@ -51,7 +52,7 @@ public class BaseStockmessage implements Serializable{
 		  
 	  }
 	  
-	  public BaseStockmessage( String NUM,// varchar(255) NOT NULL,
+	  public BaseStockmessage( Integer id,String NUM,// varchar(255) NOT NULL,
 	   String RIQI,// varchar(255) NOT NULL,
 	   String GPDM,// varchar(255) NOT NULL,
 	   String GPMC,// varchar(255) NOT NULL,
@@ -93,7 +94,7 @@ public class BaseStockmessage implements Serializable{
 	   double ZDL10R,// double DEFAULT NULL,
 	   double LTP,
 	   int Recommendation){
-		  
+		  this.id=id;
 		  this.NUM=NUM;
 		  this.RIQI=RIQI;// varchar(255) NOT NULL=
 		   this.GPDM=GPDM;// varchar(255) NOT NULL=
@@ -139,7 +140,15 @@ public class BaseStockmessage implements Serializable{
 		  
 	  }
 	  
-	  public String getRIQI(){
+	  public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getRIQI(){
 		  return this.RIQI;
 	  }
 	  

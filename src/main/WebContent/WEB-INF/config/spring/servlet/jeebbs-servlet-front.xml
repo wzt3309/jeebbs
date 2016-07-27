@@ -90,13 +90,13 @@
 				<entry key="finance_leading_index" value-ref="finance_leading_index"/>
 				<entry key="future_leading_index" value-ref="future_leading_index"/>
 				<entry key="user_online" value-ref="user_online"/>
-				
-				<!-- 
 				<entry key="stock_message" value-ref="stock_message"/>
 				<entry key="stock_data" value-ref="stock_data"/>
-				
-				<entry key="bbs_newsmore" value-ref="bbs_newsmore"/>
 				<entry key="stock_id" value-ref="stock_id"/>
+				<!--				
+								
+				<entry key="bbs_newsmore" value-ref="bbs_newsmore"/>
+				
 				 -->						
 			</map>
 		</property>

@@ -16,18 +16,18 @@ public class CrawlNewsXiuqiuJob {
 	public synchronized void execute(){
 		try{
 			Thread current=Thread.currentThread();
-			log.info("线程:"+current.getId()+"["+current.getName()+"]"+"Crawl News From Xue qiu Daily Job begin");
-			System.out.println("线程:"+current.getId()+"["+current.getName()+"]"+"Crawl News From Xue qiu Daily Job begin");
+			log.info("线程:"+current.getId()+"["+"]"+"Crawl News From Xue qiu Daily Job begin");
+			System.out.println("线程:"+current.getId()+"["+"]"+"Crawl News From Xue qiu Daily Job begin");
 			XueQiuNews crawlNews=new XueQiuNews();
 			List<BbsNews> bbsNews=crawlNews.getTodayBbsNews();
 			if(bbsNews!=null){
 				for(BbsNews bbsNew:bbsNews){					
 					mng.save(bbsNew);
-				
+					System.out.println("--------进行中"+current.getId());
 				}
 			}
-			System.out.println("线程:"+current.getId()+"["+current.getName()+"]"+"Crawl News From Xue qiu Daily Job end");
-			log.info("线程:"+current.getId()+"["+current.getName()+"]"+"Crawl News From Xue qiu Daily Job end");
+			System.out.println("线程:"+current.getId()+"["+"]"+"Crawl News From Xue qiu Daily Job end");
+			log.info("线程:"+current.getId()+"["+"]"+"Crawl News From Xue qiu Daily Job end");
 		}catch(Exception e){
 			log.error("Crawl News From Xue qiu Daily Job Fail",e);
 		}

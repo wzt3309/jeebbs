@@ -1,5 +1,6 @@
 package com.jeecms.bbs.action.directive;
 
+import static com.jeecms.common.web.freemarker.DirectiveUtils.OUT_PAGINATION;
 import static freemarker.template.ObjectWrapper.DEFAULT_WRAPPER;
 
 import java.io.IOException;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.jeecms.bbs.action.directive.abs.AbstractTopicPageDirective;
 import com.jeecms.bbs.entity.BbsTopic;
 import com.jeecms.bbs.entity.Stockbasicmessage;
+import com.jeecms.bbs.entity.Stockmessage;
 import com.jeecms.bbs.manager.BbsTopicMng;
 import com.jeecms.bbs.manager.StockmessageMng;
 import com.jeecms.bbs.manager.impl.StockmessageMngImpl;
@@ -36,29 +38,35 @@ public class StockmessageDirective extends AbstractTopicPageDirective implements
 		
 		@SuppressWarnings("unchecked")
 		String gpdm= DirectiveUtils.getString("GPDM", params);
-		String fruit=DirectiveUtils.getString("tao",params);
-		
-		//System.out.println("inDirective:"+gpdm);
-		
-		List<Stockbasicmessage> stocklist =bbsTopicMng.getmess(gpdm);
-		BbsTopic bbs=bbsTopicMng.findById(4);
-		//System.out.println(bbs.getTitle());
-		if(stocklist.isEmpty()){
-			//System.out.println("List is empty");
-			paramWrap.put("stock_list",null);
+		if(gpdm!=null&&!"".equals(gpdm)){
+			Integer nowPage=DirectiveUtils.getInt("nowPage", params);
+			Integer pageSize=10;
+			String sql=" select bean from Stockbasicmessage " +
+					"bean where 1=1 and bean.GPDM="+gpdm;
 			
+			//System.out.println("inDirective:"+gpdm);
 			
-		}
-		else{
-			paramWrap.put("stock_list", DEFAULT_WRAPPER.wrap(stocklist));
-			
-			//System.out.println("List is not empty");
-				Iterator<Stockbasicmessage> sto=stocklist.iterator();
-				Stockbasicmessage stock=sto.next();
-				paramWrap.put("stock", DEFAULT_WRAPPER.wrap(stock));
+			List<Stockbasicmessage> stocklist =null;
+			Pagination pagination =stockmessageMng.getmess(sql,nowPage,pageSize);
+			paramWrap.put(OUT_PAGINATION, DEFAULT_WRAPPER.wrap(pagination));
+			if(pagination!=null){
+				stocklist=(List<Stockbasicmessage>) pagination.getList();
+			}	
+			if(stocklist.isEmpty()){			
+				paramWrap.put("stock_list",null);		
+			}
+			else{
+				paramWrap.put("stock_list", DEFAULT_WRAPPER.wrap(stocklist));
 				
-			
+				//System.out.println("List is not empty");
+					Iterator<Stockbasicmessage> sto=stocklist.iterator();
+					Stockbasicmessage stock=sto.next();
+					paramWrap.put("stock", DEFAULT_WRAPPER.wrap(stock));
+					
+				
+			}	
 		}
+		
 		
 		
 				
@@ -74,6 +82,6 @@ public class StockmessageDirective extends AbstractTopicPageDirective implements
 	}
 	
 	@Autowired
-	protected StockmessageMngImpl stockmessageMng=new StockmessageMngImpl();
+	protected StockmessageMng stockmessageMng;
 
 }

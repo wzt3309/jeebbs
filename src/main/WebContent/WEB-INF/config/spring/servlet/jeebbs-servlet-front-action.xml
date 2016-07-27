@@ -21,11 +21,8 @@
 	<bean id="imageUploadAct" class="com.jeecms.bbs.action.member.ImageUploadAct"></bean>
 	<bean id="imageCutAct" class="com.jeecms.bbs.action.member.ImageCutAct"></bean>
 	<bean id="reportFrontAct" class="com.jeecms.bbs.action.member.BbsReportFrontAct"></bean>	
-	<bean id="bbsTopicSearchAct" class="com.jeecms.bbs.action.front.BbsTopicSearchAct"/>
-	<bean id="CreaterAct" class="com.jeecms.bbs.action.front.CreaterAct"/>
-	<bean id="exampleAct" class="com.jeecms.bbs.action.front.exampleAct"/>
-	<bean id="searchTextAct" class="com.jeecms.bbs.action.front.searchTextAct"/>
-	<bean id="HistoricAct" class="com.jeecms.bbs.action.front.HistoricAct"/>	
+	<bean id="bbsTopicSearchAct" class="com.jeecms.bbs.action.front.BbsTopicSearchAct"/>		
 	<bean id="bbsNewsAct" class="com.jeecms.bbs.action.front.BbsNewsAct"/>
 	<bean id="stockUpAndDownRateAct" class="com.jeecms.bbs.action.front.StockUpAndDownRateAct"/>
+	<bean id="stockCollectionAct" class="com.jeecms.bbs.action.front.StockCollectionAct"/>
 </beans>

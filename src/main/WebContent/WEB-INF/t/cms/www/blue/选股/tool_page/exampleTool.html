@@ -89,38 +89,37 @@ function turn(){
 }
 
 function turnToPage(pageno){
+	window.location.href="${base}/stockmessage/example.jhtml?nowPage="+pageno;
+	// var i;
 	
-	var i;
+	// var tr_to_deal=document.getElementsByName("show_or_not1");
 	
-	var tr_to_deal=document.getElementsByName("show_or_not1");
-	
-	for(i=0;i<tr_to_deal.length;i++){
+	// for(i=0;i<tr_to_deal.length;i++){
 		
-		if(tr_to_deal[i].id>=(pageno-1)*20+1 && tr_to_deal[i].id<=(pageno-1)*20+20){
-			tr_to_deal[i].style.display="";
-		}
-		else{
-			tr_to_deal[i].style.display="none";
-		}
+	// 	if(tr_to_deal[i].id>=(pageno-1)*20+1 && tr_to_deal[i].id<=(pageno-1)*20+20){
+	// 		tr_to_deal[i].style.display="";
+	// 	}
+	// 	else{
+	// 		tr_to_deal[i].style.display="none";
+	// 	}
 		
-		document.getElementById("page").innerHTML=pageno.toString();
-	}
+	// 	document.getElementById("page").innerHTML=pageno.toString();
+	// }
 	
-	 tr_to_deal=document.getElementsByName("show_or_not2");
+	//  tr_to_deal=document.getElementsByName("show_or_not2");
 	
-for(i=0;i<tr_to_deal.length;i++){
+	// for(i=0;i<tr_to_deal.length;i++){
 		
-		if(tr_to_deal[i].id>=(pageno-1)*20+1 && tr_to_deal[i].id<=(pageno-1)*20+20){
-			tr_to_deal[i].style.display="";
-		}
-		else{
-			tr_to_deal[i].style.display="none";
-		}
-	}
-	}
+	// 	if(tr_to_deal[i].id>=(pageno-1)*20+1 && tr_to_deal[i].id<=(pageno-1)*20+20){
+	// 		tr_to_deal[i].style.display="";
+	// 	}
+	// 	else{
+	// 		tr_to_deal[i].style.display="none";
+	// 	}
+	// }
+}
 	
-function color(){
-	
+function color(){	
 	
 	var tr_to_deal=document.getElementsByName("show_or_not2");
 	var i=0;
@@ -147,7 +146,7 @@ function color(){
 }
 
 
-window.onload=function(){turnToPage(1);color();}
+window.onload=function(){color();}
    
 </script>
 
@@ -157,7 +156,7 @@ window.onload=function(){turnToPage(1);color();}
 <form name="example" id="example" action="${base}/stockmessage/example.jhtml">
 <input style="display : none" name="reccomendation" id="reccomendation" />
 <input style="display : none" name="sql" id="sql" />
-[@stock_data reccomendation=Reccomendation sql=sql]
+[@stock_data reccomendation=Reccomendation sql=sql nowPage=nowPage]
 [#include "/WEB-INF/t/cms/www/blue/选股/tool_page/example.html"/]
 [/@stock_data]
 </form>

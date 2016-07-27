@@ -21,15 +21,16 @@ public class StockUpDownRateJob {
 //		String edate=s.format(logDate);
 		try{
 			Thread current=Thread.currentThread();
-			log.info("线程:"+current.getId()+"["+current.getName()+"]"+"------->股票涨跌率计算开始");	
-			System.out.println("线程:"+current.getId()+"["+current.getName()+"]"+"------->股票涨跌率计算开始");
+			log.info("线程:"+current.getId()+"["+"]"+"------->股票涨跌率计算开始");	
+			System.out.println("线程:"+current.getId()+"["+"]"+"------->股票涨跌率计算开始");
 			StockUpDownRate bean=new StockUpDownRate();
-			bean.setQiangRuoRate(GetStockDataFromSina.getQiangRuoRate());
-			bean.setUpAndDownRate(GetStockDataFromSina.getUpAndDownRate());
-			bean.setDate(GetStockDataFromSina.getDateNow());			
+			GetStockDataFromSina newStart=new GetStockDataFromSina();
+			bean.setQiangRuoRate(newStart.getQiangRuoRate());
+			bean.setUpAndDownRate(newStart.getUpAndDownRate());
+			bean.setDate(newStart.getDateNow());			
 			mng.saveRate(bean);
-			System.out.println("线程:"+current.getId()+"["+current.getName()+"]"+"<-------股票涨跌率计算完成");
-			log.info("线程:"+current.getId()+"["+current.getName()+"]"+"<-------股票涨跌率计算完成");
+			System.out.println("线程:"+current.getId()+"["+"]"+"<-------股票涨跌率计算完成");
+			log.info("线程:"+current.getId()+"["+"]"+"<-------股票涨跌率计算完成");
 		}catch(Exception e){
 			log.error("股票涨跌率计算失败",e);
 		}

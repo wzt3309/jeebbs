@@ -9,7 +9,7 @@ public class Stockmessage extends BaseStockmessage{
 		super();
 	}
 	
-	public Stockmessage(String NUM,// varchar(255) NOT NULL,
+	public Stockmessage(Integer id,String NUM,// varchar(255) NOT NULL,
 			   String RIQI,// varchar(255) NOT NULL,
 			   String GPDM,// varchar(2ULL,
 			   String GPMC,// varchar(255) NOT NULL,
@@ -52,7 +52,7 @@ public class Stockmessage extends BaseStockmessage{
 			   double LTP,
 			   int Reccomendation){
 		
-		super( NUM,// varchar(255) NOT NULL,
+		super( id,NUM,// varchar(255) NOT NULL,
 			   RIQI,// varchar(255) NOT NULL,
 			   GPDM,// varchar(255) NOT NULL,
 				 GPMC,// varchar(255) NOT NULL,

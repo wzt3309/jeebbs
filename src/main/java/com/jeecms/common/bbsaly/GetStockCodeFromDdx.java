@@ -85,7 +85,8 @@ public class GetStockCodeFromDdx {
 			}
 		 }catch(Exception e){
 			 log.error("获取股票代码列表失败",e);
-		 }		
+		 }
+		 log.info("获取股票代码列表成功");
 		return stockCodeList;    
 	}
 	/**

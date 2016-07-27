@@ -1,6 +1,11 @@
 package com.jeecms.common.bbsaly;
 
 import java.text.DecimalFormat;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
 /**
  * 对长时进行的进程 制造进度条显示
  * 便于观察进程运行情况
@@ -9,6 +14,8 @@ import java.text.DecimalFormat;
  */
 public class ConsoleProgressBar {
 
+	private static Logger log=LoggerFactory.getLogger("-获取股票数据进度条-");
+	
 	private long minimum = 0; // 进度条起始值
     
     private long maximum = 100; // 进度条最大值
@@ -83,21 +90,29 @@ public class ConsoleProgressBar {
     }
 
     private void draw(long len, float rate) {
-    	if(name!=null&&name.length()>0)
+    	if(name!=null&&name.length()>0){
     		System.out.print(name+"：");
+    		log.info(name+"：");
+    	}
+    		
         for (int i = 0; i < len; i++) {
             System.out.print(showChar);
+            log.info(showChar+"");
         }
         System.out.print(' ');
+        log.info(' '+"");
         System.out.print(format(rate));
+        log.info(format(rate));
     }
     
     private void reset() {
         System.out.print('\r');
+        log.info('\r'+"");
     }
     
     private void afterComplete() {
         System.out.print('\n');
+        log.info('\n'+"");
     }
     
     private String format(float num) {

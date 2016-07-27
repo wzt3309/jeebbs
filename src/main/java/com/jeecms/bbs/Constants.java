@@ -67,7 +67,10 @@ public class Constants {
 	 * 论坛财经新闻模板
 	 */
 	public static final String TPLDIR_BBSNEWS="bbsnews";
-
+	/**
+	 * 股票分析及查询模板
+	 */
+	public static final String TPLDIR_STOCK="选股";
 	/**
 	 * 模板后缀
 	 */
@@ -80,7 +83,7 @@ public class Constants {
 	/**
 	 * 资源路径
 	 */
-	public static final String RES_PATH = "/jeebbs/r/cms";
+	public static final String RES_PATH = "/r/cms";
 	/**
 	 * 模板路径
 	 */

@@ -11,13 +11,13 @@ import com.jeecms.bbs.manager.BbsNewsMng;
 import com.jeecms.common.bbsnews.impl.SohuNews;
 
 public class CrawlNewsSohuJob {
-private static final Logger log = LoggerFactory.getLogger(CrawlNewsXiuqiuJob.class);
+private static final Logger log = LoggerFactory.getLogger(CrawlNewsSohuJob.class);
 	
 	public synchronized void execute(){
 		try{
 			Thread current=Thread.currentThread();
-			log.info("线程:"+current.getId()+"["+current.getName()+"]"+"Crawl News From Sohu Daily Job begin");
-			System.out.println("线程:"+current.getId()+"["+current.getName()+"]"+"Crawl News From Sohu Daily Job begin");
+			log.info("线程:"+current.getId()+"["+"]"+"Crawl News From Sohu Daily Job begin");
+			System.out.println("线程:"+current.getId()+"["+"]"+"Crawl News From Sohu Daily Job begin");
 			SohuNews crawlNews=new SohuNews();
 			List<BbsNews> bbsNews=crawlNews.getTodayBbsNews();
 			if(bbsNews!=null){
@@ -25,8 +25,8 @@ private static final Logger log = LoggerFactory.getLogger(CrawlNewsXiuqiuJob.cla
 					mng.save(bbsNew);				
 				}
 			}
-			System.out.println("线程:"+current.getId()+"["+current.getName()+"]"+"Crawl News From Sohu Daily Job end");
-			log.info("线程:"+current.getId()+"["+current.getName()+"]"+"Crawl News From Sohu Daily Job end");
+			System.out.println("线程:"+current.getId()+"["+"]"+"Crawl News From Sohu Daily Job end");
+			log.info("线程:"+current.getId()+"["+"]"+"Crawl News From Sohu Daily Job end");
 		}catch(Exception e){
 			log.error("Crawl News From Sohu Daily Job Fail",e);
 		}

@@ -33,12 +33,14 @@ public class GetStockDataFromSina {
 	 * 日志对象
 	 */
 	private static final Logger log=LoggerFactory.getLogger(GetStockDataFromSina.class);
-	private static List<String[]> dataStr=new ArrayList<String[]>();
-	private static List<StockDataSina> stockDateSinaList=new ArrayList<StockDataSina>();
-	static{
+	private  List<String[]> dataStr=new ArrayList<String[]>();
+	private  List<StockDataSina> stockDateSinaList=new ArrayList<StockDataSina>();
+	
+	public GetStockDataFromSina(){
 		getStockDataStrList();
-	}
-	public static class StockDataSina implements Serializable {
+	}	
+	
+	public  class StockDataSina implements Serializable {
 		
 		private Integer id;				//数据库自增标识id
 		private String stockCode;		//股票代码	0
@@ -219,7 +221,7 @@ public class GetStockDataFromSina {
 	 * @return
 	 * @throws Exception 
 	 */
-	public static Integer[] getUpAndDownNum(){
+	public  Integer[] getUpAndDownNum(){
 		Integer[] result={new Integer("0"),new Integer("0"),new Integer("0")};
 		List<String[]> stockCodeList=dataStr;	    
 		for(String[] arg:stockCodeList){				
@@ -237,6 +239,7 @@ public class GetStockDataFromSina {
 				log.error("返回上涨、平、下跌的股票数目出错",e);
 			}		  
 		}
+		log.info("返回上涨、平、下跌的股票数目为："+result[0]+","+result[1]+","+result[2]);
 		System.out.println();
 		return result;
 	}	
@@ -245,7 +248,7 @@ public class GetStockDataFromSina {
 	 * @return
 	 * @throws Exception 
 	 */
-	public static Integer[] getTopAndBottomNum(){		
+	public  Integer[] getTopAndBottomNum(){		
 		Integer[] result={new Integer("0"),new Integer("0")};
 		List<String[]> stockCodeList=dataStr;	   
 		for(String[] arg:stockCodeList){								
@@ -259,6 +262,7 @@ public class GetStockDataFromSina {
 					result[1]++;
 			 }
 		}
+		log.info("返回涨停,跌停的股票数目："+result[0]+","+result[1]);
 		System.out.println();
 		return result;
 	}	
@@ -267,35 +271,41 @@ public class GetStockDataFromSina {
 	 * @return
 	 * @throws Exception 
 	 */
-	public static Double getQiangRuoRate(){
+	public  Double getQiangRuoRate(){
 		Integer[] topAndBottom=getTopAndBottomNum();
 		Double top=new Double(topAndBottom[0]);
 		Double bottom=new Double(topAndBottom[1]);
 		//System.out.println("top,bottom:"+top+" "+bottom);
 		Double result=(top-bottom)/(top+bottom);
-		return new Double(new DecimalFormat("0.00").format(result*100));
+		result=new Double(new DecimalFormat("0.00").format(result*100));
+		log.info("返回股票强弱比 （涨停-跌停）/(涨停+跌停)："+result);
+		return result;
 	}
 	/**
 	 * 返回股票涨跌比 （上涨-下跌）/（上涨+下跌）
 	 * @return
 	 * @throws Exception 
 	 */
-	public static Double getUpAndDownRate(){
+	public  Double getUpAndDownRate(){
 		Integer[] topAndDown= getUpAndDownNum();
 		Double top=new Double(topAndDown[0]);
 		Double bottom=new Double(topAndDown[2]);
 		Double result=(top-bottom)/(top+bottom);
-		return new Double(new DecimalFormat("0.00").format(result*100));
+		result=new Double(new DecimalFormat("0.00").format(result*100));
+		log.info("返回股票涨跌比 （上涨-下跌）/（上涨+下跌）："+result);
+		return result;
 	}
 	/**
 	 * 返回股票数据的字符串数组形式
 	 * @return
 	 * @throws Exception 
 	 */
-	public static List<String[]> getStockDataStrList(){		
+	public  List<String[]> getStockDataStrList(){
+			//dataStr.clear();
 		 //获取所有的股票代码
 		 List<StockCode> stockCodeList=GetStockCodeFromDdx.getStockCodeList();
 		 System.out.println("获取股票代码数量------>"+stockCodeList.size());
+		 log.info("获取股票代码数量------>"+stockCodeList.size());
 		 ConsoleProgressBar cpb = new ConsoleProgressBar(0, stockCodeList.size(), 20, '=',"getStockDataStrList()");
 		 int i=1;
 		 for(StockCode sc:stockCodeList){	
@@ -316,6 +326,8 @@ public class GetStockDataFromSina {
 				dataStr.add(arg);
 			 }			
 		 }	
+		 System.out.println("获取股票代码形成的  dataStr  数量------>"+dataStr.size());
+		 log.info("获取股票代码形成的  dataStr  数量------>"+dataStr.size());
 		 return dataStr;
 	}
 	/**
@@ -324,7 +336,7 @@ public class GetStockDataFromSina {
 	 * @return
 	 * @throws Exception
 	 */
-	private static String[] getStockDataStr(String code){
+	private  String[] getStockDataStr(String code){
 		String[] arg=null;
 		 String url=STOCK_DATE_LIST_URL+code;
 		 URL myUrl;
@@ -349,7 +361,7 @@ public class GetStockDataFromSina {
 	 * 获取所有股票的所有数据
 	 * @return 所有股票的所有数据的集合	 
 	 */
-	public static List<StockDataSina> getStockDataSinaList(){		
+	public  List<StockDataSina> getStockDataSinaList(){		
 		 List<String[]> stockDataStr=dataStr;
 		 if(dataStr!=null){
 			 for(String[] sds:stockDataStr){			
@@ -365,7 +377,7 @@ public class GetStockDataFromSina {
 	 * @return 保存股票数据的对象 StockDataSina
 	 * @throws Exception
 	 */
-	private static StockDataSina getStockDataSina(String[] s){			
+	private  StockDataSina getStockDataSina(String[] s){			
 		Double upOrDownRate=getupOrDownRate(s[3],s[4]).doubleValue();			
 		Integer upOrDown=getupOrDown(s[3],s[4]);	
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -388,7 +400,7 @@ public class GetStockDataFromSina {
 	 * @param endStr
 	 * @return
 	 */
-	private static BigDecimal getupOrDownRate(String openStr,String endStr){
+	private  BigDecimal getupOrDownRate(String openStr,String endStr){
 		Double open=new Double(openStr);
 		Double end=new Double(endStr);
 		BigDecimal upOrDownRate=new BigDecimal("0.00");
@@ -403,7 +415,7 @@ public class GetStockDataFromSina {
 	 * @param endStr
 	 * @return
 	 */
-	private static Integer getupOrDown(String openStr,String endStr){
+	private  Integer getupOrDown(String openStr,String endStr){
 		BigDecimal open=new BigDecimal(openStr);
 		BigDecimal end=new BigDecimal(endStr);
 		return end.compareTo(open);
@@ -413,7 +425,7 @@ public class GetStockDataFromSina {
 	 * @return
 	 * @throws Exception
 	 */
-	public static Date getDateNow(){
+	public  Date getDateNow(){
 		String[] forDate=getStockDataStr("sz399001");
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Date date=null;
@@ -422,9 +434,10 @@ public class GetStockDataFromSina {
 		} catch (ParseException e) {			
 			log.error("获取股票当前日期出错",e);
 		}
+		log.info("获取股票当前日期成功"+forDate[31]);
 		return date;
 	}
-	public static List<String[]> getDataStr() {
+	public  List<String[]> getDataStr() {
 		return dataStr;
 	}	
 	

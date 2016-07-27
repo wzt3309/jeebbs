@@ -1,13 +1,8 @@
 package com.jeecms.bbs.dao.impl;
 
-import com.jeecms.bbs.dao.StockmessageDao;
-
-import java.sql.Date;
-import java.util.Calendar;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.hibernate.Criteria;
 import org.springframework.stereotype.Repository;
 
 import com.jeecms.bbs.dao.StockmessageDao;
@@ -17,41 +12,30 @@ import com.jeecms.common.hibernate3.Finder;
 import com.jeecms.common.hibernate3.HibernateBaseDao;
 import com.jeecms.common.page.Pagination;
 
-public class StockmessageDaoImpl extends HibernateBaseDao<Stockbasicmessage, Integer> implements StockmessageDao{
+@Repository
+public class StockmessageDaoImpl extends HibernateBaseDao<Stockmessage, Integer> implements StockmessageDao{
 
-	
-	public StockmessageDaoImpl(){
 		
-	}
 	@Override
-	public Pagination getmess(String GPDM,int pageNO,int pageSize) {
-		// TODO Auto-generated method stub
-		
-		System.out.println("get in Dao");
-		Finder f = Finder.create("select bean from Stockbasicmessage bean where 1=1");
-		
-		System.out.println("successed in creation");
-		
-		if(GPDM!=null){
-			f.append(" and bean.GPDM=:GPDM").setParam("GPDM", GPDM);
-			
-			System.out.println("successed in setParam");
+	public Pagination getmess(String sql,int pageNO,int pageSize) {		
+		Finder f=null;
+		if(StringUtils.isBlank(sql)){
+			sql=" select bean from Stockmessage bean where 1=1 ";
 		}
-		
-		//System.out.println("sql:"+f.getOrigHql());
-		
+		f=Finder.create(sql);
+		f.append(" order by bean.RIQI desc, bean.GPDM asc ");
 		return find(f,pageNO,pageSize);
-	}
-	
-public List<Stockbasicmessage> getlist(String sql){
+		
+	}	
+	public List<Stockmessage> getlist(String sql){
 		
 		return find(sql);
 	}
 
 	@Override
-	protected Class<Stockbasicmessage> getEntityClass() {
+	protected Class<Stockmessage> getEntityClass() {
 		// TODO Auto-generated method stub
-		return null;
+		return Stockmessage.class;
 	}
 
 }

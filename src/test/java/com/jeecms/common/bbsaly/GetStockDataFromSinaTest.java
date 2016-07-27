@@ -8,9 +8,9 @@ public class GetStockDataFromSinaTest {
 
 	@Test
 	public void test() {
-		Double qrb=GetStockDataFromSina.getQiangRuoRate();
-		Double zdb=GetStockDataFromSina.getUpAndDownRate();
-		System.out.println("qrb:"+qrb+","+"zdb:"+zdb);
+//		Double qrb=GetStockDataFromSina.getQiangRuoRate();
+//		Double zdb=GetStockDataFromSina.getUpAndDownRate();
+//		System.out.println("qrb:"+qrb+","+"zdb:"+zdb);
 //		GetStockDataFromSina.getStockDataStrList();
 	}
 

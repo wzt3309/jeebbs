@@ -4,7 +4,7 @@ import java.lang.*;
 import java.io.Serializable;
 
 public class BaseStockbasicmessage implements Serializable{
-	
+	private Integer id;
 	private String NUM;
 	private String RIQI;
 	private String GPDM;
@@ -28,7 +28,7 @@ public class BaseStockbasicmessage implements Serializable{
 		
 	}
 	
-	public BaseStockbasicmessage(String NUM,
+	public BaseStockbasicmessage(Integer id,String NUM,
 			String RIQI,String GPDM,String GPMC,
 			double MGSY,
 			double MGWFP,
@@ -44,7 +44,7 @@ public class BaseStockbasicmessage implements Serializable{
 	        double ZGB,
 	        double LTSZ,
 	        double ZSZ){
-		
+		this.id=id;
 		this.NUM=NUM;
 		this.RIQI=RIQI;
 		this.GPDM=GPDM;
@@ -66,6 +66,14 @@ public class BaseStockbasicmessage implements Serializable{
 		
 	}
 	
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 	public String getNUM(){
 		return this.NUM;
 	}

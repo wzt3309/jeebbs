@@ -2,6 +2,7 @@ package com.jeecms.bbs.manager;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -9,13 +10,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import com.jeecms.bbs.entity.Stockbasicmessage;
+import com.jeecms.bbs.entity.Stockmessage;
 import com.jeecms.common.page.Pagination;
 
 
 public interface StockmessageMng {
 	
-	public Pagination getmess(String GPDM,int pageNo,int pageSize);
-	public List<Stockbasicmessage> getlist(String sql);	
+	public Pagination getmess(String sql,int pageNo,int pageSize);
+	public List<Stockmessage> getlist(String sql);	
 	
 
 }

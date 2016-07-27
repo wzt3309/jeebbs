@@ -1,5 +1,6 @@
 package com.jeecms.bbs.action.directive;
 
+import static com.jeecms.common.web.freemarker.DirectiveUtils.OUT_PAGINATION;
 import static freemarker.template.ObjectWrapper.DEFAULT_WRAPPER;
 
 import java.io.IOException;
@@ -7,15 +8,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.jeecms.bbs.action.directive.abs.AbstractTopicPageDirective;
-import com.jeecms.bbs.entity.Stockbasicmessage;
 import com.jeecms.bbs.entity.Stockmessage;
 import com.jeecms.bbs.entity.reccomendstock;
+import com.jeecms.bbs.manager.StockmessageMng;
+import com.jeecms.common.page.Pagination;
 import com.jeecms.common.web.freemarker.DirectiveUtils;
 
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
-import freemarker.template.TemplateDirectiveModel;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
 
@@ -27,8 +31,10 @@ public class StockDataDirective extends AbstractTopicPageDirective implements Te
 		Map<String, TemplateModel> paramWrap = new HashMap<String, TemplateModel>(
 				params);
 		@SuppressWarnings("unchecked")
-		String reccomendation= DirectiveUtils.getString("reccomendation", params);
-		List<Stockmessage> stocklist;
+		String reccomendation= DirectiveUtils.getString("reccomendation", params);		
+		Integer nowPage=DirectiveUtils.getInt("nowPage", params);
+		Integer pageSize=20;
+		List<Stockmessage> stocklist=null;
 		String type=DirectiveUtils.getString("type", params);
 		if(reccomendation!=null){
 			System.out.println(reccomendation);
@@ -49,22 +55,33 @@ public class StockDataDirective extends AbstractTopicPageDirective implements Te
 			else if(reccomendation.trim().equals("2")){
 				String sql=DirectiveUtils.getString("sql", params);
 				if(sql!=null){
-					sql="select bean from Stockmessage bean where "+sql;
-					stocklist =bbsTopicMng.getmessage(sql);
+					sql=" select bean from Stockmessage bean where "+sql;
+					sql+=" and bean.RIQI=(select max(bean.RIQI) from Stockmessage bean) ";
+					Pagination pagination =mng.getmess(sql,nowPage,pageSize);
+					paramWrap.put(OUT_PAGINATION, DEFAULT_WRAPPER.wrap(pagination));
+					if(pagination!=null){
+						stocklist=(List<Stockmessage>) pagination.getList();
+					}
 					paramWrap.put("stock_list", DEFAULT_WRAPPER.wrap(stocklist));
 				}
 				else{
 					paramWrap.put("stock_list", null);
 				}
+				
 			}
 			else if(reccomendation.trim().equals("3")){
 				String sql=DirectiveUtils.getString("sql", params);
-				if(sql!=null){
-					sql="select bean from Stockmessage bean where bean.GPDM="+sql;
-					stocklist =bbsTopicMng.getmessage(sql);
+				if(sql!=null&&!"".equals(sql)){
+					sql="select bean from Stockmessage bean where bean.GPDM="+sql;					
+					Pagination pagination =mng.getmess(sql,nowPage,pageSize);
+					paramWrap.put(OUT_PAGINATION, DEFAULT_WRAPPER.wrap(pagination));
+					if(pagination!=null){
+						stocklist=(List<Stockmessage>) pagination.getList();
+					}
 					paramWrap.put("stock_list", DEFAULT_WRAPPER.wrap(stocklist));
-					Stockmessage sto=stocklist.iterator().next();
-					paramWrap.put("stock", DEFAULT_WRAPPER.wrap(sto));
+					if(stocklist!=null&&stocklist.size()>0){
+						paramWrap.put("stock", DEFAULT_WRAPPER.wrap(stocklist.get(0)));
+					}
 				}
 				else{
 					paramWrap.put("stock_list", null);
@@ -86,5 +103,7 @@ public class StockDataDirective extends AbstractTopicPageDirective implements Te
 		DirectiveUtils.removeParamsFromVariable(env, paramWrap, origMap);
 		
 	}
+	@Autowired
+	private StockmessageMng mng;
 
 }

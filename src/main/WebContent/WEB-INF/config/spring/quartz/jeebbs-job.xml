@@ -10,8 +10,8 @@
 	<!--定时任务线程池 -->
 	<bean id="executor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor"> 
 		<property name="corePoolSize" value="10" /> 
-		<property name="maxPoolSize" value="100" /> 
-		<property name="queueCapacity" value="500" />
+		<property name="maxPoolSize" value="20" /> 
+		<property name="queueCapacity" value="50" />
 	</bean>
 	
 	<!-- test Quartz 以后所有的定时任务按照此方法配置
@@ -27,7 +27,7 @@
 		<property name="cronExpression" value="30 2 16 ? * 2-6" />
 	</bean>-->
 	
-	<!--StockUpDownRateJob 计算每日股票强弱比与涨跌比  周一到周五 每日15:30执行一次-->
+	<!--StockUpDownRateJob 计算每日股票强弱比与涨跌比  周一到周五 每日17:20 40各执行一次-->
 	<bean id="StockUpDownRateJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail">
 			<bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
@@ -37,8 +37,8 @@
 				<property name="targetMethod" value="execute" />
 			</bean>
 		</property>
-		<property name="cronExpression" value="0 30 16 ? * 2-6" />
-		<!-- <property name="cronExpression" value="0 54 2-23 * * ?" />-->
+		<property name="cronExpression" value="0 40 16 ? * 2-6" />
+		<!-- <property name="cronExpression" value="0 31 6-23 * * ?" />-->
 	</bean>
 	
 	<!--FinanceLeadingIndexJob 计算融资融券领先指数  周一到周五 每日17:20 40 ~19:20 40各执行一次-->
@@ -51,7 +51,7 @@
 				<property name="targetMethod" value="execute" />
 			</bean>
 		</property>
-		<property name="cronExpression" value="0 40/20 17-19 ? * 2-6" />
+		<property name="cronExpression" value="0 50/20 17-19 ? * 2-6" />
 		<!--<property name="cronExpression" value="0 * 6-23 * * ?" />-->
 	</bean>
 	

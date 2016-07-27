@@ -273,6 +273,7 @@ public class BbsTopicDaoImpl extends HibernateBaseDao<BbsTopic, Integer>
 		return find(f);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Stockmessage> getmessage(String sql) {
 		// TODO Auto-generated method stub

@@ -347,7 +347,7 @@
 		<scope>system</scope>
 		<systemPath>${basedir}/src/main/WebContent/WEB-INF/lib/quartz-1.6.5.jar</systemPath>
 	</dependency>
-	
+		
 	<!-- smtp -->
 	<dependency>
 	    <groupId>com.sun.mail</groupId>

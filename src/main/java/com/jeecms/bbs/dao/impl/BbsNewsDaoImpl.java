@@ -84,7 +84,7 @@ public class BbsNewsDaoImpl
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public BbsNews save(BbsNews bean) {
+	public synchronized BbsNews save(BbsNews bean) {
 		String hqlIsExist="select bean from BbsNews bean where bean.NewsFrom = ? and bean.NewsName = ?";
 		List<BbsNews> exist=find(hqlIsExist,bean.getNewsFrom(),bean.getNewsName());
 		if(exist==null||exist.size()<1){

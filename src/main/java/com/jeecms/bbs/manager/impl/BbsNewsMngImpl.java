@@ -41,7 +41,7 @@ public class BbsNewsMngImpl implements BbsNewsMng {
 	}
 	
 	@Override
-	public BbsNews save(BbsNews bean) {	
+	public synchronized BbsNews save(BbsNews bean) {	
 		dao.save(bean);
 		return bean;
 	}

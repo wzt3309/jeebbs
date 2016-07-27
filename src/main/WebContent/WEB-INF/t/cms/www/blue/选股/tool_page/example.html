@@ -7,7 +7,7 @@
   
   <span id="loding"></span>
   
-  [#assign pagsize=((stock_list?size!)/20)?int+1]
+  [#assign pagsize=tag_pagination.totalPage]
   <input  id="pagesize" style="display:none" value="${pagsize!}"/>
   <div id="page_style" style="float:right;">
   
@@ -18,7 +18,7 @@
      </span>
      <input type="button" id="goto" value="跳转" onclick="turn();"/>
      <input type="button" id="before" value="上一页" onclick="beforepage();"  />
-                                           第<a id="page" ></a>页
+                                           第<a id="page" >${nowPage}</a>页
      <input type="button" id="after" value="下一页" onclick="afterpage();"  />
  </div>
 </div>
@@ -43,7 +43,7 @@
                 
                 [#list stock_list as stock]
                 <tr onclick="changeBKColor(1)" name="show_or_not1" id="${trid}">
-                <td>${stock.NUM!}</td>
+                <td>${stock_index+1}</td>
                 [#assign trid=trid+1 /]
                 <td align="center" class="td">${stock.GPDM!}</td>
                 <td align="right">${stock.GPMC!}</td>
@@ -70,7 +70,7 @@
          <table width="1300" border="1" style="border:1px solid #CBD6E8;margin-left:-1px;margin-top:-3px;">
             <tbody>
                <tr bgcolor="#F7FCFD" height="5 px" >
-                  
+                  <td style="white-space: nowrap;"  align="center" id="SortDDE2"><a href="javascript:ShowPageContent(2,1,1,0,0,0);">日期</a></td> 
                   <td style="white-space: nowrap;"  align="center" id="SortDDE2"><a href="javascript:ShowPageContent(2,1,1,0,0,0);">最新价</a></td>                
                   <td style="white-space: nowrap;" align="center" id="SortDDE3"><a >涨幅</a></td>
                   <td style="white-space: nowrap;" align="center" id="SortDDE4"><a href="javascript:ShowPageContent(4,1,1,0,0,0);">换手率</a></td>
@@ -118,7 +118,7 @@
                 
                 <tr onclick="changeBKColor(1)" name="show_or_not2" id="${trid}">
                 [#assign trid=trid+1 /]
-                
+                  <td style="white-space: nowrap;" id="not" class="textRight">${stock.RIQI!}</td> 
                   <td style="white-space: nowrap;" id="not" class="textRight">${stock.ZXJ!}</td>             
                   <td style="white-space: nowrap;" class="textRight">${stock.ZF!}</td>              
                   <td style="white-space: nowrap;" id="not" class="textRight">${stock.HSL!}</td>
