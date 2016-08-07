@@ -25,4 +25,5 @@
 	<bean id="bbsNewsAct" class="com.jeecms.bbs.action.front.BbsNewsAct"/>
 	<bean id="stockUpAndDownRateAct" class="com.jeecms.bbs.action.front.StockUpAndDownRateAct"/>
 	<bean id="stockCollectionAct" class="com.jeecms.bbs.action.front.StockCollectionAct"/>
+	<bean id="stockDataAnalyseAct" class="com.jeecms.bbs.action.front.StockDataAnalyseAct"/>
 </beans>

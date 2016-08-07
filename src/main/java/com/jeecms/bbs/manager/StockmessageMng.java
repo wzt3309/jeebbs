@@ -18,6 +18,10 @@ public interface StockmessageMng {
 	
 	public Pagination getmess(String sql,int pageNo,int pageSize);
 	public List<Stockmessage> getlist(String sql);	
-	
+	public Stockmessage save(Stockmessage bean);
+	public List getReccomendation_detail(String type,int pageNO,int pageSize);
 
+	public Pagination getReccomendation_simp(String type,int pageNO,int pageSize);
+
+	public Pagination getReccomendation_simp2(String type,int pageNO,int pageSize);
 }

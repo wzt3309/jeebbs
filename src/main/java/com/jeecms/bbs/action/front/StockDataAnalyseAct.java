@@ -26,6 +26,9 @@ public class StockDataAnalyseAct {
 		//System.out.println(gpdm);
 		String forumIdStr = RequestUtils.getQueryParam(request, "forumId");
 		String type = RequestUtils.getQueryParam(request, "TYPE");
+		Integer nowPage = RequestUtils.getIntParam(request, "nowPage");
+		nowPage=(nowPage==0?1:nowPage);
+		
 		System.out.println("type in act:"+type);
 		Integer forumId = 0;
 		if (forumIdStr != null && StringUtils.isNotBlank(forumIdStr)) {
@@ -34,6 +37,7 @@ public class StockDataAnalyseAct {
 		model.put("TYPE", type);
 		model.put("forumId", forumId);
 		model.put("RECCOMENDATION", 1);
+		model.put("nowPage", nowPage);
 		 
 		
 		

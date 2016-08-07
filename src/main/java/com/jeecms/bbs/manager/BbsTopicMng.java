@@ -7,12 +7,12 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.jeecms.bbs.entity.reccomendstock;
 import com.jeecms.bbs.entity.Stockmessage;
 import com.jeecms.bbs.entity.BbsNews;
 import com.jeecms.bbs.entity.BbsTopic;
 import com.jeecms.bbs.entity.BbsUser;
 import com.jeecms.bbs.entity.Stockbasicmessage;
-import com.jeecms.bbs.entity.reccomendstock;
 import com.jeecms.common.page.Pagination;
 
 public interface BbsTopicMng {

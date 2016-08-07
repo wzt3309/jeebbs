@@ -37,7 +37,7 @@
 				<property name="targetMethod" value="execute" />
 			</bean>
 		</property>
-		<property name="cronExpression" value="0 40 16 ? * 2-6" />
+		<property name="cronExpression" value="0 40 16-19 ? * 2-6" />
 		<!-- <property name="cronExpression" value="0 31 6-23 * * ?" />-->
 	</bean>
 	
@@ -52,6 +52,20 @@
 			</bean>
 		</property>
 		<property name="cronExpression" value="0 50/20 17-19 ? * 2-6" />
+		<!--<property name="cronExpression" value="0 * 6-23 * * ?" />-->
+	</bean>
+	
+	<!--GetDdxDateJob 获取股票ddx信息  周一到周五 每日19:45 ~21:45各执行一次-->
+	<bean id="GetDdxDateJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+				<property name="targetObject">
+					<bean class=" com.jeecms.bbs.schedule.GetDdxDateJob"/>
+				</property>
+				<property name="targetMethod" value="execute" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="0 45 19-21 ? * 2-6" />
 		<!--<property name="cronExpression" value="0 * 6-23 * * ?" />-->
 	</bean>
 	
@@ -181,6 +195,7 @@
 			<ref local="CrawlNewsEastJobTrigger" />
 			<ref local="StockUpDownRateJobTrigger" />
 			<ref local="FinanceLeadingIndexJobTrigger" />
+			<ref local="GetDdxDateJobTrigger" /> 
 			<ref bean="clearUserOnlineWeekTrigger" /> 
 			<ref bean="clearUserOnlineMonthTrigger" /> 
 			<ref bean="clearUserOnlineYearTrigger" /> 

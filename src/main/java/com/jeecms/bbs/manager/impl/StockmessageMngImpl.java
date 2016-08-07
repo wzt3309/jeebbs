@@ -29,7 +29,28 @@ public class StockmessageMngImpl implements StockmessageMng{
 		
 		return dao.getlist(sql);
 	}
-	
+	@Override
+	public Stockmessage save(Stockmessage bean) {
+		dao.save(bean);
+		return bean;
+	}
+	@Override
+	public List getReccomendation_detail(String type,int pageNO,int pageSize) {
+		// TODO Auto-generated method stub
+		return dao.getReccomendation_detail(type, pageNO, pageSize);
+	}
+
+	@Override
+	public Pagination getReccomendation_simp(String type,int pageNO,int pageSize) {
+		// TODO Auto-generated method stub
+		return dao.getReccomendation_simp(type, pageNO, pageSize);
+	}
+
+	@Override
+	public Pagination getReccomendation_simp2(String type,int pageNO,int pageSize) {
+		// TODO Auto-generated method stub
+		return dao.getReccomendation_simp2(type, pageNO, pageSize);
+	}
 	
 
 }

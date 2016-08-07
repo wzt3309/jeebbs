@@ -78,21 +78,18 @@ public class StockCollectionAct {
 			sql=sql.replaceAll(";", " ");
 			model.put("sql",sql);
 			System.out.println("sql:"+sql);
-		}
-		else{
-			model.put("sql","1=1");
-		}
+		}		
 		String reccomendation=RequestUtils.getQueryParam(request, "reccomendation");
 		System.out.println("rec:"+reccomendation);
 		if(reccomendation!=null){
-		model.put("Reccomendation",reccomendation);
-		if(reccomendation.equals("1")){
-			model.put("datatype", "股票推荐：");
-			model.put("datatypename", "最新看涨");
-		}else{
-			model.put("datatype", "股票信息：");
-			model.put("datatypename", "最新数据");
-		}
+			model.put("Reccomendation",reccomendation);
+			if(reccomendation.equals("1")){
+				model.put("datatype", "股票推荐：");
+				model.put("datatypename", "最新看涨");
+			}else{
+				model.put("datatype", "股票信息：");
+				model.put("datatypename", "最新数据");
+			}
 		}
 		else{
 			model.put("Reccomendation",2);

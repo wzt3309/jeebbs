@@ -3,6 +3,7 @@ package com.jeecms.bbs.entity.base;
 import java.io.Serializable;
 
 public class Basereccomendstock implements Serializable{
+	private Integer id;
 	private String stockID;
 	private String time;
 	private int reccomendation;
@@ -10,38 +11,54 @@ public class Basereccomendstock implements Serializable{
 	
 	public Basereccomendstock(){}
 	
-	public Basereccomendstock( String stockID, String time,int reccomendation,String stockName){
-		this.setreccomendation(reccomendation);
-		this.setstockID(stockID);
-		this.setstockName(stockName);
-		this.settime(time);
-	}
-
-	public String getstockID(){
-		return this.stockID;
-	}
-	public String gettime(){
-		return this.time;
-	}
-	public int getreccomendation(){
-		return this.reccomendation;
-	}
-	public String getstockName(){
-		return this.stockName;
-	}
-	
-	//set
-	
-	public void setstockID(String stockID){
+	public Basereccomendstock( Integer id,String stockID, String time
+			,int reccomendation,String stockName){
+		this.id=id;
 		this.stockID=stockID;
-	}
-	public void settime(String time){
 		this.time=time;
-	}
-	public void setreccomendation(int reccomendation){
 		this.reccomendation=reccomendation;
-	}
-	public void setstockName(String stockName){
 		this.stockName=stockName;
 	}
+	
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getStockID() {
+		return stockID;
+	}
+
+	public void setStockID(String stockID) {
+		this.stockID = stockID;
+	}
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
+	}
+
+	public int getReccomendation() {
+		return reccomendation;
+	}
+
+	public void setReccomendation(int reccomendation) {
+		this.reccomendation = reccomendation;
+	}
+
+	public String getStockName() {
+		return stockName;
+	}
+
+	public void setStockName(String stockName) {
+		this.stockName = stockName;
+	}
+
+	
 }

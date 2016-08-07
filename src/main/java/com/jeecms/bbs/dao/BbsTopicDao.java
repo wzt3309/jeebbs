@@ -4,9 +4,9 @@ import java.util.List;
 
 import com.jeecms.bbs.entity.BbsNews;
 import com.jeecms.bbs.entity.BbsTopic;
+import com.jeecms.bbs.entity.reccomendstock;
 import com.jeecms.bbs.entity.Stockbasicmessage;
 import com.jeecms.bbs.entity.Stockmessage;
-import com.jeecms.bbs.entity.reccomendstock;
 import com.jeecms.common.hibernate3.Updater;
 import com.jeecms.common.page.Pagination;
 

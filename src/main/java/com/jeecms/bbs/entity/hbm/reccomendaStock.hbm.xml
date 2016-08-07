@@ -12,11 +12,21 @@
 		discriminator-value="0">
        <cache usage="read-write"/>
        
-       <composite-id>
-           <key-property name="stockID" column="stockID" type="string" />
-           <key-property name="time" column="time" type="string"/>
-           <key-property name="reccomendation" column="reccomendation" type="int"/>
-        </composite-id>
+       <id
+			name="id"
+			type="java.lang.Integer"
+			column="id"
+		>
+			<generator class="native"/>
+		</id>
+		
+         <property name="stockID" column="stockID" type="string" not-null="false"
+		   length="255" />
+		   
+           <property name="time" column="time" type="string" not-null="false"
+		   length="255" />
+		   
+           <property name="reccomendation" column="reccomendation" type="int" />
 		
 		
 		

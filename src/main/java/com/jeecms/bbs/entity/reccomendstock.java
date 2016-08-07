@@ -7,12 +7,14 @@ public class reccomendstock extends Basereccomendstock{
 	public reccomendstock(){
 		super();
 	}
-	
-	public reccomendstock(String stockID, String time, int reccomendation,
-			String stockName) {
-		super(stockID, time, reccomendation, stockName);
+
+	public reccomendstock(Integer id, String stockID, String time,
+			int reccomendation, String stockName) {
+		super(id, stockID, time, reccomendation, stockName);
 		// TODO Auto-generated constructor stub
 	}
+	
+	
 
 
 }

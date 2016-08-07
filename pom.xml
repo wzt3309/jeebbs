@@ -221,14 +221,7 @@
 	    <version>1.0</version>
 	    <scope>system</scope>
 		<systemPath>${basedir}/src/main/WebContent/WEB-INF/lib/itext.jar</systemPath>
-	</dependency>
-	<dependency>
-	    <groupId>javabuilder</groupId>
-	    <artifactId>javabuilder</artifactId>
-	    <version>1.0</version>
-	    <scope>system</scope>
-		<systemPath>${basedir}/src/main/WebContent/WEB-INF/lib/javabuilder.jar</systemPath>
-	</dependency>
+	</dependency>	
 	<!--网页爬虫功能-->
 	<dependency>
 	    <groupId>org.apache.httpcomponents</groupId>

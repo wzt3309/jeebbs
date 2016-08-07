@@ -1,10 +1,14 @@
 package com.jeecms.bbs.entity;
 
 
+import java.lang.reflect.Field;
+
+import org.jsoup.helper.StringUtil;
+import org.slf4j.Logger;
+
 import com.jeecms.bbs.entity.base.BaseStockmessage;
 
 public class Stockmessage extends BaseStockmessage{
-	
 	public Stockmessage(){
 		super();
 	}
@@ -96,4 +100,47 @@ public class Stockmessage extends BaseStockmessage{
 				 Reccomendation);
 	}
 
+	@Override
+	public String toString() {
+		return "Stockmessage [getId()=" + getId() + ", getRIQI()=" + getRIQI()
+				+ ", getNUM()=" + getNUM() + ", getGPDM()=" + getGPDM()
+				+ ", getGPMC()=" + getGPMC() + ", getZXJ()=" + getZXJ()
+				+ ", getZF()=" + getZF() + ", getHSL()=" + getHSL()
+				+ ", getLB()=" + getLB() + ", getDDX1()=" + getDDX1()
+				+ ", getDDY1()=" + getDDY1() + ", getDDZ()=" + getDDZ()
+				+ ", getDDX3()=" + getDDX3() + ", getDDX5()=" + getDDX5()
+				+ ", getDDX10()=" + getDDX10() + ", getDDX60()=" + getDDX60()
+				+ ", getDDX5H()=" + getDDX5H() + ", getDDX10H()=" + getDDX10H()
+				+ ", getDDXLH()=" + getDDXLH() + ", getDDXLZ()=" + getDDXLZ()
+				+ ", getZF3R()=" + getZF3R() + ", getZF5R()=" + getZF5R()
+				+ ", getZF10R()=" + getZF10R() + ", getDDY3()=" + getDDY3()
+				+ ", getDDY5()=" + getDDY5() + ", getDDY10()=" + getDDY10()
+				+ ", getDDY60()=" + getDDY60() + ", getCJL()=" + getCJL()
+				+ ", getBBD()=" + getBBD() + ", getTCL1R()=" + getTCL1R()
+				+ ", getTCL5R()=" + getTCL5R() + ", getTCL10R()=" + getTCL10R()
+				+ ", getTCL20R()=" + getTCL20R() + ", getDSB()=" + getDSB()
+				+ ", getTDC()=" + getTDC() + ", getDDC()=" + getDDC()
+				+ ", getZDC()=" + getZDC() + ", getXDC()=" + getXDC()
+				+ ", getZDL1R()=" + getZDL1R() + ", getZDL5R()=" + getZDL5R()
+				+ ", getZDL10R()=" + getZDL10R() + ", getLTP()=" + getLTP()
+				+ ", getReccomendation()=" + getReccomendation()
+				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
+				+ ", toString()=" + super.toString() + "]";
+	}
+	public static boolean validate(Stockmessage msg,Logger log){
+		Field[] fields=Stockmessage.class.getFields();
+		for(Field field:fields){
+			try {
+				Class clazz=field.getType();			;
+				if(clazz==String.class){
+					String obj=(String)field.get(msg);
+					if(StringUtil.isBlank(obj))
+						return false;
+				}
+			} catch (Exception e) {	
+				log.error("validate Stockmessgae fail",e);
+			}
+		}
+		return true;
+	}
 }

@@ -4,17 +4,18 @@ import static com.jeecms.common.web.freemarker.DirectiveUtils.OUT_PAGINATION;
 import static freemarker.template.ObjectWrapper.DEFAULT_WRAPPER;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.jeecms.bbs.action.directive.abs.AbstractTopicPageDirective;
 import com.jeecms.bbs.entity.Stockmessage;
 import com.jeecms.bbs.entity.reccomendstock;
 import com.jeecms.bbs.manager.StockmessageMng;
+import com.jeecms.common.bbsddx.GetDdxDateImpl;
 import com.jeecms.common.page.Pagination;
 import com.jeecms.common.web.freemarker.DirectiveUtils;
 
@@ -38,34 +39,52 @@ public class StockDataDirective extends AbstractTopicPageDirective implements Te
 		String type=DirectiveUtils.getString("type", params);
 		if(reccomendation!=null){
 			System.out.println(reccomendation);
-			if(reccomendation.trim().equals("1")){
-				stocklist=bbsTopicMng.getReccomendation_detail(type);
-				if(stocklist.isEmpty()){
-					List<reccomendstock> list=bbsTopicMng.getReccomendation_simp(type);	
-					if(list.isEmpty()){
-						 list=bbsTopicMng.getReccomendation_simp2(type);	
-					}
-					paramWrap.put("stock_simple_list", DEFAULT_WRAPPER.wrap(list));
+			if(reccomendation.trim().equals("1")){	
+				Pagination pagination =mng.getReccomendation_simp(type,nowPage,pageSize);		
+				List<reccomendstock> list=null;
+				if(pagination==null||pagination.getList().isEmpty()){
+					pagination=mng.getReccomendation_simp2(type,nowPage,pageSize);
+					if(pagination!=null)
+						list=(List<reccomendstock>) pagination.getList();
+				}else{
+					list=(List<reccomendstock>) pagination.getList();
 				}
-				else{
+				stocklist=new ArrayList<Stockmessage>();
+				for(reccomendstock re:list){
+					GetDdxDateImpl getDdxDate=new GetDdxDateImpl();
+					Stockmessage msg=getDdxDate.getStockmessage(re.getStockID());
+					if(msg==null)
+						msg=new Stockmessage();
+					stocklist.add(msg);
+				}
+				paramWrap.put(OUT_PAGINATION, DEFAULT_WRAPPER.wrap(pagination));
+				paramWrap.put("stock_simple_list", DEFAULT_WRAPPER.wrap(list));			
 				paramWrap.put("stock_list", DEFAULT_WRAPPER.wrap(stocklist));
 				System.out.println("put list");
-				}System.out.println("reccomendation=1");
+				System.out.println("reccomendation=1");
 			}
 			else if(reccomendation.trim().equals("2")){
 				String sql=DirectiveUtils.getString("sql", params);
 				if(sql!=null){
+					//在历史数据中进行查找
 					sql=" select bean from Stockmessage bean where "+sql;
 					sql+=" and bean.RIQI=(select max(bean.RIQI) from Stockmessage bean) ";
 					Pagination pagination =mng.getmess(sql,nowPage,pageSize);
 					paramWrap.put(OUT_PAGINATION, DEFAULT_WRAPPER.wrap(pagination));
 					if(pagination!=null){
 						stocklist=(List<Stockmessage>) pagination.getList();
-					}
+					}	
 					paramWrap.put("stock_list", DEFAULT_WRAPPER.wrap(stocklist));
 				}
 				else{
-					paramWrap.put("stock_list", null);
+					//从ddx网站获得实时最新数据
+					GetDdxDateImpl getDdxDate=new GetDdxDateImpl();
+					stocklist=getDdxDate.getStockmessages(nowPage);
+					Map<String,String>comMsg=getDdxDate.getComMsg();
+					Pagination pagination=new Pagination(nowPage,pageSize
+							,Integer.parseInt(comMsg.get("total")),stocklist);
+					paramWrap.put(OUT_PAGINATION, DEFAULT_WRAPPER.wrap(pagination));
+					paramWrap.put("stock_list", DEFAULT_WRAPPER.wrap(stocklist));
 				}
 				
 			}

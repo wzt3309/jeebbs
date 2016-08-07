@@ -82,7 +82,11 @@ public abstract class HibernateSimpleDao {
 		//System.out.println("session done");
 		finder.setParamsToQuery(query);
 		query.setFirstResult(p.getFirstResult());
-		query.setMaxResults(p.getPageSize());
+		int maxResult=totalCount-(pageNo-1)*pageSize;
+		maxResult=maxResult<pageSize?maxResult:pageSize;
+		query.setMaxResults(maxResult);
+		
+		
 		if (finder.isCacheable()) {
 			query.setCacheable(true);
 		}
@@ -179,8 +183,12 @@ public abstract class HibernateSimpleDao {
 	 * @return
 	 */
 	protected int countQueryResult(Finder finder) {
-		//System.out.println("session ready");
+//		System.out.println("session ready"+finder.getMaxResults());
 		//System.out.println(finder.getRowCountHql());
+		int max=finder.getMaxResults();
+		if(max>0){
+			return max;
+		}
 		Query query = getSession().createQuery(finder.getRowCountHql());
 //		System.out.println("session done");
 		finder.setParamsToQuery(query);
