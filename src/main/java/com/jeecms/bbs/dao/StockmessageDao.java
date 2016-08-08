@@ -14,4 +14,5 @@ public interface StockmessageDao {
 	public List getReccomendation_detail(String type,int pageNO,int pageSize);
 	public Pagination getReccomendation_simp(String type,int pageNO,int pageSize);
 	public Pagination getReccomendation_simp2(String type,int pageNO,int pageSize);
+	public Stockmessage getStockmsgById(String id);
 }

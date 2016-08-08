@@ -51,8 +51,9 @@ public class StockDataDirective extends AbstractTopicPageDirective implements Te
 				}
 				stocklist=new ArrayList<Stockmessage>();
 				for(reccomendstock re:list){
-					GetDdxDateImpl getDdxDate=new GetDdxDateImpl();
-					Stockmessage msg=getDdxDate.getStockmessage(re.getStockID());
+//					GetDdxDateImpl getDdxDate=new GetDdxDateImpl();
+//					Stockmessage msg=getDdxDate.getStockmessage(re.getStockID());					
+					Stockmessage msg=mng.getStockmsgById(re.getStockID());
 					if(msg==null)
 						msg=new Stockmessage();
 					stocklist.add(msg);

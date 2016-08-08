@@ -1,6 +1,7 @@
 package com.jeecms.bbs.dao.impl;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -90,27 +91,56 @@ public class StockmessageDaoImpl extends HibernateBaseDao<Stockmessage, Integer>
 			if(R.compareTo(date)<0)
 				return null;
 		}
-		Finder f = Finder.create("select bean from reccomendstock as bean where bean.time>=:date  ").setParam("date",date);//
+		Finder f = Finder.create("from reccomendstock bean where bean.time>=:date  ").setParam("date",date);//
 		if(type!=null){
 			f.append("and bean.reccomendation=:reccomendaion").setParam("reccomendaion", Integer.valueOf(type));		
 			
 		}
-		f.setMaxResults(30);
-		f.append(" order by bean.time desc");
+		//f.setMaxResults(30);
+		f.append(" order by bean.time desc");	
 		
-		return find(f,pageNO,pageSize);
+		List<reccomendstock> list=find(f);	
+		int totalsize=list.size();
+		Pagination p = new Pagination(pageNO, pageSize, totalsize);
+		List<reccomendstock> newList=new ArrayList<reccomendstock>();
+		int first=p.getFirstResult();
+		int last=first+pageSize;
+		last=last<totalsize?last:totalsize;
+		for(int i=first;i<last;i++){
+			newList.add(list.get(i));
+		}
+		p.setList(newList);
+		return p;
 	}
 
 	@Override
 	public Pagination getReccomendation_simp2(String type,int pageNO,int pageSize) {
-		Finder f = Finder.create("select bean from reccomendstock as bean where bean.time<=(select max(bean.time) from reccomendstock)");
+		Finder f = Finder.create("select bean from reccomendstock as bean where bean.time=(select max(bean.time) from reccomendstock)");
 		if(type!=null){
 			f.append("and bean.reccomendation=:reccomendaion").setParam("reccomendaion", Integer.valueOf(type));		
 			
 		}
-		f.setMaxResults(25);
-		f.append(" order by bean.time desc");		
-		return find(f,pageNO,pageSize);
+		//f.setMaxResults(25);
+		f.append(" order by bean.time desc");
+		
+		List<reccomendstock> list=find(f);	
+		int totalsize=list.size();
+		Pagination p = new Pagination(pageNO, pageSize, totalsize);
+		List<reccomendstock> newList=new ArrayList<reccomendstock>();
+		int first=p.getFirstResult();
+		int last=first+pageSize;
+		last=last<totalsize?last:totalsize;
+		for(int i=first;i<last;i++){
+			newList.add(list.get(i));
+		}
+		p.setList(newList);
+		return p;
+	}
+	@Override
+	public Stockmessage getStockmsgById(String id) {
+		String hql="select bean from Stockmessage bean where bean.GPDM = ? order by bean.RIQI desc";
+		Stockmessage stockmsg=(Stockmessage) findUnique(hql,id);
+		return stockmsg;
 	}
 
 }

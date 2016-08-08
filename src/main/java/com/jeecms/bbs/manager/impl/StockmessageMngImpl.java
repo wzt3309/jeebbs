@@ -51,6 +51,10 @@ public class StockmessageMngImpl implements StockmessageMng{
 		// TODO Auto-generated method stub
 		return dao.getReccomendation_simp2(type, pageNO, pageSize);
 	}
+	@Override
+	public Stockmessage getStockmsgById(String id) {		
+		return dao.getStockmsgById(id);
+	}
 	
 
 }

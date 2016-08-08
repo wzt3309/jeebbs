@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 
+import com.jeecms.bbs.entity.reccomendstock;
 import com.jeecms.common.page.Pagination;
 import com.jeecms.common.util.MyBeanUtils;
 
@@ -77,20 +78,17 @@ public abstract class HibernateSimpleDao {
 			p.setList(new ArrayList());
 			return p;
 		}
+		System.out.println(finder.getOrigHql());
 		//System.out.println("session ready");
 		Query query = getSession().createQuery(finder.getOrigHql());
 		//System.out.println("session done");
 		finder.setParamsToQuery(query);
 		query.setFirstResult(p.getFirstResult());
-		int maxResult=totalCount-(pageNo-1)*pageSize;
-		maxResult=maxResult<pageSize?maxResult:pageSize;
-		query.setMaxResults(maxResult);
-		
-		
+		query.setMaxResults(p.getPageSize());
 		if (finder.isCacheable()) {
 			query.setCacheable(true);
 		}
-		List list = query.list();
+		List list = query.list();		
 		p.setList(list);
 		return p;
 	}
@@ -183,12 +181,8 @@ public abstract class HibernateSimpleDao {
 	 * @return
 	 */
 	protected int countQueryResult(Finder finder) {
-//		System.out.println("session ready"+finder.getMaxResults());
+		//System.out.println("session ready");
 		//System.out.println(finder.getRowCountHql());
-		int max=finder.getMaxResults();
-		if(max>0){
-			return max;
-		}
 		Query query = getSession().createQuery(finder.getRowCountHql());
 //		System.out.println("session done");
 		finder.setParamsToQuery(query);

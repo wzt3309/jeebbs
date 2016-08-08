@@ -73,7 +73,7 @@ public class StockCollectionAct {
 			forumId = Integer.parseInt(forumIdStr);
 		}
 		String sql=RequestUtils.getQueryParam(request, "sql");
-		if(sql!=null){
+		if(sql!=null&&!"".equals(sql)){
 			
 			sql=sql.replaceAll(";", " ");
 			model.put("sql",sql);

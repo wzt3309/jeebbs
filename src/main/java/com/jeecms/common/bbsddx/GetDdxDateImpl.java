@@ -59,8 +59,7 @@ public class GetDdxDateImpl implements GetDdxDate {
 		try{
 			url.append("?&lsdate="+this.date+"&getlsdate=1");
 			int pageSize=2;
-			msgs=new ArrayList<Stockmessage>();
-			
+			msgs=new ArrayList<Stockmessage>();			
 			for(int i=1;i<=pageSize;i++){
 				String tmpUrl=url.append("&page="+i).toString().trim();				
 				JSONObject jsonObj=getJson(tmpUrl);
@@ -78,6 +77,7 @@ public class GetDdxDateImpl implements GetDdxDate {
 							msgs.add(temp);
 					}
 				}
+				Thread.sleep(500);
 			}			
 			
 		}catch(Exception e){

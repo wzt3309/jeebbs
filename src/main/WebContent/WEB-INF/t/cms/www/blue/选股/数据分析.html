@@ -175,17 +175,10 @@ window.onload=function(){color();}
   </span>
   <span id="loding"></span>
    [#assign pagsize=tag_pagination.totalPage]
- <!--  [#if stock_list??]
-  [#assign pagsize=((stock_list?size!)/20)?int+1]
-  [#elseif stock_simple_list??]
-  [#assign pagsize=((stock_simple_list?size!)/20)?int+1]
-  [#else]
-  [#assign pagsize=1]
-  [/#if]--> 
   <input  id="pagesize" style="display:none" value="${pagsize!}"/>
   <div id="page_style" style="float:right;">
   
-     
+    
      <span class="pg">
      
                             共   ${pagsize}   页     第<input id="page_for_turn" style="width:30px;"  />页
