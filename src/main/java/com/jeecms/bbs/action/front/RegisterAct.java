@@ -196,7 +196,8 @@ public class RegisterAct {
 			log.info("member register success. username={}", username);
 			FrontUtils.frontData(request, model, site);
 			FrontUtils.frontPageData(request, model);
-			model.addAttribute("success",true);
+			model.put("success","true");
+			model.put("username", user.getUsername());
 			System.out.println(FrontUtils.getTplPath(request, site.getSolutionPath(),
 					TPLDIR_MEMBER, LOGIN_INPUT));
 			return FrontUtils.getTplPath(request, site.getSolutionPath(),
