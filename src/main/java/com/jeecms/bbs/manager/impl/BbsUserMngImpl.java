@@ -63,9 +63,9 @@ public class BbsUserMngImpl implements BbsUserMng {
 		return entity;
 	}
 
-	public BbsUser registerMember(String username, String email,String telephone,
+	public BbsUser registerMember(String username, String email,String invitename,String telephone,
 			String password, String ip, Integer groupId, BbsUserExt userExt) {
-		UnifiedUser unifiedUser = unifiedUserMng.save(username, email,telephone,
+		UnifiedUser unifiedUser = unifiedUserMng.save(username, email,invitename,telephone,
 				password, ip);
 		BbsUser user = new BbsUser();
 		user.forMember(unifiedUser);
@@ -87,10 +87,10 @@ public class BbsUserMngImpl implements BbsUserMng {
 		return user;
 	}
 
-	public BbsUser registerMember(String username, String email,String telephone,
+	public BbsUser registerMember(String username, String email,String invitename,String telephone,
 			String password, String ip, Integer groupId, BbsUserExt userExt,
 			Boolean activation, EmailSender sender, MessageTemplate msgTpl) {
-		UnifiedUser unifiedUser = unifiedUserMng.save(username, email,telephone,
+		UnifiedUser unifiedUser = unifiedUserMng.save(username, email,invitename,telephone,
 				password, ip, activation, sender, msgTpl);
 		BbsUser user = new BbsUser();
 		user.forMember(unifiedUser);
@@ -154,7 +154,7 @@ public class BbsUserMngImpl implements BbsUserMng {
 			Integer groupId, Integer[] roleIds, Integer[] channelIds,
 			Integer[] siteIds, Byte[] steps, Boolean[] allChannels,
 			BbsUserExt userExt) {
-		UnifiedUser unifiedUser = unifiedUserMng.save(username, email,telephone,
+		UnifiedUser unifiedUser = unifiedUserMng.save(username, email,"",telephone,
 				password, ip);
 		BbsUser user = new BbsUser();
 		user.forAdmin(unifiedUser, viewOnly, selfAdmin, rank);

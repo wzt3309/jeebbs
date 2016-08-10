@@ -96,9 +96,10 @@ public class StockmessageDaoImpl extends HibernateBaseDao<Stockmessage, Integer>
 			f.append("and bean.reccomendation=:reccomendaion").setParam("reccomendaion", Integer.valueOf(type));		
 			
 		}
-		//f.setMaxResults(30);
+		f.setMaxResults(500);
 		f.append(" order by bean.time desc");	
 		
+		@SuppressWarnings("unchecked")
 		List<reccomendstock> list=find(f);	
 		int totalsize=list.size();
 		Pagination p = new Pagination(pageNO, pageSize, totalsize);
@@ -120,7 +121,7 @@ public class StockmessageDaoImpl extends HibernateBaseDao<Stockmessage, Integer>
 			f.append("and bean.reccomendation=:reccomendaion").setParam("reccomendaion", Integer.valueOf(type));		
 			
 		}
-		//f.setMaxResults(25);
+		f.setMaxResults(500);
 		f.append(" order by bean.time desc");
 		
 		List<reccomendstock> list=find(f);	

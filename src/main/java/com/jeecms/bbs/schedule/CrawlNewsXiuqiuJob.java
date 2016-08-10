@@ -23,7 +23,7 @@ public class CrawlNewsXiuqiuJob {
 			if(bbsNews!=null){
 				for(BbsNews bbsNew:bbsNews){					
 					mng.save(bbsNew);
-					System.out.println("--------进行中"+current.getId());
+					//System.out.println("--------进行中"+current.getId());
 				}
 			}
 			System.out.println("线程:"+current.getId()+"["+"]"+"Crawl News From Xue qiu Daily Job end");

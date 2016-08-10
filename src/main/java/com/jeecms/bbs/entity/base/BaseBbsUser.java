@@ -41,6 +41,7 @@ public abstract class BaseBbsUser implements Serializable {
 	public static String PROP_REGISTER_IP = "registerIp";
 	public static String PROP_POST_TODAY = "postToday";
 	public static String PROP_USERNAME = "username";
+	public static String PROP_INVITENAME="invitename";
 	public static String PROP_LAST_POST_TIME = "lastPostTime";
 
 	// constructors
@@ -61,7 +62,7 @@ public abstract class BaseBbsUser implements Serializable {
 	 */
 	public BaseBbsUser(java.lang.Integer id,
 			com.jeecms.bbs.entity.BbsUserGroup group,
-			java.lang.String username, java.util.Date registerTime,
+			java.lang.String username,java.lang.String invitename, java.util.Date registerTime,
 			java.lang.String registerIp, java.lang.Integer loginCount,
 			java.lang.Long uploadTotal, java.lang.Integer uploadToday,
 			java.lang.Integer uploadSize, java.lang.Boolean admin,
@@ -73,6 +74,7 @@ public abstract class BaseBbsUser implements Serializable {
 		this.setId(id);
 		this.setGroup(group);
 		this.setUsername(username);
+		this.setInvitename(invitename);
 		this.setRegisterTime(registerTime);
 		this.setRegisterIp(registerIp);
 		this.setLoginCount(loginCount);
@@ -102,6 +104,7 @@ public abstract class BaseBbsUser implements Serializable {
 	// fields
 	private java.lang.String username;
 	private java.lang.String email;
+	private java.lang.String invitename;
 	private java.lang.String telephone;
 	private java.util.Date registerTime;
 	private java.lang.String registerIp;
@@ -184,7 +187,9 @@ public abstract class BaseBbsUser implements Serializable {
 	public java.lang.String getEmail() {
 		return email;
 	}
-	
+	public java.lang.String getInvitename(){
+		return invitename;
+	}
 	public java.lang.String getTelephone() {
 		return telephone;
 	}
@@ -198,7 +203,9 @@ public abstract class BaseBbsUser implements Serializable {
 	public void setEmail(java.lang.String email) {
 		this.email = email;
 	}
-	
+	public void setInvitename(java.lang.String invitename){
+		this.invitename=invitename;
+	}
 	
 	public void setTelephone(java.lang.String telephone) {
 		this.telephone = telephone;

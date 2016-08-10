@@ -54,6 +54,12 @@
             <td align="right">E-mail：</td>
             <td>&nbsp;<input type="text" name="email" vld="{remote:'email_unique.jspx',messages:{remote:'email已经被使用！'}}" class="input required email" value="${email!}"></input></td>
           </tr>
+          
+          <tr class="tr2">
+            <td align="right">邀请人用户名：</td>
+            <td>&nbsp;<input type="text" name="invitename" vld="{required:true,rangelength:[3,20],username:true,remote:'invitename_exist.jspx',messages:{remote:'该用户不存在！'}}" class="input required invitename" value="${invitename!}"></input></td>
+          </tr>
+          
           <tr class="tr2">
             <td align="right" onclick="submit();">验证码：</td>
             <td>&nbsp;<input type="text" name="captcha" id="captcha" vld="{required:true}"/></td>

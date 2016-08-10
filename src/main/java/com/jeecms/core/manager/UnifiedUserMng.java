@@ -47,10 +47,10 @@ public interface UnifiedUserMng {
 
 	public UnifiedUser findById(Integer id);
 
-	public UnifiedUser save(String username, String email,String telephone, String password,
+	public UnifiedUser save(String username, String email,String invitename,String telephone, String password,
 			String ip);
 	
-	public UnifiedUser save(String username, String email,String telephone, String password,
+	public UnifiedUser save(String username, String email,String invitename,String telephone, String password,
 			String ip, Boolean activation, EmailSender sender,
 			MessageTemplate msgTpl);
 

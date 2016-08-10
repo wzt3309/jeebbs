@@ -70,10 +70,13 @@ public class RegisterAct {
 		String password=RequestUtils.getQueryParam(request, "password");
 		String telephone=RequestUtils.getQueryParam(request, "telephone");
 		String email=RequestUtils.getQueryParam(request, "email");
+		//邀请人用户名
+		String invitename=RequestUtils.getQueryParam(request, "invitename");
 		model.put("username", username);
 		model.put("password", password);
 		model.put("telephone", telephone);
 		model.put("email", email);
+		model.put("invitename", invitename);
 		System.out.println(FrontUtils.getTplPath(request, site.getSolutionPath(),
 				TPLDIR_MEMBER, REGISTER));
 		return FrontUtils.getTplPath(request, site.getSolutionPath(),
@@ -124,14 +127,14 @@ public class RegisterAct {
 	
 	
 	@RequestMapping(value = "/register_after.jspx", method = RequestMethod.POST)
-	public String submit_after(String username, String email, String password,String telephone,
+	public String submit_after(String username, String email, String invitename,String password,String telephone,
 			BbsUserExt userExt, String captcha, String nextUrl,
 			HttpServletRequest request, HttpServletResponse response,
 			ModelMap model) throws IOException {
 		System.out.println(telephone);
 		CmsSite site = CmsUtils.getSite(request);
 		BbsConfig config = bbsConfigMng.findById(site.getId());
-		WebErrors errors = validateSubmit_after(username, email, password, captcha,
+		WebErrors errors = validateSubmit_after(username, email,invitename, password, captcha,
 				site, request, response);
 		if (errors.hasErrors()) {
 			return FrontUtils.showError(request, response, model, errors);
@@ -156,7 +159,7 @@ public class RegisterAct {
 			} else {
 				try {
 					System.out.println("here1");
-					user = bbsUserMng.registerMember(username, email,telephone, password, ip,
+					user = bbsUserMng.registerMember(username, email,invitename,telephone, password, ip,
 							groupId, userExt, false, sender, msgTpl);
 					bbsConfigEhCache.setBbsConfigCache(0, 0, 0, 1, user, site.getId());
 					model.addAttribute("status", 0);
@@ -166,6 +169,8 @@ public class RegisterAct {
 					model.addAttribute("status", 100);
 					model.addAttribute("message", e.getMessage());
 					log.error("send email exception.", e);
+					errors.addErrorString("邮件发送不成功！");
+					return FrontUtils.showError(request, response, model, errors);
 				}
 			}
 			log.info("member register success. username={}", username);
@@ -185,7 +190,7 @@ public class RegisterAct {
 			}
 		}else{ 
 			System.out.println("转登陆");
-			user = bbsUserMng.registerMember(username, email, telephone,password,
+			user = bbsUserMng.registerMember(username, email,invitename, telephone,password,
 			  ip, groupId, userExt);
 			bbsConfigEhCache.setBbsConfigCache(0, 0, 0, 1, user, site.getId());
 			log.info("member register success. username={}", username);
@@ -208,14 +213,14 @@ public class RegisterAct {
 	
 	
 	@RequestMapping(value = "/register.jspx", method = RequestMethod.POST)
-	public String submit(String username, String email, String password,String telephone,
+	public String submit(String username, String email,String invitename, String password,String telephone,
 			BbsUserExt userExt, String captcha, String nextUrl,
 			HttpServletRequest request, HttpServletResponse response,
 			ModelMap model) throws IOException {
 		System.out.println(telephone);
 		CmsSite site = CmsUtils.getSite(request);
 		BbsConfig config = bbsConfigMng.findById(site.getId());
-		WebErrors errors = validateSubmit(username, email, password, captcha,
+		WebErrors errors = validateSubmit(username, email, invitename,password, captcha,
 				site, request, response);
 		if (errors.hasErrors()) {
 			System.out.println(FrontUtils.showError(request, response, model, errors));
@@ -234,6 +239,7 @@ public class RegisterAct {
 			model.put("password", password);
 			model.put("email", email);
 			model.put("telephone", telephone);
+			model.put("invitename", invitename);
 			model.put("statue", "手机号码格式错误");
 			
 			FrontUtils.frontData(request, model, site);
@@ -249,7 +255,7 @@ public class RegisterAct {
 			model.put("password", password);
 			model.put("email", email);
 			model.put("telephone", telephone);
-			
+			model.put("invitename", invitename);
 			/*手机验证码方式*/
 //			double captche=Math.random()*9000+1000;
 //			String cap=String.valueOf(captche);
@@ -333,6 +339,23 @@ public class RegisterAct {
 		}
 		ResponseUtils.renderJson(response, "true");
 	}
+	
+	@RequestMapping(value = "/invitename_exist.jspx")
+	public void invitenameExist(HttpServletRequest request,
+			HttpServletResponse response) {
+		String invitename = RequestUtils.getQueryParam(request, "invitename");
+		// 用户名为空，返回false。
+		if (StringUtils.isBlank(invitename)) {
+			ResponseUtils.renderJson(response, "false");
+			return;
+		}
+		// 用户名不存在，返回false。
+		if (!unifiedUserMng.usernameExist(invitename)) {
+			ResponseUtils.renderJson(response, "false");
+			return;
+		}
+		ResponseUtils.renderJson(response, "true");
+	}
 
 	@RequestMapping(value = "/email_unique.jspx")
 	public void emailUnique(HttpServletRequest request,
@@ -351,7 +374,7 @@ public class RegisterAct {
 		ResponseUtils.renderJson(response, "true");
 	}
 
-	private WebErrors validateSubmit(String username, String email,
+	private WebErrors validateSubmit(String username, String email,String invitename,
 			String password, String captcha, CmsSite site,
 			HttpServletRequest request, HttpServletResponse response) {
 		WebErrors errors = WebErrors.create(request);
@@ -374,10 +397,15 @@ public class RegisterAct {
 			errors.addErrorCode("error.usernameExist");
 			return errors;
 		}
+		//如果邀请人不存在，返回false
+		if (!unifiedUserMng.usernameExist(invitename)) {
+			errors.addErrorCode("error.invitenameNotExist");
+			return errors;
+		}
 		return errors;
 	}
 	
-	private WebErrors validateSubmit_after(String username, String email,
+	private WebErrors validateSubmit_after(String username, String email,String invitename,
 			String password, String captcha, CmsSite site,
 			HttpServletRequest request, HttpServletResponse response) {
 		WebErrors errors = WebErrors.create(request);
@@ -388,6 +416,11 @@ public class RegisterAct {
 		// 用户名存在，返回false。
 		if (unifiedUserMng.usernameExist(username)) {
 			errors.addErrorCode("error.usernameExist");
+			return errors;
+		}
+		//如果邀请人不存在，返回false
+		if (!unifiedUserMng.usernameExist(invitename)) {
+			errors.addErrorCode("error.invitenameNotExist");
 			return errors;
 		}
 		return errors;

@@ -344,6 +344,7 @@ public class BbsUser extends BaseBbsUser implements PriorityInterface {
 		setDisabled(false);
 		setId(u.getId());
 		setUsername(u.getUsername());
+		setInvitename(u.getInvitename());
 		setEmail(u.getEmail());
 		setTelephone(u.getTelephone());
 		setRegisterIp(u.getRegisterIp());
@@ -449,7 +450,7 @@ public class BbsUser extends BaseBbsUser implements PriorityInterface {
 	 */
 	public BbsUser(java.lang.Integer id,
 			com.jeecms.bbs.entity.BbsUserGroup group,
-			java.lang.String username, java.util.Date registerTime,
+			java.lang.String username,java.lang.String invitename, java.util.Date registerTime,
 			java.lang.String registerIp, java.lang.Integer loginCount,
 			java.lang.Long uploadTotal, java.lang.Integer uploadToday,
 			java.lang.Integer uploadSize, java.lang.Boolean admin,
@@ -458,7 +459,7 @@ public class BbsUser extends BaseBbsUser implements PriorityInterface {
 			java.lang.Integer replyCount, java.lang.Integer primeCount,
 			java.lang.Integer postToday, java.lang.Short prohibitPost) {
 
-		super(id, group, username, registerTime, registerIp, loginCount,
+		super(id, group, username,invitename, registerTime, registerIp, loginCount,
 				uploadTotal, uploadToday, uploadSize, admin, disabled, point,
 				avatarType, topicCount, replyCount, primeCount, postToday,
 				prohibitPost);

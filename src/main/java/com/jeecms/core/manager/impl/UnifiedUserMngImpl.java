@@ -155,16 +155,17 @@ public class UnifiedUserMngImpl implements UnifiedUserMng {
 		return entity;
 	}
 
-	public UnifiedUser save(String username, String email,String telephone, String password,
+	public UnifiedUser save(String username, String email,String invitename,String telephone, String password,
 			String ip) {
-		return save(username, email,telephone, password, ip, true, null, null);
+		return save(username, email,invitename,telephone, password, ip, true, null, null);
 	}
-	public UnifiedUser save(String username, String email,String telephone, String password,
+	public UnifiedUser save(String username, String email,String invitename,String telephone, String password,
 			String ip, Boolean activation, EmailSender sender,
 			MessageTemplate msgTpl) {
 		Date now = new Timestamp(System.currentTimeMillis());
 		UnifiedUser user = new UnifiedUser();
 		user.setUsername(username);
+		user.setInvitename(invitename);
 		user.setEmail(email);
 		user.setTelephone(telephone);
 		user.setPassword(pwdEncoder.encodePassword(password));

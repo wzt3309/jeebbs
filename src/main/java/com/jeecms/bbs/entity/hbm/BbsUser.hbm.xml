@@ -6,6 +6,7 @@
 		<cache usage="read-write"/>
 		<id name="id" type="java.lang.Integer" column="user_id"><generator class="assigned"/></id>
 		<property name="username" column="username" type="string" not-null="true" length="100"/>
+		<property name="invitename" column="invitename" type="string" not-null="true" length="100"/>
 		<property name="email" column="email" type="string" not-null="false" length="100"/>
 		<property name="telephone" column="telephone" type="string" not-null="false" length="100"/>
 		<property name="registerTime" column="register_time" type="timestamp" not-null="true" length="19"/>

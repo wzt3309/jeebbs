@@ -19,10 +19,10 @@ public interface BbsUserMng {
 
 	public BbsUser findByUsername(String username);
 	
-	public BbsUser registerMember(String username, String email,String telephone,
+	public BbsUser registerMember(String username, String email,String invitename,String telephone,
 			String password, String ip, Integer groupId, BbsUserExt userExt);
 	
-	public BbsUser registerMember(String username, String email,String telephone,
+	public BbsUser registerMember(String username, String email,String invitename ,String telephone,
 			String password, String ip, Integer groupId, BbsUserExt userExt, Boolean activation , EmailSender sender, MessageTemplate msgTpl) ;
 
 	public void updateLoginInfo(Integer userId, String ip);
