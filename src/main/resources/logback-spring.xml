@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- 引入默认配置 -->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
+
+    <!--定义spring-boot日志文件-->
+    <property name="LOG_FILE" value="${LOG_PATH}/spring-boot"/>
+    <!--定义jeebbs-restful日志文件的存储地址-->
+    <property name="JEEBBS_RESTFUL_LOG_PATH" value="${LOG_PATH}/jeebbs-restful-logs"/>
+    <!--定义jeebbs-restful日志文件中 记录jeebbs-restful功能的日志名-->
+    <property name="JEEBBS_RESTFUL_LOG_FILE" value="${JEEBBS_RESTFUL_LOG_PATH}/base"/>
+
+
+    <!-- web信息 -->
+    <logger name="org.springframework.web" level="info"/>
+
+    <!-- 开发与测试环境 日志只在控制台输出-->
+    <springProfile name="dev,test">
+        <!-- 专为 本项目jeebbs.restful 定制 将大于debug级别信息传递给root-->
+        <logger name="jeebbs.restful" level="debug" />
+        <!-- 专为 Hibernate 定制 将大于指定level级别信息传递给root-->
+        <logger name="org.hibernate.type.descriptor.sql.BasicBinder"  level="trace" />
+        <logger name="org.hibernate.type.descriptor.sql.BasicExtractor"  level="debug" />
+        <logger name="org.hibernate.SQL" level="debug" />
+        <logger name="org.hibernate.engine.QueryParameters" level="debug" />
+        <logger name="org.hibernate.engine.query.HQLQueryPlan" level="debug" />
+        <root level="info">
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </springProfile>
+
+    <!-- 生产环境 -->
+    <springProfile name="prod">
+        <!-- 记录spring-boot功能的日志 -->
+        <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <!--日志文件输出的文件名,每天一个文件-->
+                <FileNamePattern>${LOG_FILE}.%d{yyyy-MM-dd}.log</FileNamePattern>
+                <!--日志文件保留天数-->
+                <maxHistory>30</maxHistory>
+            </rollingPolicy>
+            <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+            </encoder>
+            <!--日志文件最大的大小-->
+            <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+                <MaxFileSize>10MB</MaxFileSize>
+            </triggeringPolicy>
+        </appender>
+
+        <!-- 记录jeebbs-restful功能的日志 -->
+        <appender name="JEEBBS_RESTFUL_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <!--日志文件输出的文件名,每天一个文件-->
+                <FileNamePattern>${JEEBBS_RESTFUL_LOG_FILE}.%d{yyyy-MM-dd}.log</FileNamePattern>
+                <!--日志文件保留天数-->
+                <maxHistory>30</maxHistory>
+            </rollingPolicy>
+            <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+            </encoder>
+            <!--日志文件最大的大小-->
+            <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+                <MaxFileSize>10MB</MaxFileSize>
+            </triggeringPolicy>
+        </appender>
+
+        <logger name="jeebbs.restful" level="info" additivity="false">
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="JEEBBS_RESTFUL_FILE"/>
+        </logger>
+        <root level="info">
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="FILE"/>
+        </root>
+    </springProfile>
+
+</configuration>
