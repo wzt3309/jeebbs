@@ -1,5 +1,6 @@
 package jeebbs.restful.util;
 
+import ch.qos.logback.core.util.TimeUtil;
 import jeebbs.restful.util.model.Throttle;
 import org.apache.http.*;
 import org.apache.http.client.ClientProtocolException;
@@ -12,6 +13,7 @@ import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
 import org.apache.http.conn.ConnectTimeoutException;
+import org.apache.http.conn.HttpClientConnectionManager;
 import org.apache.http.conn.socket.ConnectionSocketFactory;
 import org.apache.http.conn.socket.LayeredConnectionSocketFactory;
 import org.apache.http.conn.socket.PlainConnectionSocketFactory;
@@ -34,6 +36,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * HTTP 请求工具类
@@ -77,7 +80,8 @@ public final class HttpUtil {
         POOLING_HTTP_CLIENT_CONNECTION_MANAGER = new PoolingHttpClientConnectionManager(registry);
         POOLING_HTTP_CLIENT_CONNECTION_MANAGER.setMaxTotal(DEFAULT_MAX_CONN_NUM);
         POOLING_HTTP_CLIENT_CONNECTION_MANAGER.setDefaultMaxPerRoute(DEFAULT_MAX_PER_ROUTE);
-
+        // 启动监视并清理在连接池中超时的httpclient连接
+        new Thread(new IdleConnectionMonitorService(POOLING_HTTP_CLIENT_CONNECTION_MANAGER)).start();
         RETRY_HANDLER = new HttpRequestRetryHandler() {
             @Override
             public boolean retryRequest(IOException e, int i, HttpContext httpContext) {
@@ -154,6 +158,7 @@ public final class HttpUtil {
         String combineURL = combineURL(url, params);
         try {
             httpGet = createHttpGet(combineURL, header);
+//            LOG.info(combineURL + " wait");
             throttle.wait(combineURL);
 //            response = HttpClients.createDefault().execute(httpGet);
 //            System.out.println(Thread.currentThread() + HTTPCLIENT.toString());
@@ -268,5 +273,31 @@ public final class HttpUtil {
 
     private static String errMsg(String url, Header[] headers, String eMsg) {
         return String.format("eMsg: %s, URL: %s, Headers: %s", eMsg, url, resolveHeader(headers));
+    }
+
+    private static class IdleConnectionMonitorService implements Runnable {
+        private final HttpClientConnectionManager connMgr;
+        private volatile boolean shutdown;
+
+        public IdleConnectionMonitorService(HttpClientConnectionManager connMgr) {
+            this.connMgr = connMgr;
+        }
+        @Override
+        public void run() {
+            try {
+                while (!shutdown) {
+                    synchronized (this) {
+                        wait(5000);
+                        // 关闭过期连接
+                        connMgr.closeExpiredConnections();
+                        // 关闭超时120s未其他动作的连接
+                        connMgr.closeIdleConnections(120, TimeUnit.SECONDS);
+                        LOG.info("过期连接关闭");
+                    }
+                }
+            } catch (InterruptedException e) {
+                LOG.warn("HttpClient 空闲连接检查服务被终止");
+            }
+        }
     }
 }

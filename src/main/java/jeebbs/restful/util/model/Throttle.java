@@ -7,8 +7,8 @@ import org.springframework.util.StringUtils;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -21,7 +21,7 @@ public class Throttle {
 
     private static final long DEFAULT_DELAY = 100;   //延迟100ms
     private AtomicLong delay;
-    private Map<String, Date> domains = new ConcurrentHashMap<>();
+    private Map<String, Date> domains = new HashMap<>();
 
     public Throttle() {
         this(DEFAULT_DELAY);
@@ -43,20 +43,21 @@ public class Throttle {
         }
 
         if (StringUtils.isEmpty(domain)) return;
-
-        final Date lastAccessed = domains.get(domain);
-        if (delay.get() > 0 && lastAccessed != null) {
-            long sleepMillis = delay.get() - millisHasGone(lastAccessed);
-            if (sleepMillis > 0) {
-                try {
-//                    LOG.info(Thread.currentThread() + "sleeping..." + sleepMillis);
-                    TimeUnit.MILLISECONDS.sleep(sleepMillis);
-                } catch (InterruptedException e) {
-                    LOG.warn("Interrupted has happened");
+        synchronized (this) {
+            final Date lastAccessed = domains.get(domain);
+            if (delay.get() > 0 && lastAccessed != null) {
+                long sleepMillis = delay.get() - millisHasGone(lastAccessed);
+                if (sleepMillis > 0) {
+                    try {
+//                        LOG.info(Thread.currentThread() + "sleeping..." + sleepMillis);
+                        TimeUnit.MILLISECONDS.sleep(sleepMillis);
+                    } catch (InterruptedException e) {
+                        LOG.warn("Interrupted has happened");
+                    }
                 }
             }
+            domains.put(domain, new Date());
         }
-        domains.put(domain, new Date());
     }
 
     public long millisHasGone(final Date lastAccessed) {

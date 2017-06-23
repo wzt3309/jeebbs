@@ -1,6 +1,9 @@
 package jeebbs.restful.util;
 
+import org.junit.Assert;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -12,6 +15,7 @@ import static org.junit.Assert.*;
  * Created by ztwang on 2017/6/23 0023.
  */
 public class HttpUtilTest {
+    private static final Logger LOG = LoggerFactory.getLogger(HttpUtilTest.class);
     /**
      * 测量多线程专区的速度
      * 每个URL启动一个线程
@@ -48,10 +52,12 @@ public class HttpUtilTest {
 
         long start = System.currentTimeMillis();
         try {
-            int pagecount = urisToGet.length;
+            int pagecount = 4;
+            assert pagecount <= urisToGet.length;
+            int pussure = 1;
             ExecutorService executors = Executors.newFixedThreadPool(pagecount);
-            final CountDownLatch countDownLatch = new CountDownLatch(pagecount * 100);
-            for(int j = 0; j < 100; j++){
+            final CountDownLatch countDownLatch = new CountDownLatch(pagecount * pussure);
+            for(int j = 0; j < pussure; j++){
                 for(int i = 0; i < pagecount;i++){
                     //启动线程抓取
                     final String url = urisToGet[i];
@@ -60,8 +66,8 @@ public class HttpUtilTest {
                         @Override
                         public void run() {
                             try {
-                                HttpUtil.sendGET(url);
-//                                System.out.println(Thread.currentThread() + ": " +count);
+                                String html = HttpUtil.sendGET(url);
+                                LOG.info(html.substring(0, 100).trim());
                             } finally {
                                 count.countDown();
                             }
@@ -72,13 +78,12 @@ public class HttpUtilTest {
             countDownLatch.await();
             executors.shutdown();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         } finally {
-            System.out.println("线程" + Thread.currentThread().getName()
-                    + "," + System.currentTimeMillis() + ", 所有线程已完成，开始进入下一步！");
+            LOG.info("所有线程已完成，开始进入下一步！");
         }
 
         long end = System.currentTimeMillis();
-        System.out.println("consume -> " + (end - start));
+        LOG.info("共用时: " + (end - start) + "ms");
     }
 }
