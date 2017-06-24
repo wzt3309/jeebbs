@@ -27,6 +27,8 @@ public class HttpUtilTest {
                 "http://blog.csdn.net/gaolu/article/details/48466059",
                 "http://blog.csdn.net/gaolu/article/details/48243103",
                 "http://blog.csdn.net/gaolu/article/details/47656987",
+                "http://business.sohu.com/",
+                "http://business.sohu.com/",
                 "http://blog.csdn.net/gaolu/article/details/47055029",
 
                 "http://blog.csdn.net/gaolu/article/details/46400883",
@@ -52,7 +54,7 @@ public class HttpUtilTest {
 
         long start = System.currentTimeMillis();
         try {
-            int pagecount = 4;
+            int pagecount = 5;
             assert pagecount <= urisToGet.length;
             int pussure = 1;
             ExecutorService executors = Executors.newFixedThreadPool(pagecount);
@@ -67,7 +69,7 @@ public class HttpUtilTest {
                         public void run() {
                             try {
                                 String html = HttpUtil.sendGET(url);
-                                LOG.info(html.substring(0, 100).trim());
+                                LOG.info(html.substring(0, 100).trim().replaceAll("[\r\n\t]", "\0"));
                             } finally {
                                 count.countDown();
                             }

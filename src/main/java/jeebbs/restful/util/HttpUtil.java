@@ -292,7 +292,7 @@ public final class HttpUtil {
                         connMgr.closeExpiredConnections();
                         // 关闭超时120s未其他动作的连接
                         connMgr.closeIdleConnections(120, TimeUnit.SECONDS);
-                        LOG.info("过期连接关闭");
+//                        LOG.info("过期连接关闭");
                     }
                 }
             } catch (InterruptedException e) {

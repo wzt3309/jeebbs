@@ -9,7 +9,6 @@ import java.net.URL;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -44,16 +43,18 @@ public class Throttle {
 
         if (StringUtils.isEmpty(domain)) return;
         synchronized (this) {
-            final Date lastAccessed = domains.get(domain);
+            Date lastAccessed = domains.get(domain);
             if (delay.get() > 0 && lastAccessed != null) {
                 long sleepMillis = delay.get() - millisHasGone(lastAccessed);
-                if (sleepMillis > 0) {
+                while (sleepMillis > 0) {
                     try {
-//                        LOG.info(Thread.currentThread() + "sleeping..." + sleepMillis);
-                        TimeUnit.MILLISECONDS.sleep(sleepMillis);
+                        LOG.info(String.format("\'%s\' waiting... %d ms", url, sleepMillis));
+                        wait(sleepMillis);
                     } catch (InterruptedException e) {
                         LOG.warn("Interrupted has happened");
                     }
+                    lastAccessed = domains.get(domain);
+                    sleepMillis = delay.get() - millisHasGone(lastAccessed);
                 }
             }
             domains.put(domain, new Date());
