@@ -18,6 +18,9 @@ public final class NewsUtil {
     public static final String PROP_NEWS_URL = "url";
     public static final String PROP_NEWS_SELECTOR = "selector";
     public static final String PROP_NEWS_ABSTRACT_LEN = "abstract.length";
+    public static final String PROP_NEWS_SELECTOR_TITLE = "selector.title";
+    public static final String PROP_NEWS_SELECTOR_TIME = "selector.time";
+    public static final String PROP_NEWS_SELECTOR_PROFILE = "selector.profile";
 
     private static final Logger LOG = LoggerFactory.getLogger(NewsUtil.class);
     private static final String PROPERTIES_FILENAME = "/crawl-news.properties";

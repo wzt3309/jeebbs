@@ -23,6 +23,8 @@ import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
@@ -31,6 +33,7 @@ import javax.net.ssl.SSLException;
 import javax.net.ssl.SSLHandshakeException;
 import java.io.IOException;
 import java.io.InterruptedIOException;
+import java.io.UnsupportedEncodingException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +49,8 @@ public final class HttpUtil {
 
     private static final Throttle DEFAULT_THROTTLE = new Throttle();
 
-    private static final String HEADER_DEFAULT_ACCEPT = "text/html, */*; q=0.01";
+    private static final String HEADER_DEFAULT_ACCEPT = "text/html,application/xhtml+xml," +
+                                                        "application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8";
     private static final String HEADER_DEFAULT_ACCEPT_ENCODING = "gzip, deflate,sdch";
     private static final String HEADER_DEFAULT_ACCEPT_LANGUAGE = "zh-CN,zh;q=0.8";
     private static final String HEADER_DEFAULT_CONNECTION = "keep-alive";
@@ -165,7 +169,23 @@ public final class HttpUtil {
             if (response != null) {
                 try {
                     HttpEntity entity = response.getEntity();
-                    html = EntityUtils.toString(entity, Consts.UTF_8);
+                    html = EntityUtils.toString(entity, "utf-8");
+                    Elements metaEncods = HtmlUtil.getElementsBySelector(html, "meta[http-equiv=\"Content-Type\"]");
+                    Element metaEncod = metaEncods != null ? metaEncods.first() : null;
+                    String charset = metaEncod != null ? metaEncod.attr("content") : "utf-8";
+                    int at = charset.indexOf("charset=");
+                    if (at > 0) {
+                        charset = charset.substring(at + "charset=".length());
+                    }
+
+                    if (!"utf-8".equals(charset)) {
+                        try {
+                            entity = getHttpclient().execute(httpGet).getEntity();
+                            html = EntityUtils.toString(entity, charset);
+                        } catch (UnsupportedEncodingException e) {
+                            //ignore
+                        }
+                    }
                     EntityUtils.consume(entity);
                 }finally {
                     response.close();
@@ -184,6 +204,7 @@ public final class HttpUtil {
                         e.getMessage())
                     );
         }
+
         return html;
     }
 

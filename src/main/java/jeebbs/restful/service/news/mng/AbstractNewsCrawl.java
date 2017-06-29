@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import java.util.List;
 
 import static jeebbs.restful.service.news.model.NewsUtil.*;
-import static jeebbs.restful.service.news.model.NewsUtil.PROP_NEWS_ABSTRACT_LEN;
 
 /**
  * Created by ztwang on 2017/6/29 0029.
@@ -20,7 +19,10 @@ public abstract class AbstractNewsCrawl implements Runnable{
     protected String url;
     protected String layout;
     protected String selector;
-    protected String abstractLength;
+    protected int abstractLength;
+    protected String titleSelector;
+    protected String timeSelector;
+    protected String profileSelector;
 
     public AbstractNewsCrawl(String source, Logger LOG) {
         this.LOG = LOG;
@@ -28,7 +30,11 @@ public abstract class AbstractNewsCrawl implements Runnable{
         this.url = NewsUtil.get(source, PROP_NEWS_URL);
         this.layout = NewsUtil.get(source, PROP_NEWS_LAYOUT);
         this.selector = NewsUtil.get(source, PROP_NEWS_SELECTOR);
-        this.abstractLength = NewsUtil.get(source, PROP_NEWS_ABSTRACT_LEN);
+        String len = NewsUtil.get(source, PROP_NEWS_ABSTRACT_LEN);
+        this.abstractLength = Integer.valueOf(len);
+        this.titleSelector = NewsUtil.get(source, PROP_NEWS_SELECTOR_TITLE);
+        this.timeSelector = NewsUtil.get(source, PROP_NEWS_SELECTOR_TIME);
+        this.profileSelector = NewsUtil.get(source, PROP_NEWS_SELECTOR_PROFILE);
     }
 
     @Override
@@ -39,7 +45,7 @@ public abstract class AbstractNewsCrawl implements Runnable{
         }
     }
 
-    public List<News> getNewsList() {
+    private List<News> getNewsList() {
         String response = HttpUtil.sendGET(url);
         Parser2News parser = getParser();
         if (parser != null) return parser.parse2News(response);
@@ -47,5 +53,5 @@ public abstract class AbstractNewsCrawl implements Runnable{
     }
 
 
-    public abstract Parser2News getParser();
+    protected abstract Parser2News getParser();
 }

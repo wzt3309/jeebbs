@@ -85,4 +85,10 @@ public class HttpUtilTest {
         long end = System.currentTimeMillis();
         LOG.info("共用时: " + (end - start) + "ms");
     }
+
+    @Test
+    public void testEncoding() {
+        String url = "http://finance.sina.com.cn/";
+        System.out.println(HttpUtil.sendGET(url));
+    }
 }

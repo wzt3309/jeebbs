@@ -3,9 +3,6 @@ package jeebbs.restful.service.news.mng;
 
 import org.junit.Test;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -14,10 +11,9 @@ import java.util.concurrent.TimeUnit;
 public class SouhuNewsCrawlTest {
     @Test
     public void run() throws Exception {
-        ExecutorService executor = Executors.newCachedThreadPool();
-        executor.execute(new SouhuNewsCrawl());
-        TimeUnit.SECONDS.sleep(5);
-        executor.shutdown();
+        Thread t = new Thread(new SouhuNewsCrawl());
+        t.start();
+        t.join();
     }
 
 }

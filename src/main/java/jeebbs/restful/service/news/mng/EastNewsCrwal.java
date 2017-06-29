@@ -1,6 +1,5 @@
 package jeebbs.restful.service.news.mng;
 
-
 import jeebbs.restful.service.news.model.HtmlParse2News;
 import jeebbs.restful.service.news.model.News;
 import jeebbs.restful.service.news.model.Parser2News;
@@ -16,29 +15,25 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
- * Created by ztwang on 2017/6/29 0029.
+ * Created by ztwang on 2017/6/30 0030.
  */
-public class SouhuNewsCrawl extends AbstractNewsCrawl {
-    private static final Logger LOG = LoggerFactory.getLogger(AbstractNewsCrawl.class);
-    private static final String SOURCE = "souhu";
-
-    public SouhuNewsCrawl() {
+public class EastNewsCrwal extends AbstractNewsCrawl{
+    private static final Logger LOG = LoggerFactory.getLogger(EastNewsCrwal.class);
+    private static final String SOURCE = "east";
+    public EastNewsCrwal() {
         super(SOURCE, LOG);
     }
 
     @Override
     protected Parser2News getParser() {
-        return new SouhuHtmlParse2News();
+        return new EastHtmlParse2News();
     }
 
-    private class SouhuHtmlParse2News extends HtmlParse2News{
-
-        SouhuHtmlParse2News() {
-            selector = SouhuNewsCrawl.this.selector;
+    private class EastHtmlParse2News extends HtmlParse2News {
+        EastHtmlParse2News() {
+            selector = EastNewsCrwal.this.selector;
         }
-
         @Override
         protected List<News> parse2News(Elements containers) {
             if (containers == null || containers.isEmpty()) return null;
@@ -51,12 +46,11 @@ public class SouhuNewsCrawl extends AbstractNewsCrawl {
                 href = HtmlUtil.normalizeHref(href, url);
                 String html = HttpUtil.sendGET(href);
                 String profile = getProfile(html, profileSelector, abstractLength);
-                Timestamp stmp = getTimestamp(html, timeSelector, "data-val", null);
+                Timestamp stmp = getTimestamp(html, timeSelector, null, "yyyy年MM月dd日 HH:mm");
                 News news = new News(name, title, href, profile, stmp);
                 newsList.add(news);
             }
-
-            return newsList.isEmpty() ? null : newsList ;
+            return newsList.isEmpty() ? null : newsList;
         }
     }
 }

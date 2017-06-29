@@ -6,6 +6,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.util.StringUtils;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -106,6 +108,20 @@ public final class HtmlUtil {
     public static Map<String, String> getAttrsBySelector(String html, String selector, int at) {
         List<Map<String, String>> attrsList = getAttrsBySelector(html, selector);
         return (Map<String, String>) get(attrsList, at);
+    }
+
+    public static String normalizeHref(String href, String defaultHref) {
+        if (StringUtils.isEmpty(href)) return null;
+        // 临时手段
+        if (!href.startsWith("http://"))
+            if (href.startsWith("//")) href = "http:" + href;
+            else href = "http://" + href;
+        try {
+            URI uri = new URI(href);
+        } catch (URISyntaxException e) {
+            href = defaultHref;
+        }
+        return href;
     }
 
     private static Object get(List list, int at) {
