@@ -7,7 +7,6 @@ import org.jsoup.select.Elements;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -51,9 +50,7 @@ public final class HtmlUtil {
     public static List<Elements> getChildrenBySelector(Elements elements, String selector) {
         if (elements == null || elements.isEmpty() || StringUtils.isEmpty(selector)) return null;
         List<Elements> res = new ArrayList<>();
-        Iterator<Element> iterator = elements.iterator();
-        while (iterator.hasNext()) {
-            Element element = iterator.next();
+        for (Element element: elements) {
             Elements childrenSelected = getChildrenBySelector(element, selector);
             if (childrenSelected != null && !childrenSelected.isEmpty()) res.add(elements);
         }
@@ -63,9 +60,7 @@ public final class HtmlUtil {
     public static List<String> parse(Elements elements) {
         if (elements == null || elements.isEmpty()) return null;
         List<String> parseList = new ArrayList<>(elements.size());
-        Iterator<Element> iterator = elements.iterator();
-        while (iterator.hasNext()) {
-            Element element = iterator.next();
+        for (Element element: elements) {
             String text = element.ownText();
             parseList.add(text);
         }
@@ -90,9 +85,7 @@ public final class HtmlUtil {
     public static List<Map<String, String>> getAttrs(Elements elements) {
         if (elements == null || elements.isEmpty()) return null;
         List<Map<String, String>> attrsList = new ArrayList<>(elements.size());
-        Iterator<Element> iterator = elements.iterator();
-        while (iterator.hasNext()) {
-            Element element = iterator.next();
+        for (Element element: elements) {
             Map<String, String> dataset = element.dataset();
             if (dataset == null || dataset.isEmpty()) attrsList.add(null);
             attrsList.add(dataset);

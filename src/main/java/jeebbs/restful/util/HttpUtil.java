@@ -1,6 +1,5 @@
 package jeebbs.restful.util;
 
-import ch.qos.logback.core.util.TimeUtil;
 import jeebbs.restful.util.model.Throttle;
 import org.apache.http.*;
 import org.apache.http.client.ClientProtocolException;

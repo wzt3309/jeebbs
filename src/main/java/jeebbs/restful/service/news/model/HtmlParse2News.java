@@ -3,7 +3,6 @@ package jeebbs.restful.service.news.model;
 import jeebbs.restful.util.HtmlUtil;
 import org.jsoup.select.Elements;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,7 +13,6 @@ public abstract class HtmlParse2News implements Parser2News{
 
     @Override
     public List<News> parse2News(String reponse) {
-        List<News> newsList = new ArrayList<>();
         Elements containers = HtmlUtil.getElementsBySelector(reponse, selector);
         return parse2News(containers);
     }

@@ -5,7 +5,6 @@ import jeebbs.restful.service.news.model.NewsUtil;
 import jeebbs.restful.service.news.model.Parser2News;
 import jeebbs.restful.util.HttpUtil;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.List;
 

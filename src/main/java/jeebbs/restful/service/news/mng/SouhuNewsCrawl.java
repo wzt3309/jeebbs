@@ -16,7 +16,6 @@ import org.springframework.util.StringUtils;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 
@@ -29,6 +28,7 @@ public class SouhuNewsCrawl extends AbstractNewsCrawl {
     private String titleSelector;
     private String timeSelector;
     private String profileSelector;
+
     public SouhuNewsCrawl() {
         super(SOURCE, LOG);
         this.titleSelector = NewsUtil.get(SOURCE, "selector.title");
@@ -51,9 +51,7 @@ public class SouhuNewsCrawl extends AbstractNewsCrawl {
         protected List<News> parse2News(Elements containers) {
             if (containers == null || containers.isEmpty()) return null;
             List<News> newsList = new ArrayList<>();
-            Iterator<Element> iterator = containers.iterator();
-            while (iterator.hasNext()) {
-                Element content = iterator.next();
+            for (Element content: containers) {
                 Element titleElem = HtmlUtil.getChildrenBySelector(content, titleSelector, 0);
                 Element timeElem = HtmlUtil.getChildrenBySelector(content, timeSelector, 0);
                 String title = titleElem.text();
@@ -81,9 +79,8 @@ public class SouhuNewsCrawl extends AbstractNewsCrawl {
             String profile = null;
             String html = HttpUtil.sendGET(href);
             Elements article = HtmlUtil.getElementsBySelector(html, profileSelector);
-            Iterator<Element> iterator = article.iterator();
-            while (iterator.hasNext()) {
-                Element p = iterator.next();
+            if (article == null || !article.isEmpty()) return null;
+            for (Element p: article) {
                 Attributes pAttrs = p.attributes();
                 if (pAttrs == null || pAttrs.size() == 0) {
                     profile = p.ownText();
