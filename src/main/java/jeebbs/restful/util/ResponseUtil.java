@@ -17,18 +17,18 @@ public final class ResponseUtil {
     private static final Logger LOG = LoggerFactory.getLogger(ResponseUtil.class);
 
     private static final String UNKNOWN_MSG = "Unknown";
-    private static final String MESSAGE_FILENAME = "/resCodeMsg.properties";
+    private static final String MESSAGE_FILENAME = "/res-code.properties";
     private static final Map<Integer, String> MESSAGES = new HashMap<>();
     static {
         Properties prop = new Properties();
         try(InputStream in = ResponseUtil.class.getResourceAsStream(MESSAGE_FILENAME)) {
             if (in == null) {
-               LOG.error("Can't find \'resCodeMsg.properties\'");
+               LOG.error("Can't find \'res-code.properties\'");
             } else {
                 prop.load(in);
             }
         } catch (IOException e) {
-            LOG.error("IOException happened when load \'resCodeMsg.properties\'");
+            LOG.error("IOException happened when load \'res-code.properties\'");
         }
 
         if (!prop.isEmpty()) {
