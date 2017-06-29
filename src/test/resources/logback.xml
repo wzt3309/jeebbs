@@ -6,6 +6,7 @@
         </encoder>
     </appender>
 
+    <logger name="jeebbs.restful" level="debug" />
     <root level="INFO">
         <!-- appender referenced after it is defined -->
         <appender-ref ref="STDOUT"/>
