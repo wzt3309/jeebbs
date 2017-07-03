@@ -18,11 +18,27 @@ import java.util.Map;
 public final class HtmlUtil {
 
     private HtmlUtil() {}
+
+    public static String getTitle(String html) {
+        if (StringUtils.isEmpty(html)) return null;
+        Document doc = Jsoup.parse(html);
+        return doc.title();
+    }
+
     public static Elements getElementsBySelector(String html, String selector) {
         if (StringUtils.isEmpty(html) || StringUtils.isEmpty(selector)) return null;
         Document doc = Jsoup.parse(html);
         Elements elements = doc.select(selector);
         return elements;
+    }
+
+    public static Element getElementsBySelector(String html, String selector, int at) {
+        Elements elements = getElementsBySelector(html, selector);
+        return (Element) get(elements, at);
+    }
+
+    public static Element getFirstChildBySelector(String html, String selector) {
+        return getElementsBySelector(html, selector, 0);
     }
 
     /**
@@ -41,6 +57,10 @@ public final class HtmlUtil {
     public static Element getChildrenBySelector(Element element, String selector, int at) {
         Elements elements = getChildrenBySelector(element, selector);
         return (Element) get(elements, at);
+    }
+
+    public static Element getFirstChildBySelector(Element element, String selector) {
+        return getChildrenBySelector(element, selector, 0);
     }
 
     /**
@@ -108,6 +128,10 @@ public final class HtmlUtil {
     public static Map<String, String> getAttrsBySelector(String html, String selector, int at) {
         List<Map<String, String>> attrsList = getAttrsBySelector(html, selector);
         return (Map<String, String>) get(attrsList, at);
+    }
+
+    public static boolean isEmpty(Elements elements) {
+        return elements == null || elements.isEmpty();
     }
 
     public static String normalizeHref(String href, String defaultHref) {

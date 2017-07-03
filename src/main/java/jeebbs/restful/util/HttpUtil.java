@@ -63,7 +63,7 @@ public final class HttpUtil {
     private static final int SOCKET_TIMEOUT = 5000;
 
     /*有关http连接工厂的参数*/
-    private static final int DEFAULT_MAX_RETRIES = 3;
+    private static final int DEFAULT_MAX_RETRIES = 5;
     private static final int DEFAULT_MAX_CONN_NUM = 200;
     private static final int DEFAULT_MAX_PER_ROUTE = 20;
     //httpClient连接池
@@ -99,7 +99,7 @@ public final class HttpUtil {
                     return false;
                 }
                 if (e instanceof InterruptedIOException) {// 超时
-                    return false;
+                    return true;
                 }
                 if (e instanceof UnknownHostException) {// 目标服务器不可达
                     return false;

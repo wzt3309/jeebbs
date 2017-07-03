@@ -13,14 +13,19 @@ public final class NewsUtil {
 
     public static final String PROP_NEWS_SOURCES = "news.sources";
     public static final String PROP_NEWS_PREFIX = "news.source";
+    public static final String PROP_NEWS_URL = "url";
     public static final String PROP_NEWS_NAME = "name";
     public static final String PROP_NEWS_LAYOUT = "layout";
-    public static final String PROP_NEWS_URL = "url";
     public static final String PROP_NEWS_SELECTOR = "selector";
-    public static final String PROP_NEWS_ABSTRACT_LEN = "abstract.length";
-    public static final String PROP_NEWS_SELECTOR_TITLE = "selector.title";
-    public static final String PROP_NEWS_SELECTOR_TIME = "selector.time";
-    public static final String PROP_NEWS_SELECTOR_PROFILE = "selector.profile";
+    public static final String PROP_NEWS_SELECTOR_TITLE = PROP_NEWS_SELECTOR + ".title";
+    public static final String PROP_NEWS_SELECTOR_TIME = PROP_NEWS_SELECTOR + ".time";
+    public static final String PROP_NEWS_SELECTOR_PROFILE = PROP_NEWS_SELECTOR + ".profile";
+    public static final String PROP_NEWS_TIME_ATTR = "time.attr";
+    public static final String PROP_NEWS_TIME_FORMAT = "time.format";
+    public static final String PROP_NEWS_PROFILE_LEN = "profile.length";
+    public static final String DEFAULT_NEWS_PROFILE_LEN = "100";
+    public static final String LAYOUT_TYPE_HTML = "html";
+    public static final String LAYOUT_TYPE_JSON = "json";
 
     private static final Logger LOG = LoggerFactory.getLogger(NewsUtil.class);
     private static final String PROPERTIES_FILENAME = "/crawl-news.properties";

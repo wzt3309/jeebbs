@@ -9,10 +9,10 @@ import org.slf4j.LoggerFactory;
 /**
  * Created by ztwang on 2017/7/3 0003.
  */
-public class SinaNewsCrawl extends AbstractNewsCrawl {
-    private static final Logger LOG = LoggerFactory.getLogger(SinaNewsCrawl.class);
-    private static final String source = "sina";
-    public SinaNewsCrawl() {
+public class EastNewsCrawl extends AbstractNewsCrawl {
+    private static final Logger LOG = LoggerFactory.getLogger(EastNewsCrawl.class);
+    private static final String source = "east";
+    public EastNewsCrawl() {
         super(source, LOG);
     }
 
