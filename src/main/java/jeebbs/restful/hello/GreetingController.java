@@ -1,5 +1,7 @@
 package jeebbs.restful.hello;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,4 +40,13 @@ public class GreetingController {
     public List<Greeting> greetingFindAll() {
         return greetingMapper.findAll();
     }
+
+    @RequestMapping("/greeting/findByPage")
+    public PageInfo<Greeting> queryAll(@RequestParam(value = "pageNum", required = false, defaultValue="1") Integer pageNum,
+                                       @RequestParam(value = "pageSize", required = false, defaultValue="10") Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<Greeting> list = greetingMapper.findAll();
+        return new PageInfo<>(list);
+    }
+
 }
