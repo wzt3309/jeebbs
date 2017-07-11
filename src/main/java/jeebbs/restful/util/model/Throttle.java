@@ -48,7 +48,7 @@ public class Throttle {
                 long sleepMillis = delay.get() - millisHasGone(lastAccessed);
                 while (sleepMillis > 0) {
                     try {
-                        LOG.info(String.format("\'%s\' waiting... %d ms", url, sleepMillis));
+                        LOG.debug(String.format("\'%s\' waiting... %d ms", url, sleepMillis));
                         wait(sleepMillis);
                     } catch (InterruptedException e) {
                         LOG.warn("Interrupted has happened");

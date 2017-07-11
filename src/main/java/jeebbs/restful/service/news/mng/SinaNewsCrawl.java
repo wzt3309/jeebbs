@@ -12,8 +12,13 @@ import org.slf4j.LoggerFactory;
 public class SinaNewsCrawl extends AbstractNewsCrawl {
     private static final Logger LOG = LoggerFactory.getLogger(SinaNewsCrawl.class);
     private static final String source = "sina";
+
     public SinaNewsCrawl() {
-        super(source, LOG);
+        super(source, LOG, null);
+    }
+
+    public SinaNewsCrawl(NewsMapper newsMapper) {
+        super(source, LOG, newsMapper);
     }
 
     @Override

@@ -2,13 +2,18 @@ package jeebbs.restful.hello;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import jeebbs.restful.util.model.CustomerErrorAttributes;
+import org.apache.http.HttpRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -49,4 +54,8 @@ public class GreetingController {
         return new PageInfo<>(list);
     }
 
+    @RequestMapping("/greeting/error")
+    public void greetingError(HttpServletRequest req) throws NoHandlerFoundException {
+        throw new NoHandlerFoundException(req.getMethod(), req.getRequestURL().toString(), null);
+    }
 }

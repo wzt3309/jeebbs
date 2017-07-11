@@ -11,25 +11,22 @@ import java.util.Map;
  */
 @Mapper
 public interface NewsMapper {
-    @Select("SELECT * FROM news WHERE id = #{id} ORDER BY stmp DESC")
+    @Select("SELECT * FROM news WHERE id = #{id}")
     News findById(@Param("id") Long id);
 
-    @Select("SELECT * FROM news WHERE title like #{title} ORDER BY stmp DESC")
-    News findByTitle(@Param("title") String title);
+    @Select("SELECT * FROM news WHERE title = #{title}")
+    List<News> findByTitle(@Param("title") String title);
 
-    @Select("SELECT * FROM news WHERE href like #{href} ORDER BY stmp DESC")
-    News findByHref(@Param("href") String href);
+    @Select("SELECT * FROM news WHERE href = #{href}")
+    List<News> findByHref(@Param("href") String href);
 
-    @Select("SELECT * FROM news WHERE profile like #{profile} ORDER BY stmp DESC")
-    News findByProfile(@Param("profile") String profile);
-
-    // 程序内控制map和查询字段的有效性
+    // 程序内控制map和查询字段的有效性, 模糊查找
     @Select({"<script>" +
             "SELECT * FROM news" +
             "<where>" +
                 "<foreach collection=\"searchMap\" " +
-                    "index=\"key\" item=\"value\" separator=\"AND \">" +
-                    "${key} like #{value} " +
+                    "index=\"name\" item=\"value\" separator=\"AND \">" +
+                    "${name} like #{value} " +
                 "</foreach>" +
             "</where>" +
             "ORDER BY stmp DESC" +
@@ -44,8 +41,8 @@ public interface NewsMapper {
             @Result(property = "profile", column = "profile"),
             @Result(property = "stmp", column = "stmp")
     })
-    @Select("SELECT * FROM news WHERE source like #{source} ORDER BY stmp DESC")
-    List<News> findBySource(@Param("source") String source);
+    @Select("SELECT * FROM news WHERE stmp BETWEEN #{from} AND #{to} ORDER BY stmp DESC")
+    List<News> findByStmp(@Param("from") String from, @Param("to") String to);
 
     @Results({
             @Result(property = "id", column = "id"),
@@ -55,8 +52,8 @@ public interface NewsMapper {
             @Result(property = "profile", column = "profile"),
             @Result(property = "stmp", column = "stmp")
     })
-    @Select("SELECT * FROM news WHERE stmp BETWEEN #{beg} AND #{end} ORDER BY stmp DESC")
-    List<News> findByStmp(@Param("beg") String beg, @Param("end") String end);
+    @Select("SELECT * FROM news WHERE stmp <= #{to} ORDER BY stmp DESC")
+    List<News> findByStmpTo(@Param("to") String to);
 
     @Results({
             @Result(property = "id", column = "id"),
@@ -66,19 +63,8 @@ public interface NewsMapper {
             @Result(property = "profile", column = "profile"),
             @Result(property = "stmp", column = "stmp")
     })
-    @Select("SELECT * FROM news WHERE stmp <= #{end} ORDER BY stmp DESC")
-    List<News> findByStmpBefore(@Param("end") String end);
-
-    @Results({
-            @Result(property = "id", column = "id"),
-            @Result(property = "source", column = "source"),
-            @Result(property = "title", column = "title"),
-            @Result(property = "href", column = "href"),
-            @Result(property = "profile", column = "profile"),
-            @Result(property = "stmp", column = "stmp")
-    })
-    @Select("SELECT * FROM news WHERE stmp >= #{beg} ORDER BY stmp DESC")
-    List<News> findByStmpAfter(@Param("beg") String beg);
+    @Select("SELECT * FROM news WHERE stmp >= #{from} ORDER BY stmp DESC")
+    List<News> findByStmpFrom(@Param("from") String from);
 
     @Results({
             @Result(property = "id", column = "id"),
@@ -141,7 +127,7 @@ public interface NewsMapper {
             @Result(property = "profile", column = "profile"),
             @Result(property = "stmp", column = "stmp")
     })
-    @Select("SELECT * FROM news ORDER BY stmp DESC")
+    @Select("SELECT * FROM news")
     List<News> findAll();
 
     @Select("SELECT COUNT(*) FROM news")
@@ -171,6 +157,6 @@ public interface NewsMapper {
     void deleteDaysAgo(@Param("days")int days);
 
     @Delete("DELETE FROM news WHERE 1=1 ORDER BY stmp LIMIT #{limit}")
-    void deleteDaysLimit(@Param("limit") int limit);
+    void deleteFirstNews(@Param("limit") int limit);
 
 }

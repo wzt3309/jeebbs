@@ -13,7 +13,10 @@ public class SouhuNewsCrawl extends AbstractNewsCrawl {
     private static final Logger LOG = LoggerFactory.getLogger(SouhuNewsCrawl.class);
     private static final String source = "souhu";
     public SouhuNewsCrawl() {
-        super(source, LOG);
+        super(source, LOG, null);
+    }
+    public SouhuNewsCrawl(NewsMapper newsMapper) {
+        super(source, LOG, newsMapper);
     }
 
     @Override

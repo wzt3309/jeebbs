@@ -1,17 +1,31 @@
 package jeebbs.restful.service.news.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.sql.Timestamp;
 
 /**
  * 财经新闻实体类
  * Created by ztwang on 2017/6/23 0023.
  */
+@ApiModel(description = "财经新闻实体类")
 public class News {
+    @ApiModelProperty(value = "标识符id", position = 1, example = "long")
     private Long id;
+    @ApiModelProperty(value = "新闻来源", position = 2)
     private String source;          //新闻来源
+    @ApiModelProperty(value = "新闻标题", position = 3)
     private String title;           //新闻标题
+    @ApiModelProperty(value = "新闻内容链接", position = 4)
     private String href;            //新闻内容链接
+    @ApiModelProperty(value = "新闻摘要", position = 5)
     private String profile;         //新闻摘要
+    @ApiModelProperty(value = "新闻发布时间",
+                      example = "yyyy-MM-dd HH:mm:ss",
+                      position = 6)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Timestamp stmp;         //新闻发布时间
 
     public News() {
@@ -37,7 +51,6 @@ public class News {
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -45,7 +58,6 @@ public class News {
     public String getSource() {
         return source;
     }
-
     public void setSource(String source) {
         this.source = source;
     }
@@ -53,7 +65,6 @@ public class News {
     public String getTitle() {
         return title;
     }
-
     public void setTitle(String title) {
         this.title = title;
     }
@@ -61,7 +72,6 @@ public class News {
     public String getHref() {
         return href;
     }
-
     public void setHref(String href) {
         this.href = href;
     }
@@ -69,7 +79,6 @@ public class News {
     public String getProfile() {
         return profile;
     }
-
     public void setProfile(String profile) {
         this.profile = profile;
     }
@@ -77,7 +86,6 @@ public class News {
     public Timestamp getStmp() {
         return stmp;
     }
-
     public void setStmp(Timestamp stmp) {
         this.stmp = stmp;
     }
@@ -90,15 +98,13 @@ public class News {
         News news = (News) o;
 
         if (source != null ? !source.equals(news.source) : news.source != null) return false;
-        if (title != null ? !title.equals(news.title) : news.title != null) return false;
-        return href != null ? href.equals(news.href) : news.href == null;
+        return title != null ? title.equals(news.title) : news.title == null;
     }
 
     @Override
     public int hashCode() {
         int result = source != null ? source.hashCode() : 0;
         result = 31 * result + (title != null ? title.hashCode() : 0);
-        result = 31 * result + (href != null ? href.hashCode() : 0);
         return result;
     }
 

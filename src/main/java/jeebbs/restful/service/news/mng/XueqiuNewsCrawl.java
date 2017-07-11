@@ -12,8 +12,12 @@ import org.slf4j.LoggerFactory;
 public class XueqiuNewsCrawl extends AbstractNewsCrawl {
     private static final Logger LOG = LoggerFactory.getLogger(XueqiuNewsCrawl.class);
     private static final String source = "xueqiu";
+
     public XueqiuNewsCrawl() {
-        super(source, LOG);
+        super(source, LOG, null);
+    }
+    public XueqiuNewsCrawl(NewsMapper newsMapper) {
+        super(source, LOG, newsMapper);
     }
 
     @Override

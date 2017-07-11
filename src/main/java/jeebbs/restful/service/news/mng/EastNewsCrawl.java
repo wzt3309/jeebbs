@@ -12,8 +12,13 @@ import org.slf4j.LoggerFactory;
 public class EastNewsCrawl extends AbstractNewsCrawl {
     private static final Logger LOG = LoggerFactory.getLogger(EastNewsCrawl.class);
     private static final String source = "east";
+
     public EastNewsCrawl() {
-        super(source, LOG);
+        super(source, LOG, null);
+    }
+
+    public EastNewsCrawl(NewsMapper newsMapper) {
+        super(source, LOG, newsMapper);
     }
 
     @Override
