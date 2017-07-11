@@ -8,3 +8,4 @@ log
 # file
 *.iml
 *.class
+/src/main/resources/application-prod.properties
