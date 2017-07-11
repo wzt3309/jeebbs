@@ -43,7 +43,7 @@ public class CustomerErrorAttributes {
     @ApiModelProperty(value = "异常的堆栈信息", readOnly = true, example = "String", position = 7)
     private String trace;
     @ApiModelProperty(value = "时间戳", readOnly = true, example = "yyyy-MM-dd HH:mm:ss", position = 8)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date timestamp;
 
     public CustomerErrorAttributes() {

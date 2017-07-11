@@ -59,8 +59,13 @@ public class NewsController {
     @RequestMapping(value = "/findById", method = RequestMethod.GET)
     public ResponseEntity<News> findById(@RequestParam(value="id", defaultValue="-1") Long id) {
         News res;
-        if (id == -1) res = newsMapper.findAllByLimit(1).get(0);
-        else res = newsMapper.findById(id);
+        if (id == -1) {
+            List<News> searchList = newsMapper.findAllByLimit(1);
+            if (ObjectUtils.isEmpty(searchList)) res = null;
+            else res = searchList.get(0);
+        }else {
+            res = newsMapper.findById(id);
+        }
         return ResponseUtil.success(res);
     }
 
@@ -83,8 +88,12 @@ public class NewsController {
     @RequestMapping(value = "/findByTitle", method = RequestMethod.GET)
     public ResponseEntity<News> findByTitle(@RequestParam(value = "title", defaultValue = "") String title) {
         News res;
-        if (StringUtils.isBlank(title)) res = newsMapper.findAllByLimit(1).get(0);
-        else res = newsMapper.findByTitle(title).get(0);
+        List<News> searchList;
+        if (StringUtils.isBlank(title)) searchList = newsMapper.findAllByLimit(1);
+        else searchList = newsMapper.findByTitle(title);
+
+        if (ObjectUtils.isEmpty(searchList)) res = null;
+        else res = searchList.get(0);
         return ResponseUtil.success(res);
     }
 
@@ -107,8 +116,12 @@ public class NewsController {
     @RequestMapping(value = "/findByHref", method = RequestMethod.GET)
     public ResponseEntity<News> findByHref(@RequestParam(value = "href", defaultValue = "") String href) {
         News res;
-        if (StringUtils.isBlank(href)) res = newsMapper.findAllByLimit(1).get(0);
-        else res = newsMapper.findByHref(href).get(0);
+        List<News> searchList;
+        if (StringUtils.isBlank(href)) searchList = newsMapper.findAllByLimit(1);
+        else searchList = newsMapper.findByHref(href);
+
+        if (ObjectUtils.isEmpty(searchList)) res = null;
+        else res = searchList.get(0);
         return ResponseUtil.success(res);
     }
 

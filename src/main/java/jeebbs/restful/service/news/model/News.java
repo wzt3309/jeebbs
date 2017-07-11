@@ -25,7 +25,7 @@ public class News {
     @ApiModelProperty(value = "新闻发布时间",
                       example = "yyyy-MM-dd HH:mm:ss",
                       position = 6)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp stmp;         //新闻发布时间
 
     public News() {
