@@ -70,6 +70,9 @@
             <appender-ref ref="CONSOLE"/>
             <appender-ref ref="JEEBBS_RESTFUL_FILE"/>
         </logger>
+
+        <logger name = "org.apache.http.impl.execchain.RetryExec" level="warn"/>
+
         <root level="info">
             <appender-ref ref="CONSOLE"/>
             <appender-ref ref="FILE"/>

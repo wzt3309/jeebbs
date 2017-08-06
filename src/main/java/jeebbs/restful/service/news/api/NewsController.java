@@ -146,8 +146,8 @@ public class NewsController {
                     "14. `isLastPage` 是否为末页\n" +
                     "15. `hasPreviousPage` 是否有前页\n" +
                     "16. `hasNextPage` 是否有下一页\n" +
-                    "17. `navigatePages` 同total\n" +
-                    "18. `navigatepageNums` 列表，记录全部页码`pageNum`\n",
+                    "17. `navigatePages` 分页器一次显示的页码数量\n" +
+                    "18. `navigatepageNums` 列表，分页器的包含的页码`pageNum`\n",
             response = PageInfo.class,
             produces = MimeTypeUtils.APPLICATION_JSON_VALUE,
             position = 4)
@@ -231,8 +231,8 @@ public class NewsController {
                     "14. `isLastPage` 是否为末页\n" +
                     "15. `hasPreviousPage` 是否有前页\n" +
                     "16. `hasNextPage` 是否有下一页\n" +
-                    "17. `navigatePages` 同total\n" +
-                    "18. `navigatepageNums` 列表，记录全部页码`pageNum`\n",
+                    "17. `navigatePages` 分页器一次显示的页码数量\n" +
+                    "18. `navigatepageNums` 列表，分页器的包含的页码`pageNum`\n",
             response = PageInfo.class,
             produces = MimeTypeUtils.APPLICATION_JSON_VALUE,
             position = 5)
@@ -284,8 +284,8 @@ public class NewsController {
                     "14. `isLastPage` 是否为末页\n" +
                     "15. `hasPreviousPage` 是否有前页\n" +
                     "16. `hasNextPage` 是否有下一页\n" +
-                    "17. `navigatePages` 同total\n" +
-                    "18. `navigatepageNums` 列表，记录全部页码`pageNum`\n",
+                    "17. `navigatePages` 分页器一次显示的页码数量\n" +
+                    "18. `navigatepageNums` 列表，分页器的包含的页码`pageNum`\n",
             produces = MimeTypeUtils.APPLICATION_JSON_VALUE,
             position = 6)
     @ApiImplicitParams({
@@ -337,8 +337,8 @@ public class NewsController {
                     "14. `isLastPage` 是否为末页\n" +
                     "15. `hasPreviousPage` 是否有前页\n" +
                     "16. `hasNextPage` 是否有下一页\n" +
-                    "17. `navigatePages` 同total\n" +
-                    "18. `navigatepageNums` 列表，记录全部页码`pageNum`\n",
+                    "17. `navigatePages` 分页器一次显示的页码数量\n" +
+                    "18. `navigatepageNums` 列表，分页器的包含的页码`pageNum`\n",
             response = PageInfo.class,
             produces = MimeTypeUtils.APPLICATION_JSON_VALUE,
             position = 7)

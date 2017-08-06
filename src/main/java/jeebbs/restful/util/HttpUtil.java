@@ -31,13 +31,9 @@ import org.springframework.util.StringUtils;
 
 import javax.net.ssl.SSLException;
 import javax.net.ssl.SSLHandshakeException;
-import java.io.IOException;
-import java.io.InterruptedIOException;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -206,6 +202,57 @@ public final class HttpUtil {
         }
 
         return html;
+    }
+
+    public static List<Map<String, String>> downCVS(String url, String delim) {
+        HttpGet httpGet = null;
+        CloseableHttpResponse response;
+        List<Map<String, String>> result = new ArrayList<>();
+        try {
+            httpGet = createHttpGet(url, null);
+            DEFAULT_THROTTLE.wait(url);
+            response = getHttpclient().execute(httpGet);
+            if (response != null) {
+                try {
+                    HttpEntity entity = response.getEntity();
+                    InputStream in = entity.getContent();
+                    long length = entity.getContentLength();
+                    if (length < 0) {
+                        LOG.info("cvs has no content to download");
+                        return null;
+                    }
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                    String headLine = reader.readLine();
+                    String dataLine;
+                    StringTokenizer tkHead;
+                    StringTokenizer tkData;
+                    while ((dataLine = reader.readLine()) != null) {
+                        tkHead = new StringTokenizer(headLine, delim);
+                        tkData = new StringTokenizer(dataLine, delim);
+                        Map<String, String> map = new HashMap<>();
+                        while (tkHead.hasMoreTokens() && tkData.hasMoreTokens()) {
+                            map.put(tkHead.nextToken(), tkData.nextToken());
+                        }
+                        result.add(map);
+                    }
+                }finally {
+                    response.close();
+                }
+            }
+        } catch (ClientProtocolException e) {
+            LOG.error(
+                    errMsg(url,
+                            httpGet == null ? null : httpGet.getAllHeaders(),
+                            e.getMessage())
+            );
+        } catch (IOException e) {
+            LOG.error(
+                    errMsg(url,
+                            httpGet == null ? null : httpGet.getAllHeaders(),
+                            e.getMessage())
+            );
+        }
+        return result;
     }
 
     private static String combineURL(final String url, final Map<String, String> params) {
