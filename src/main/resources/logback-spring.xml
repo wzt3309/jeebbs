@@ -34,7 +34,7 @@
     <springProfile name="prod">
         <!-- 记录spring-boot功能的日志 -->
         <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
                 <!--日志文件输出的文件名,每天一个文件-->
                 <FileNamePattern>${LOG_FILE}-%d{yyyy-MM-dd}.%i.log</FileNamePattern>
                 <!--日志文件保留30天数 每个文件最大10MB 所有文件加起来最多1GB-->
@@ -49,7 +49,7 @@
 
         <!-- 记录jeebbs-restful功能的日志 -->
         <appender name="JEEBBS_RESTFUL_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
                 <!--日志文件输出的文件名,每天一个文件-->
                 <FileNamePattern>${JEEBBS_RESTFUL_LOG_FILE}-%d{yyyy-MM-dd}.%i.log</FileNamePattern>
                 <!--日志文件保留30天数 每个文件最大10MB 所有文件加起来最多1GB-->
