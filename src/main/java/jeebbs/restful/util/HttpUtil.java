@@ -251,6 +251,12 @@ public final class HttpUtil {
                             httpGet == null ? null : httpGet.getAllHeaders(),
                             e.getMessage())
             );
+        } catch (Exception e) {
+            LOG.error(
+                    errMsg(url,
+                            httpGet == null ? null : httpGet.getAllHeaders(),
+                            e.getMessage())
+            );
         }
         return result;
     }

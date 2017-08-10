@@ -52,8 +52,7 @@ public final class TradingMng {
     public static PageInfo<StockDaily> getHistoryData(String code, String start, String end,
                                                       int pageNum, int pageSize, String sort, boolean asc) {
         String symbol = codeToSymbol(code);
-        String url = String.format(DAY_PRICE_URL, P_TYPE.get("http"), DOMAINS.get("ifeng"), K_TYPE.get("D"), symbol);
-
+        String url = String.format(DAY_PRICE_URL, getPType("http"), getDomains("ifeng"), getKType("D"), symbol);
         String json = HttpUtil.sendGET(url);
         // no data
         if (StringUtils.isBlank(json) || json.length() < 15) return null;
@@ -185,8 +184,8 @@ public final class TradingMng {
 
         if (StringUtils.isBlank(input)) return null;
         url = String.format(CODE_SEARCH_URL,
-                            P_TYPE.get("http"),
-                            DOMAINS.get("em"),
+                            getPType("http"),
+                            getDomains("em"),
                             input);
         text = HttpUtil.sendGET(url);
         if (StringUtils.isBlank(text)) return null;
@@ -237,7 +236,7 @@ public final class TradingMng {
         } else if (isHoliday(date)) {
             return null;
         }
-        String url = String.format(LHB_URL, P_TYPE.get("http"), DOMAINS.get("em"), date, date);
+        String url = String.format(LHB_URL, getPType("http"), getDomains("em"), date, date);
         String content = HttpUtil.sendGET(url);
         if (StringUtils.isBlank(content)) return null;
         String json = content.substring(content.indexOf("{"));
@@ -246,26 +245,28 @@ public final class TradingMng {
         List dataList = (List) jsonMap.get("data");
         List<StockTop> res = new ArrayList<>();
         for (Object data: dataList) {
-            Map<String, String> map = (Map<String, String>) data;
-            StockTop stockTop = new StockTop();
-            stockTop.setCode(map.get("SCode"));
-            stockTop.setName(map.get("SName"));
-            stockTop.setPchange(new BigDecimal(map.get("Chgradio")));
-            stockTop.setAmount(new BigDecimal(map.get("ZeMoney")));
-            stockTop.setBuy(new BigDecimal(map.get("Bmoney")));
-            stockTop.setSell(new BigDecimal(map.get("Smoney")));
-            stockTop.setReason(map.get("Ctypedes"));
-            BigDecimal turnover = new BigDecimal(map.get("Turnover"));
-            stockTop.setBrati(stockTop.getBuy().divide(turnover, 3, BigDecimal.ROUND_DOWN));
-            stockTop.setSratio(stockTop.getSell().divide(turnover, 3, BigDecimal.ROUND_DOWN));
-            java.sql.Date date1 = null;
             try {
-                date1 = new java.sql.Date(SDF_DATE.parse(date).getTime());
+                Map<String, String> map = (Map<String, String>) data;
+                StockTop stockTop = new StockTop();
+                stockTop.setCode(map.get("SCode"));
+                stockTop.setName(map.get("SName"));
+                stockTop.setPchange(new BigDecimal(map.get("Chgradio")));
+                stockTop.setAmount(new BigDecimal(map.get("ZeMoney")));
+                stockTop.setBuy(new BigDecimal(map.get("Bmoney")));
+                stockTop.setSell(new BigDecimal(map.get("Smoney")));
+                stockTop.setReason(map.get("Ctypedes"));
+                BigDecimal turnover = new BigDecimal(map.get("Turnover"));
+                stockTop.setBrati(stockTop.getBuy().divide(turnover, 3, BigDecimal.ROUND_DOWN));
+                stockTop.setSratio(stockTop.getSell().divide(turnover, 3, BigDecimal.ROUND_DOWN));
+                stockTop.setDate(new java.sql.Date(SDF_DATE.parse(date).getTime()));
+                res.add(stockTop);
+            } catch (NumberFormatException e) {
+                //ignore
             } catch (ParseException e) {
                 //ignore
+            } catch (Exception e) {
+                //ignore
             }
-            stockTop.setDate(date1);
-            res.add(stockTop);
         }
 
         return res;
@@ -275,9 +276,9 @@ public final class TradingMng {
      */
     private static List<StockTrade> parseDayPriceJson(int pageNum, int pageSize, String sort, boolean asc) {
         String url = String.format(SINA_DAY_PRICE_URL,
-                                   P_TYPE.get("http"),
-                                   DOMAINS.get("vsf"),
-                                   PAGES.get("jv"),
+                                   getPType("http"),
+                                   getDomains("vsf"),
+                                   getPages("jv"),
                                    pageSize,
                                    sort,
                                    asc ? 1 : 0,
@@ -309,7 +310,7 @@ public final class TradingMng {
         生成symbol代码标志
      */
     private static String codeToSymbol(String code) {
-        if (INDEX_LABELS.contains(code)) {
+        if (!StringUtils.isEmpty(getIndexSymbol(code))) {
             return INDEX_LIST.get(code);
         } else {
             if (code.length() != 6) {
@@ -389,6 +390,15 @@ public final class TradingMng {
     }
 
     private static boolean isHoliday(String date) {
+        String[] dateSplit = date.split("-");
+        if (dateSplit == null || dateSplit.length != 3) return true;
+        String year = dateSplit[0];
+        String month = dateSplit[1];
+        String day = dateSplit[2];
+        if (month != null && month.length() != 2) month = "0" + month;
+        if (day != null && day.length() != 2) day = "0" + day;
+        date = year + "-" + month + "-" + day;
+
         List<Map<String, String>> cvs = null;
         if (CollectionUtils.isEmpty(TRADE_DAY_TABLE)) {
             cvs = HttpUtil.downCVS(
@@ -422,7 +432,7 @@ public final class TradingMng {
 
     private static void initTradeDayTable() {
         List<Map<String, String>> cvs = HttpUtil.downCVS(
-                String.format(ALL_CAL_FILE, P_TYPE.get("http"), DOMAINS.get("oss")),
+                String.format(ALL_CAL_FILE, getPType("http"), getDomains("oss")),
                 ",");
         if (!CollectionUtils.isEmpty(cvs)) {
             for (Map<String, String> map: cvs) {
