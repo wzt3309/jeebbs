@@ -373,7 +373,14 @@ public final class TradingMng {
         page.setOrderBy(orderBy);
 
         if (!CollectionUtils.isEmpty(list)) {
-            page.addAll(list.subList(page.getStartRow(), page.getEndRow()));
+            int start = page.getStartRow();
+            int end = page.getEndRow();
+            end = end > total ? total : end;
+            if ((end - start) == list.size()) {
+                page.addAll(list);
+            } else {
+                page.addAll(list.subList(start, end));
+            }
         }
         return new PageInfo<>(page);
     }
