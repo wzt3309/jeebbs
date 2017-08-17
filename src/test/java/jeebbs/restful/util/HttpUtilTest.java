@@ -3,7 +3,11 @@ package jeebbs.restful.util;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.CollectionUtils;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -91,4 +95,69 @@ public class HttpUtilTest {
         String url = "http://finance.sina.com.cn/";
         System.out.println(HttpUtil.sendGET(url));
     }
+
+//    @Test
+//    public void testddx() {
+//        Map<String, String> params = new HashMap<>();
+//        params.put("getlsdate", "1");
+//        params.put("t", String.valueOf(Math.random()));
+//        params.put("orderby", "2");
+//        params.put("isdesc", "1");
+//        Map data = ddxData(params);
+//        if (!CollectionUtils.isEmpty(data)) {
+//            int numOfUp = 0;
+//            int total = (Integer)data.get("total");
+//            int pageSize = 20;
+//            int pages = 1;
+//            if (total > pageSize) {
+//                pages = (int)Math.ceil(((double)total) / pageSize);
+//            }
+//
+//            numOfUp += numOfUp(data);
+//            numOfUp += binaryNumOfUp(2, 2, pages, pageSize, params);
+//            System.out.println(numOfUp);
+//        }
+//
+//
+//        if (!CollectionUtils.isEmpty(data)) {
+//            List dataOfStocks = (List)data.get("data");
+//            for(Object dataOfStock: dataOfStocks) {
+//                System.out.println(dataOfStock.getClass());
+//                System.out.println(dataOfStock);
+//            }
+//        }
+//    }
+//
+//    private Map<String, Object> ddxData(Map<String, String> params) {
+//        String url = "http://ddx.gubit.cn/xg/ddxlist.php";
+//        Map<String, String> header = new HashMap<>();
+//        header.put("Referer", "http://ddx.gubit.cn/xg/ddx.html");
+//        String json = HttpUtil.sendGET(url, params, header);
+//        return JacksonUtil.json2Map(json);
+//    }
+//
+//    private int numOfUp(Map<String, Object> data) {
+//        List dataOfStocks = (List)data.get("data");
+//        int numOfUp =0;
+//        for (Object dataOfStock: dataOfStocks) {
+//            Object var2 = ((List)dataOfStock).get(2);
+//            if (var2 instanceof Integer && ((Integer)var2) > 0) {
+//                numOfUp++;
+//            }
+//            if (var2 instanceof Double && ((Double)var2) > 0) {
+//                numOfUp++;
+//            }
+//        }
+//        return numOfUp;
+//    }
+//
+//    private int binaryNumOfUp(int start, int beg, int end, int pageSize, Map<String, String> params) {
+//        if (beg > end) return 0;
+//        int mid = (beg + end) / 2;
+//        params.put("page", String.valueOf(mid));
+//        int numOfUp = numOfUp(ddxData(params));
+//        if (numOfUp == pageSize) return binaryNumOfUp(start, mid, end, pageSize, params);
+//        if (numOfUp == 0) return binaryNumOfUp(start, beg, mid, pageSize, params);
+//        else return (mid - start) * pageSize + numOfUp;
+//    }
 }

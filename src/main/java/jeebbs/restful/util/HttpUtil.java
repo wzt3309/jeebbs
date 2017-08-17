@@ -141,6 +141,10 @@ public final class HttpUtil {
         return sendGET(url, params,null, DEFAULT_THROTTLE);
     }
 
+    public static String sendGET(String url, Map<String, String> params, Map<String, String> header) {
+        return sendGET(url, params, header, DEFAULT_THROTTLE);
+    }
+
     /**
      * 使用GET 方式获取数据
      * @param url

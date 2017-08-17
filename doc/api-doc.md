@@ -435,7 +435,7 @@ title | 否 | string | 新闻标题，默认返回最新的新闻 | `example tit
 
 参数名 | Required | 类型 | 说明 | 示例 |
 ---------|---------|--------- |---------|---------
- date | 否 | string | 日期；默认值为离闭市的最近一天(比如在周六，返回周五闭市的数据) | `2017-1-1` |
+ updateDate | 否 | string | 日期；默认值为离闭市的最近一天(比如在周六，返回周五闭市的数据) | `2017-1-1` |
  pageNum | 否 | integer | 当前页码，从1开始；默认值为1 | `1` |
  pageSize | 否 | integer | 每页显示的记录数；默认值为10 | `10` |
  orderBy | 否 | string | 记录排序方式，默认值按时间降序(stmp desc) | `stmp desc` |
@@ -784,7 +784,7 @@ title | 否 | string | 新闻标题，默认返回最新的新闻 | `example tit
  - 200 - successful
 ```
 [
-  {"date": yyyy-MM-dd, "rate": float}
+  {"updateDate": yyyy-MM-dd, "rate": float}
 ]
 ```
  - 204 - empty content
@@ -826,7 +826,7 @@ title | 否 | string | 新闻标题，默认返回最新的新闻 | `example tit
  - 200 - successful
 ```
 [
-  {"date": yyyy-MM-dd, "rate": float}
+  {"updateDate": yyyy-MM-dd, "rate": float}
 ]
 ```
  - 204 - empty content
@@ -868,7 +868,7 @@ title | 否 | string | 新闻标题，默认返回最新的新闻 | `example tit
  - 200 - successful
 ```
 [
-  {"date": yyyy-MM-dd, "rate": float}
+  {"updateDate": yyyy-MM-dd, "rate": float}
 ]
 ```
  - 204 - empty content
@@ -910,7 +910,7 @@ title | 否 | string | 新闻标题，默认返回最新的新闻 | `example tit
  - 200 - successful
 ```
 [
-  {"date": yyyy-MM-dd, "rate": float}
+  {"updateDate": yyyy-MM-dd, "rate": float}
 ]
 ```
  - 204 - empty content

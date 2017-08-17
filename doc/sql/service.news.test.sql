@@ -21,13 +21,13 @@ SELECT count(*) FROM `news`;
 SELECT * FROM `news` WHERE stmp BETWEEN '2017-7-1' AND '2017-7-5' ORDER BY stmp DESC;
 SELECT * FROM `news` WHERE stmp >= '2017-7-1' ORDER BY stmp DESC;
 SELECT * FROM `news` WHERE stmp <= '2017-7-5' ORDER BY stmp DESC;
-SELECT * FROM `news` where date_sub(curdate(), INTERVAL 3 DAY) <= date(stmp) ORDER BY stmp DESC;
+SELECT * FROM `news` where date_sub(curdate(), INTERVAL 3 DAY) <= updateDate(stmp) ORDER BY stmp DESC;
 SELECT * FROM `news` WHERE datediff(stmp, now()) = 0 ORDER BY stmp DESC;
-SELECT * FROM `news` WHERE date_sub(curdate(), INTERVAL 7 DAY) <= date(stmp) ORDER BY stmp DESC;
+SELECT * FROM `news` WHERE date_sub(curdate(), INTERVAL 7 DAY) <= updateDate(stmp) ORDER BY stmp DESC;
 SELECT * FROM `news` WHERE date_format(stmp, '%Y%m') = date_format(curdate(), '%Y%m') ORDER BY stmp DESC;
 SELECT * FROM `news` WHERE source like '%搜狐财经%' AND title like '%测试%' ORDER BY stmp DESC;
 SELECT * FROM `news` WHERE id like "%1%" ORDER BY stmp DESC;
 SELECT * FROM `news` ORDER BY stmp LIMIT 10;
 DELETE FROM `news` WHERE 1=1 ORDER BY stmp LIMIT 1;
 # 删除k天前的记录，如今天为7-11,k=6,则在7-5之前的记录会被删除
-DELETE FROM `news` WHERE date_sub(curdate(), INTERVAL 6 DAY) > date(stmp);
+DELETE FROM `news` WHERE date_sub(curdate(), INTERVAL 6 DAY) > updateDate(stmp);
