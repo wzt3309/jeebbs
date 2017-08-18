@@ -12,23 +12,21 @@ public class SpecialAnalyse {
     private Long id;
     private Double radio1;
     private Double radio2;
-    private Double radio3;
-    private Double radio4;
+    private Long radio3;
     private Date updateDate;
 
     public SpecialAnalyse() {
     }
 
-    public SpecialAnalyse(Double radio1, Double radio2, Double radio3, Double radio4) {
-        this(radio1, radio2, radio3, radio4, new Date(System.currentTimeMillis()));
+    public SpecialAnalyse(Double radio1, Double radio2, Long radio3) {
+        this(radio1, radio2, radio3, new Date(System.currentTimeMillis()));
     }
 
-    public SpecialAnalyse(Double radio1, Double radio2, Double radio3, Double radio4, Date updateDate) {
+    public SpecialAnalyse(Double radio1, Double radio2, Long radio3, Date updateDate) {
         this.id = null;
         this.radio1 = radio1;
         this.radio2 = radio2;
         this.radio3 = radio3;
-        this.radio4 = radio4;
         this.updateDate = updateDate;
     }
 
@@ -56,20 +54,12 @@ public class SpecialAnalyse {
         this.radio2 = radio2;
     }
 
-    public Double getRadio3() {
+    public Long getRadio3() {
         return radio3;
     }
 
-    public void setRadio3(Double radio3) {
+    public void setRadio3(Long radio3) {
         this.radio3 = radio3;
-    }
-
-    public Double getRadio4() {
-        return radio4;
-    }
-
-    public void setRadio4(Double radio4) {
-        this.radio4 = radio4;
     }
 
     public Date getUpdateDate() {
@@ -87,7 +77,6 @@ public class SpecialAnalyse {
                 ", radio1=" + radio1 +
                 ", radio2=" + radio2 +
                 ", radio3=" + radio3 +
-                ", radio4=" + radio4 +
                 ", updateDate=" + updateDate +
                 '}';
     }
@@ -95,12 +84,12 @@ public class SpecialAnalyse {
     @Override
     public int hashCode() {
         return HashCodeBuilder.reflectionHashCode(this,
-                "radio1", "radio2", "radio3", "radio4", "updateDate");
+                "radio1", "radio2", "radio3", "updateDate");
     }
 
     @Override
     public boolean equals(Object that) {
         return EqualsBuilder.reflectionEquals(this, that,
-                "radio1", "radio2", "radio3", "radio4", "updateDate");
+                "radio1", "radio2", "radio3", "updateDate");
     }
 }

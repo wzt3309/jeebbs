@@ -28,11 +28,9 @@ public class SpecialAnalyseMng {
     private static final String DATE_LIST_URL = "http://ddx.gubit.cn/xg/js/zhdatelist.js";
     private static final SimpleDateFormat DATE_FMT = new SimpleDateFormat("yyyy-MM-dd");
 
-    @Autowired
     private SpecialAnalyseMapper mapper;
-
-    @Autowired
     private StockRadioMng stockRadioMng;
+    private FinanceRadioMng financeRadioMng;
 
     public void insert() {
         insert(null);
@@ -41,10 +39,9 @@ public class SpecialAnalyseMng {
     public void insert(Date date) {
         Double radio1 = getRadio1(date);
         Double radio2 = getRadio2(date);
-        Double radio3 = getRadio3(date);
-        Double radio4 = getRadio4(date);
-        if (ObjectUtils.allNotNull(radio1, radio2, radio3, radio4)) {
-            SpecialAnalyse bean = new SpecialAnalyse(radio1, radio2, radio3, radio4,
+        Long radio3 = getRadio3(date);
+        if (ObjectUtils.allNotNull(radio1, radio2, radio3)) {
+            SpecialAnalyse bean = new SpecialAnalyse(radio1, radio2, radio3,
                     new java.sql.Date(date == null ? System.currentTimeMillis() : date.getTime()));
             mapper.insert(bean);
         }
@@ -97,19 +94,30 @@ public class SpecialAnalyseMng {
         return dateList;
     }
 
-    private double getRadio4(Date date) {
-        return 0;
+    private Long getRadio3(Date date) {
+        return financeRadioMng.getRadio3(date);
     }
 
-    private double getRadio3(Date date) {
-        return 0;
-    }
-
-    private double getRadio2(Date date) {
+    private Double getRadio2(Date date) {
         return stockRadioMng.getRadio2(date);
     }
 
-    private double getRadio1(Date date) {
+    private Double getRadio1(Date date) {
         return stockRadioMng.getRadio1(date);
+    }
+
+    @Autowired
+    public void setMapper(SpecialAnalyseMapper mapper) {
+        this.mapper = mapper;
+    }
+
+    @Autowired
+    public void setStockRadioMng(StockRadioMng stockRadioMng) {
+        this.stockRadioMng = stockRadioMng;
+    }
+
+    @Autowired
+    public void setFinanceRadioMng(FinanceRadioMng financeRadioMng) {
+        this.financeRadioMng = financeRadioMng;
     }
 }
