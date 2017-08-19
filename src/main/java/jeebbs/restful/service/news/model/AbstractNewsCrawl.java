@@ -20,20 +20,18 @@ import static jeebbs.restful.service.news.model.NewsUtil.*;
 /**
  * Created by ztwang on 2017/6/29 0029.
  */
-@Transactional
-public class AbstractNewsCrawl implements Runnable{
+public abstract class AbstractNewsCrawl {
+    String name;
+    String url;
+    String layout;
+    String selector;
+    String titleSelector;
+    String timeSelector;
+    String profileSelector;
+    String timeAttr;
+    String timeFormat;
+    int abstractLength;
     private final Logger LOG;
-    protected String name;
-    protected String url;
-    protected String layout;
-    protected String selector;
-    protected String titleSelector;
-    protected String timeSelector;
-    protected String profileSelector;
-    protected String timeAttr;
-    protected String timeFormat;
-    protected int abstractLength;
-
     private NewsMapper newsMapper;
 
     public AbstractNewsCrawl(String source, Logger LOG, NewsMapper newsMapper) {
@@ -60,8 +58,8 @@ public class AbstractNewsCrawl implements Runnable{
         this.newsMapper = newsMapper;
     }
 
-    @Override
-    public void run() {
+    @Transactional
+    public void crawl() {
         List<News> newsList = getNewsList();
         if (CollectionUtils.isEmpty(newsList)) {
             LOG.info("Get nothing from url: " + url);
@@ -104,7 +102,7 @@ public class AbstractNewsCrawl implements Runnable{
         }
     }
 
-    public boolean isNewsEmpty(News news) {
+    private boolean isNewsEmpty(News news) {
         if (ObjectUtils.isEmpty(news)) return true;
         if (org.apache.commons.lang3.StringUtils
                 .isAnyEmpty(news.getSource(),
@@ -121,5 +119,5 @@ public class AbstractNewsCrawl implements Runnable{
         return parser == null ? null : parser.parse2News(response);
     }
 
-    protected NewsParser getNewsParser() {return null;}
+    protected abstract NewsParser getNewsParser();
 }

@@ -13,6 +13,6 @@ public class XueQiuNewsCrwalTest {
 //        Thread t = new Thread(new XueQiuNewsCrwal());
 //        t.start();
 //        t.join();
-        new XueqiuNewsCrawl().run();
+//        new XueqiuNewsCrawl().run();
     }
 }

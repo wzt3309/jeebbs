@@ -26,20 +26,20 @@ import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
 @Transactional
-public class NewsScheduleTasksTest {
+public class NewsScheduleTest {
     @Autowired
     private NewsMapper newsMapper;
     @Test
     @Rollback
     public void collectNewsDaily() throws Exception {
-        List<AbstractNewsCrawl> newsCrawlList = new ArrayList<>();
-        newsCrawlList.add(new EastNewsCrawl(newsMapper));
-        newsCrawlList.add(new SinaNewsCrawl(newsMapper));
-        newsCrawlList.add(new SouhuNewsCrawl(newsMapper));
-        newsCrawlList.add(new XueqiuNewsCrawl(newsMapper));
-        for (AbstractNewsCrawl newsCrawl: newsCrawlList) {
-            newsCrawl.run();
-        }
+//        List<AbstractNewsCrawl> newsCrawlList = new ArrayList<>();
+//        newsCrawlList.add(new EastNewsCrawl(newsMapper));
+//        newsCrawlList.add(new SinaNewsCrawl(newsMapper));
+//        newsCrawlList.add(new SouhuNewsCrawl(newsMapper));
+//        newsCrawlList.add(new XueqiuNewsCrawl(newsMapper));
+//        for (AbstractNewsCrawl newsCrawl: newsCrawlList) {
+//            newsCrawl.run();
+//        }
     }
 
 }

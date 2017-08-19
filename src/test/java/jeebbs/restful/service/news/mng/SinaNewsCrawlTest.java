@@ -13,6 +13,6 @@ public class SinaNewsCrawlTest {
 //        Thread t = new Thread(new SinaNewsCrawl());
 //        t.start();
 //        t.join();
-        new SinaNewsCrawl().run();
+//        new SinaNewsCrawl().run();
     }
 }

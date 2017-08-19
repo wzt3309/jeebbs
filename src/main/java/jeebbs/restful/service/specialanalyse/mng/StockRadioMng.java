@@ -2,10 +2,13 @@ package jeebbs.restful.service.specialanalyse.mng;
 
 import jeebbs.restful.util.HttpUtil;
 import jeebbs.restful.util.JacksonUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -17,7 +20,7 @@ import java.util.Map;
  */
 @Service
 public class StockRadioMng {
-    private static final SimpleDateFormat DATE_FMT = new SimpleDateFormat("yyyy-MM-dd");
+    private static final Logger logger = LoggerFactory.getLogger(StockRadioMng.class);
     private static final String DDX_URL = "http://ddx.gubit.cn/xg/zhddxlist.php";
     private static final String DDX_REFERER = "http://ddx.gubit.cn/xg/xuangu.html";
 
@@ -31,7 +34,8 @@ public class StockRadioMng {
         Double radio1 = null;
         Map<String, String> params = new HashMap<>();
         if (date != null) {
-            params.put("lsdate", DATE_FMT.format(date));
+            SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+            params.put("lsdate", fmt.format(date));
         }
         params.put("t", String.valueOf(Math.random()));
         params.put("orderby", "2");
@@ -80,7 +84,8 @@ public class StockRadioMng {
         Double radio2 = null;
         Map<String, String> params = new HashMap<>();
         if (date != null) {
-            params.put("lsdate", DATE_FMT.format(date));
+            SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+            params.put("lsdate", fmt.format(date));
         }
         params.put("t", String.valueOf(Math.random()));
 

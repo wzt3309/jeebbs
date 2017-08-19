@@ -11,6 +11,6 @@ public class EastNewsCrawlTest {
 //        Thread t = new Thread(new EastNewsCrwal());
 //        t.start();
 //        t.join();
-        new EastNewsCrawl().run();
+//        new EastNewsCrawl().run();
     }
 }

@@ -157,14 +157,14 @@ public class NewsMapperTest {
             Assert.assertTrue(newsDay.get(Calendar.YEAR) == today.get(Calendar.YEAR)
                     && newsDay.get(Calendar.MONTH) == today.get(Calendar.MONTH));
         }
-        //Test findAll(int)
+        //Test findStockRadioAll(int)
         int limit = 3;
         list = newsMapper.findAllByLimit(limit);
         Assert.assertTrue(list.size() == limit);
         for (News news: list) {
             assertNewsNotEmpty(news);
         }
-        //Test findAll
+        //Test findStockRadioAll
         list = newsMapper.findAll();
         for (News news: list) {
             assertNewsNotEmpty(news);

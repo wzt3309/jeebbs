@@ -8,25 +8,23 @@ import java.sql.Date;
 /**
  * Created by ztwang on 2017/8/17 0017.
  */
-public class SpecialAnalyse {
+public class StockRadio {
     private Long id;
     private Double radio1;
     private Double radio2;
-    private Long radio3;
     private Date updateDate;
 
-    public SpecialAnalyse() {
+    public StockRadio() {
     }
 
-    public SpecialAnalyse(Double radio1, Double radio2, Long radio3) {
-        this(radio1, radio2, radio3, new Date(System.currentTimeMillis()));
+    public StockRadio(Double radio1, Double radio2) {
+        this(radio1, radio2, new Date(System.currentTimeMillis()));
     }
 
-    public SpecialAnalyse(Double radio1, Double radio2, Long radio3, Date updateDate) {
+    public StockRadio(Double radio1, Double radio2, Date updateDate) {
         this.id = null;
         this.radio1 = radio1;
         this.radio2 = radio2;
-        this.radio3 = radio3;
         this.updateDate = updateDate;
     }
 
@@ -54,14 +52,6 @@ public class SpecialAnalyse {
         this.radio2 = radio2;
     }
 
-    public Long getRadio3() {
-        return radio3;
-    }
-
-    public void setRadio3(Long radio3) {
-        this.radio3 = radio3;
-    }
-
     public Date getUpdateDate() {
         return updateDate;
     }
@@ -76,7 +66,6 @@ public class SpecialAnalyse {
                 "id=" + id +
                 ", radio1=" + radio1 +
                 ", radio2=" + radio2 +
-                ", radio3=" + radio3 +
                 ", updateDate=" + updateDate +
                 '}';
     }
@@ -84,12 +73,12 @@ public class SpecialAnalyse {
     @Override
     public int hashCode() {
         return HashCodeBuilder.reflectionHashCode(this,
-                "radio1", "radio2", "radio3", "updateDate");
+                "radio1", "radio2");
     }
 
     @Override
     public boolean equals(Object that) {
         return EqualsBuilder.reflectionEquals(this, that,
-                "radio1", "radio2", "radio3", "updateDate");
+                "radio1", "radio2");
     }
 }

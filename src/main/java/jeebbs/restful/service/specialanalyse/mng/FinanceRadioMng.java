@@ -2,6 +2,7 @@ package jeebbs.restful.service.specialanalyse.mng;
 
 import jeebbs.restful.util.HttpUtil;
 import jeebbs.restful.util.JacksonUtil;
+import jeebbs.restful.util.StockHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -19,26 +20,25 @@ import java.util.*;
 @Service
 public class FinanceRadioMng {
     private static final Logger logger = LoggerFactory.getLogger(FinanceRadioMng.class);
-    private static final SimpleDateFormat DATE_FMT = new SimpleDateFormat("yyyyMMdd");
 
     private static final String SSE_URL = "http://query.sse.com.cn/marketdata/tradedata/queryMargin.do";
     private static final String SSE_REFERER = "http://www.sse.com.cn/market/othersdata/margin/sum/";
     private static final LocalTime SSE_UPDATE_TIME = LocalTime.parse("23:59:59");
 
     /**
-     * date 那天有数据则radio3!=null
-     * date==null 如果时间早于SSE_UPDATE_TIME则查找date前一天数据，如果前一天没数据 radio3==null
-     * (如 当天为周一，前一天周日无数据，本日也无数据，则radio3为null，等到周二，更新周一数据 radio3!=null)
+     *
      * @param date 时间
      * @return 融资融券领先值
      */
-    public Long getRadio3(Date date) {
+    public Long getRadio(Date date) {
         if (date == null) {
-            date = getUptoDate();
+            date = StockHelper.LatestTradeDateMinusOfDays(1);   //获取最近第二个交易日
         }else {
             if (!isValidated(date)) {
-                throw new IllegalArgumentException(
-                        String.format("Illegal date:%s to get radio3", DATE_FMT.format(date)));
+                SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
+                String errMsg = String.format("Illegal date:%s to get radio3", fmt.format(date));
+                logger.error(errMsg);
+                throw new IllegalArgumentException(errMsg);
             }
         }
 
@@ -51,6 +51,8 @@ public class FinanceRadioMng {
                 if (!CollectionUtils.isEmpty(lastDatas)) {
                     rzrqLastDay = lastDatas.get(0);
                 }else {
+                    String errMsg = "can't find rzrqLastDay";
+                    logger.error(errMsg);
                     throw new RuntimeException("can't find rzrqLastDay");
                 }
             }
@@ -76,8 +78,9 @@ public class FinanceRadioMng {
         Map<String, String> headers = new HashMap<>();
         headers.put("Referer", SSE_REFERER);
         Map<String, String> params = new HashMap<>();
-        params.put("beginDate", DATE_FMT.format(beginDate));
-        params.put("endDate", DATE_FMT.format(endDate));
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
+        params.put("beginDate", fmt.format(beginDate));
+        params.put("endDate", fmt.format(endDate));
         params.put("isdesc", "1");
         params.put("orderby", "2");
 
@@ -110,17 +113,6 @@ public class FinanceRadioMng {
             return now.toLocalTime().isAfter(SSE_UPDATE_TIME);
         }
         return ofDate.toLocalDate().isBefore(now.toLocalDate());
-    }
-
-    private Date getUptoDate() {
-        Date res;
-        LocalTime nowTime = LocalTime.now();
-        if (nowTime.isBefore(SSE_UPDATE_TIME)) {
-            res = getLastDay(new Date());
-        }else {
-            res = new Date();
-        }
-        return res;
     }
 
     private Date getLastDay(Date today) {

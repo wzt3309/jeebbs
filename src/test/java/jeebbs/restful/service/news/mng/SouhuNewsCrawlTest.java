@@ -11,9 +11,9 @@ import org.junit.Test;
 public class SouhuNewsCrawlTest {
     @Test
     public void run() throws Exception {
-        Thread t = new Thread(new SouhuNewsCrawl());
-        t.start();
-        t.join();
+//        Thread t = new Thread(new SouhuNewsCrawl());
+//        t.start();
+//        t.join();
     }
 
 }
