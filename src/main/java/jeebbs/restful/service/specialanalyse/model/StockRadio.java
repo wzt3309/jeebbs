@@ -1,5 +1,7 @@
 package jeebbs.restful.service.specialanalyse.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -9,9 +11,14 @@ import java.sql.Date;
  * Created by ztwang on 2017/8/17 0017.
  */
 public class StockRadio {
+    @ApiModelProperty(value = "标识符id", position = 1, example = "Long")
     private Long id;
+    @ApiModelProperty(value = "股票涨跌比", position = 2, example = "Double")
     private Double radio1;
+    @ApiModelProperty(value = "股票强弱比", position = 3, example = "Double")
     private Double radio2;
+    @ApiModelProperty(value = "日期", example = "yyyy-MM-dd", position = 4)
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date updateDate;
 
     public StockRadio() {

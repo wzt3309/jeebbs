@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -18,7 +19,6 @@ import java.util.*;
  */
 @Service
 public class SpecialAnalyseMng {
-    private static final Logger logger = LoggerFactory.getLogger(StockRadio.class);
     private static final int DEFAULT_DAYS = 30;
 
     private SpecialAnalyseMapper mapper;
@@ -51,15 +51,39 @@ public class SpecialAnalyseMng {
     public void checkStockRadio(int checkDays) {
         List<Date> dateList = StockHelper.getDateList(checkDays);   //获取今天之前的历史交易日期
         if (!CollectionUtils.isEmpty(dateList)) {
+            Date beg = dateList.get(dateList.size() - 1);
+            Date end = dateList.get(0);
+            List<StockRadio> stockRadioList = mapper.findStockRadioListByDate(
+                    new java.sql.Date(beg.getTime()),
+                    new java.sql.Date(end.getTime()));
+
+            Map<String, StockRadio> stockRadioMap = new HashMap<>();
+            SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+            for (StockRadio stockRadio: stockRadioList) {
+                assert stockRadio != null;
+                java.sql.Date key = stockRadio.getUpdateDate();
+                assert key != null;
+                // 以String作为key安全
+                stockRadioMap.put(fmt.format(key), stockRadio);
+            }
+
             for (Date date: dateList) {
-                StockRadio bean = mapper.findStockRadioByDate(new java.sql.Date(date.getTime()));
-                if (bean == null) {
+                String tryKey = fmt.format(date);
+                if (!stockRadioMap.containsKey(tryKey)) {
                     insertStockRadio(date);
                 }
             }
+            // 太多select sql
+//            for (Date date: dateList) {
+//                StockRadio bean = mapper.findStockRadioByDate(new java.sql.Date(date.getTime()));
+//                if (bean == null) {
+//                    insertStockRadio(date);
+//                }
+//            }
         }
     }
 
+    /* financeRadio 会比正常交易日滞后一天*/
     public void insertFinanceRadio() {
         insertFinanceRadio(StockHelper.LatestTradeDateMinusOfDays(1));
     }
@@ -84,18 +108,41 @@ public class SpecialAnalyseMng {
     public void checkFinanceRadio(int checkDays) {
         List<Date> dateList = StockHelper.getDateList(checkDays);   //获取今天之前的历史交易日期
         if (!CollectionUtils.isEmpty(dateList)) {
+            Date beg = dateList.get(dateList.size() - 1);
+            Date end = dateList.get(0);
+            List<FinanceRadio> financeRadioList = mapper.findFinanceRadioListByDate(
+                    new java.sql.Date(beg.getTime()),
+                    new java.sql.Date(end.getTime()));
+
+            Map<String, FinanceRadio> financeRadioMap = new HashMap<>();
+            SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+            for (FinanceRadio financeRadio: financeRadioList) {
+                assert financeRadio != null;
+                java.sql.Date key = financeRadio.getUpdateDate();
+                assert key != null;
+                // 以String作为key安全
+                financeRadioMap.put(fmt.format(key), financeRadio);
+            }
+
             for (Date date: dateList) {
-                FinanceRadio bean = mapper.findFinanceRadioByDate(new java.sql.Date(date.getTime()));
-                if (bean == null) {
+                String tryKey = fmt.format(date);
+                if (!financeRadioMap.containsKey(tryKey)) {
                     insertFinanceRadio(date);
                 }
             }
+            // 太多select sql
+//            for (Date date: dateList) {
+//                FinanceRadio bean = mapper.findFinanceRadioByDate(new java.sql.Date(date.getTime()));
+//                if (bean == null) {
+//                    insertFinanceRadio(date);
+//                }
+//            }
         }
     }
 
     public List<StockRadio> findStockRadioListByDate(Date from, Date to) {
         if (from == null || to == null) {
-            return mapper.findStockRadioListByDays(DEFAULT_DAYS);
+            throw new IllegalArgumentException("Param from and to can't be null");
         }
         return mapper.findStockRadioListByDate(new java.sql.Date(from.getTime()),
                 new java.sql.Date(to.getTime()));
@@ -111,7 +158,7 @@ public class SpecialAnalyseMng {
 
     public List<FinanceRadio> findFinanceRadioListByDate(Date from, Date to) {
         if (from == null || to == null) {
-            return mapper.findFinanceRadioListByDays(DEFAULT_DAYS);
+            throw new IllegalArgumentException("Param from and to can't be null");
         }
         return mapper.findFinanceRadioListByDate(new java.sql.Date(from.getTime()),
                 new java.sql.Date(to.getTime()));
