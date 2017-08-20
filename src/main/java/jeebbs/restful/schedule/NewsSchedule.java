@@ -28,50 +28,50 @@ public class NewsSchedule {
     private AbstractNewsCrawl sohuNewsCrawl;
     private AbstractNewsCrawl xueqiuNewsCrawl;
     private NewsMapper newsMapper;
-//    /**
-//     * 每天从6:00~23:00,每隔10分钟收集一次新闻
-//     */
-////    @Scheduled(cron = "0 0/10 6-23 * * ?")
+    /**
+     * 每天从6:00~23:00,每隔10分钟收集一次新闻
+     */
+    @Scheduled(cron = "0 0/10 6-23 * * ?")
 //    @Scheduled(fixedDelay = 3000, initialDelay = 1000)
-//    public void eastNewsCrawlDaily() {
-//        logger.info("Start Crawling East News");
-//        eastNewsCrawl.crawl();
-//        logger.info("Finish Crawling East News");
-//
-//    }
-//
-//    /**
-//     * 每天从6:00~23:00,每隔10分钟收集一次新闻
-//     */
-////    @Scheduled(cron = "0 0/10 6-23 * * ?")
+    public void eastNewsCrawlDaily() {
+        logger.info("Start Crawling East News");
+        eastNewsCrawl.crawl();
+        logger.info("Finish Crawling East News");
+
+    }
+
+    /**
+     * 每天从6:00~23:00,每隔10分钟收集一次新闻
+     */
+    @Scheduled(cron = "0 0/10 6-23 * * ?")
 //    @Scheduled(fixedDelay = 3000, initialDelay = 1000)
-//    public void sinaNewsCrawlDaily() {
-//        logger.info("Start Crawling Sina News");
-//        sinaNewsCrawl.crawl();
-//        logger.info("Finish Crawling Sina News");
-//    }
-//
-//    /**
-//     * 每天从6:00~23:00,每隔10分钟收集一次新闻
-//     */
-////    @Scheduled(cron = "0 0/10 6-23 * * ?")
+    public void sinaNewsCrawlDaily() {
+        logger.info("Start Crawling Sina News");
+        sinaNewsCrawl.crawl();
+        logger.info("Finish Crawling Sina News");
+    }
+
+    /**
+     * 每天从6:00~23:00,每隔10分钟收集一次新闻
+     */
+    @Scheduled(cron = "0 0/10 6-23 * * ?")
 //    @Scheduled(fixedDelay = 3000, initialDelay = 1000)
-//    public void sohuNewsCrawlDaily() {
-//        logger.info("Start Crawling Sohu News");
-//        sohuNewsCrawl.crawl();
-//        logger.info("Finish Crawling Sohu News");
-//    }
-//
-//    /**
-//     * 每天从6:00~23:00,每隔10分钟收集一次新闻
-//     */
-////    @Scheduled(cron = "0 0/10 6-23 * * ?")
+    public void sohuNewsCrawlDaily() {
+        logger.info("Start Crawling Sohu News");
+        sohuNewsCrawl.crawl();
+        logger.info("Finish Crawling Sohu News");
+    }
+
+    /**
+     * 每天从6:00~23:00,每隔10分钟收集一次新闻
+     */
+    @Scheduled(cron = "0 0/10 6-23 * * ?")
 //    @Scheduled(fixedDelay = 3000, initialDelay = 1000)
-//    public void xueqiuNewsCrawlDaily() {
-//        logger.info("Start Crawling Xueqiu News");
-//        xueqiuNewsCrawl.crawl();
-//        logger.info("Finish Crawling Xueqiu News");
-//    }
+    public void xueqiuNewsCrawlDaily() {
+        logger.info("Start Crawling Xueqiu News");
+        xueqiuNewsCrawl.crawl();
+        logger.info("Finish Crawling Xueqiu News");
+    }
 
     /**
      * 每月的1号23:00，清理旧新闻
