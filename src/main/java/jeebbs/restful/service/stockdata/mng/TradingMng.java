@@ -363,7 +363,7 @@ public final class TradingMng {
         }
     }
 
-    private static <T> PageInfo<T> list2Page(List<T> list,
+    public static <T> PageInfo<T> list2Page(List<T> list,
                                              int total, int pageNum, int pageSize, String sort, boolean asc) {
         pageNum = pageNum == 0 ? 1 : Math.abs(pageNum);
         pageSize = pageSize == 0 ? 80 : Math.abs(pageSize);
