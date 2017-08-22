@@ -33,7 +33,6 @@ public class SpecialAnalyseMng {
     public void insertStockRadio(Date date) {
         Double radio1 = getStockRadio1(date);
         Double radio2 = getStockRadio2(date);
-        Long radio3 = getFinanceRadio(date);
         if (ObjectUtils.allNotNull(radio1, radio2)) {
             StockRadio bean = new StockRadio(radio1, radio2,
                     new java.sql.Date(date == null ? System.currentTimeMillis() : date.getTime()));
