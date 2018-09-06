@@ -27,6 +27,8 @@ public class NewsSchedule {
     private AbstractNewsCrawl sinaNewsCrawl;
     private AbstractNewsCrawl sohuNewsCrawl;
     private AbstractNewsCrawl xueqiuNewsCrawl;
+    private AbstractNewsCrawl hexunNewsCrawl;//yth
+    private AbstractNewsCrawl fx168NewsCrawl;//yth
     private NewsMapper newsMapper;
     /**
      * 每天从6:00~23:00,每隔10分钟收集一次新闻
@@ -73,6 +75,26 @@ public class NewsSchedule {
         logger.info("Finish Crawling Xueqiu News");
     }
 
+    //yth 和讯网
+    @Scheduled(cron = "0 0/10 6-23 * * ?")
+//    @Scheduled(fixedDelay = 3000, initialDelay = 1000)
+    public void hexunNewsCrawlDaily() {
+        logger.info("Start Crawling hexun News");
+        hexunNewsCrawl.crawl();
+        logger.info("Finish Crawling hexun News");
+
+    }
+
+    //yth 168财经
+    @Scheduled(cron = "0 0/10 6-23 * * ?")
+//    @Scheduled(fixedDelay = 3000, initialDelay = 1000)
+    public void fx168NewsCrawlDaily() {
+        logger.info("Start Crawling fx168 News");
+        fx168NewsCrawl.crawl();
+        logger.info("Finish Crawling fx168 News");
+
+    }
+
     /**
      * 每月的1号23:00，清理旧新闻
      */
@@ -116,6 +138,20 @@ public class NewsSchedule {
     @Qualifier("xueqiuNewsCrawl")
     public void setXueqiuNewsCrawl(AbstractNewsCrawl xueqiuNewsCrawl) {
         this.xueqiuNewsCrawl = xueqiuNewsCrawl;
+    }
+
+    //yth
+    @Autowired
+    @Qualifier("hexunNewsCrawl")
+    public void setHexunNewsCrawl(AbstractNewsCrawl hexunNewsCrawl) {
+        this.hexunNewsCrawl = hexunNewsCrawl;
+    }
+
+    //yth
+    @Autowired
+    @Qualifier("fx168NewsCrawl")
+    public void setFx168NewsCrawl(AbstractNewsCrawl fx168NewsCrawl) {
+        this.fx168NewsCrawl = fx168NewsCrawl;
     }
 
     @Autowired

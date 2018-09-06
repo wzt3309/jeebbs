@@ -142,7 +142,7 @@ public interface NewsMapper {
     int countForDays(@Param("days") int days);
 
     //成功返回1,不是返回主键
-    @Insert("INSERT INTO news(source, title, href, profile, stmp) VALUE(" +
+    @Insert("INSERT INTO news(source, title, href, profile, stmp) VALUES(" +
             "#{source}, #{title}, #{href}, #{profile}, #{stmp})")
     int insert(News news);
 

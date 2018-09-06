@@ -16,11 +16,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * Created by ztwang on 2017/8/6 0006.
@@ -197,7 +199,8 @@ public class StockController {
             @ApiResponse(code = 500, message = "服务器不能完成请求", response = CustomerErrorAttributes.class)}
     )
     @RequestMapping(value = "/getTopList", method = RequestMethod.GET)
-    public ResponseEntity<List<StockTop>> getTopList(@RequestParam(value = "date", defaultValue = "") String date) {
+    public ResponseEntity<List<StockTop>> getTopList(@RequestParam(value = "date", defaultValue = "") String date,
+                                                     @RequestParam(value = "trend", defaultValue = "LT") String trend) {
         if (!StringUtils.isBlank(date)) {
             Matcher m = DATE_PATTERN.matcher(date);
             if (!m.find()) {
@@ -205,7 +208,17 @@ public class StockController {
             }
         }
         List<StockTop> topList = TradingMng.getTopList(date);
-        return ResponseUtil.success(topList);
+
+        List<StockTop> res = new ArrayList<>();
+        if (topList != null) {
+            if ("LT".equalsIgnoreCase(trend)) {
+                res = topList.stream().filter(x -> x.getPchange().floatValue() > 0).collect(Collectors.toList());
+            }
+            if ("TT".equalsIgnoreCase(trend)) {
+                res = topList.stream().filter(x -> x.getPchange().floatValue() < 0).collect(Collectors.toList());
+            }
+        }
+        return ResponseUtil.success(res);
     }
 
 

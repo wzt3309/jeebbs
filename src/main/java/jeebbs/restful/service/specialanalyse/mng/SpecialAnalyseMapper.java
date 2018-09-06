@@ -14,7 +14,7 @@ import java.util.List;
 public interface SpecialAnalyseMapper {
 
     @Insert("INSERT INTO special_analyse_stockradio (radio1, radio2, updateDate) " +
-            "VALUE(#{radio1}, #{radio2}, #{updateDate})")
+            "VALUES(#{radio1}, #{radio2}, #{updateDate})")
     int insertStockRadio(StockRadio bean);
 
     @Select("SELECT * FROM special_analyse_stockradio WHERE updateDate = #{updateDate}")
@@ -52,7 +52,7 @@ public interface SpecialAnalyseMapper {
     List<StockRadio> findStockRadioAll();
 
     @Insert("INSERT INTO special_analyse_financeradio (radio, updateDate) " +
-            "VALUE(#{radio}, #{updateDate})")
+            "VALUES(#{radio}, #{updateDate})")
     int insertFinanceRadio(FinanceRadio bean);
 
     @Select("SELECT * FROM special_analyse_financeradio WHERE updateDate = #{updateDate}")
