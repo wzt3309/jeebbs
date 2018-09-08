@@ -14,6 +14,7 @@ public final class NewsUtil {
     public static final String PROP_NEWS_SOURCES = "news.sources";
     public static final String PROP_NEWS_PREFIX = "news.source";
     public static final String PROP_NEWS_URL = "url";
+    public static final String PROP_NEWS_BASEURL = "baseurl";//yth
     public static final String PROP_NEWS_NAME = "name";
     public static final String PROP_NEWS_LAYOUT = "layout";
     public static final String PROP_NEWS_SELECTOR = "selector";

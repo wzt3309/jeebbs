@@ -23,6 +23,7 @@ import static jeebbs.restful.service.news.model.NewsUtil.*;
 public abstract class AbstractNewsCrawl {
     String name;
     String url;
+    String baseUrl;//yth
     String layout;
     String selector;
     String titleSelector;
@@ -38,6 +39,7 @@ public abstract class AbstractNewsCrawl {
         this.LOG = LOG;
         this.name = NewsUtil.get(source, PROP_NEWS_NAME);
         this.url = NewsUtil.get(source, PROP_NEWS_URL);
+        this.baseUrl = NewsUtil.get(source, PROP_NEWS_BASEURL);//yth
         this.layout = NewsUtil.get(source, PROP_NEWS_LAYOUT);
         this.selector = NewsUtil.get(source, PROP_NEWS_SELECTOR);
 
@@ -107,7 +109,7 @@ public abstract class AbstractNewsCrawl {
         if (org.apache.commons.lang3.StringUtils
                 .isAnyEmpty(news.getSource(),
                             news.getTitle(),
-                            news.getHref(),
+                            //news.getHref(),//yth,href可以为空
                             news.getProfile())) return true;
         if (ObjectUtils.isEmpty(news.getStmp())) news.setStmp(new Timestamp(new Date().getTime()));
         return false;

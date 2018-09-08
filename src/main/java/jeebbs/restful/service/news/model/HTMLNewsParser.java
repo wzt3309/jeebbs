@@ -32,13 +32,42 @@ public class HTMLNewsParser implements NewsParser {
             Element titleElem = HtmlUtil.getFirstChildBySelector(content, newsCrawl.titleSelector);
             String title = getTitle(titleElem);
             String href = getHref(titleElem, newsCrawl.url);
-            if (StringUtils.isEmpty(title) || StringUtils.isEmpty(href)) continue;
-            String profileHtml = HttpUtil.sendGET(href);
-            String profile = getProfile(profileHtml, newsCrawl.profileSelector,
-                                        newsCrawl.abstractLength);
-            Timestamp stmp = getTimestamp(profileHtml, newsCrawl.timeSelector,
-                                          newsCrawl.timeAttr,
-                                          newsCrawl.timeFormat);
+
+            //if (StringUtils.isEmpty(title) || StringUtils.isEmpty(href)) continue; //yth
+            //yth
+            String profile;
+            Timestamp stmp;
+            if(StringUtils.isEmpty(href)){//如果标题不是超链接
+                //yth
+                if(href==null){
+                    href=newsCrawl.baseUrl;//设为主页面链接
+                }
+                 /*profile = getProfile(newsCrawl.url, newsCrawl.profileSelector,
+                        newsCrawl.abstractLength);*/
+                profile=HtmlUtil.getFirstChildBySelector(content,newsCrawl.profileSelector).text();
+                stmp = getTimestamp(content,newsCrawl.timeSelector);
+                //此时profile只取前面100个字符，防止数据库字符截断
+                if(profile.length()>100){
+                    profile=profile.substring(0,100);
+                }
+                //title的格式设置
+                if(title.contains("】"))
+                {
+                    title=title.substring(title.indexOf("【"),title.indexOf("】")+1);
+                }else {
+                    if(title.length()>30){
+                        title=title.substring(0,30);
+                    }
+                }
+
+            }else{//如果标题是超链接
+                String profileHtml = HttpUtil.sendGET(href);
+                profile = getProfile(profileHtml, newsCrawl.profileSelector,
+                        newsCrawl.abstractLength);
+                stmp = getTimestamp(profileHtml, newsCrawl.timeSelector,
+                        newsCrawl.timeAttr,
+                        newsCrawl.timeFormat);
+            }
             News news = new News(newsCrawl.name, title, href, profile, stmp);
             newsList.add(news);
         }
@@ -90,16 +119,15 @@ public class HTMLNewsParser implements NewsParser {
         return null;
     }
 
-    protected Timestamp getTimestamp(String html, String selector,
-                                     String attr, String format) {
-        Timestamp res = null;
+    protected Timestamp getTimestamp(String html, String selector, String attr, String format) {
+        Timestamp res = null;//返回结果
         long data_val = System.currentTimeMillis();
         Elements times = HtmlUtil.getElementsBySelector(html, selector);
-        if (times == null || times.isEmpty()) return new Timestamp(data_val);
-        Element timeElem = times.first();
+        if (times == null || times.isEmpty()) return new Timestamp(data_val);//如果时间元素为空，则返回当今时间
+        Element timeElem = times.first();//第一个元素
         String data_val_str;
         boolean isLong = true;
-        if (!StringUtils.isEmpty(attr)) {
+        if (!StringUtils.isEmpty(attr)) {//此时attr可能是时间格式或者long
             data_val_str = timeElem.attr(attr);
             try {
                 data_val = Long.parseLong(data_val_str);
@@ -113,7 +141,7 @@ public class HTMLNewsParser implements NewsParser {
                 res = Timestamp.valueOf(data_val_str);
             }
         } else if (!StringUtils.isEmpty(format)){
-            data_val_str = timeElem.ownText();
+            data_val_str = timeElem.ownText();//时间元素的文本值
             if (!StringUtils.isEmpty(data_val_str)) {
                 data_val_str = StringUtils.trimWhitespace(
                         data_val_str.replaceAll("\"", ""));
@@ -130,4 +158,13 @@ public class HTMLNewsParser implements NewsParser {
 
         return res == null ? new Timestamp(data_val) : res;
     }
+
+    //yth
+    protected Timestamp getTimestamp(Element timeElement, String attr){
+        String data_val_str = timeElement.attr(attr);//获取属性值
+        Timestamp res = Timestamp.valueOf(data_val_str);
+        return res;
+    }
+
+
 }
