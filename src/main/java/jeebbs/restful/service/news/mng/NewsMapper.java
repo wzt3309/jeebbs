@@ -14,6 +14,10 @@ public interface NewsMapper {
     @Select("SELECT * FROM news WHERE id = #{id}")
     News findById(@Param("id") Long id);
 
+    //24小时自动获取新闻，默认取最新的新闻
+    @Select("SELECT * FROM news WHERE source = #{source} ORDER BY stmp DESC")
+    List<News> news24h(@Param("source") String source);
+
     @Select("SELECT * FROM news WHERE title = #{title}")
     List<News> findByTitle(@Param("title") String title);
 
@@ -158,5 +162,17 @@ public interface NewsMapper {
 
     @Delete("DELETE FROM news WHERE 1=1 ORDER BY stmp LIMIT #{limit}")
     void deleteFirstNews(@Param("limit") int limit);
+
+    //yth
+    @Results({
+            @Result(property = "id", column = "id"),
+            @Result(property = "source", column = "source"),
+            @Result(property = "title", column = "title"),
+            @Result(property = "href", column = "href"),
+            @Result(property = "profile", column = "profile"),
+            @Result(property = "stmp", column = "stmp")
+    })
+    @Select("SELECT * FROM news WHERE source = #{source} ORDER BY stmp DESC LIMIT #{limit}")
+    List<News> findLimitBySource(@Param("source") String source,@Param("limit") int limit);
 
 }

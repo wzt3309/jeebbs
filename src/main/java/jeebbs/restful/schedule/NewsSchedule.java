@@ -76,8 +76,8 @@ public class NewsSchedule {
     }
 
     //yth 和讯网
-    @Scheduled(cron = "0 0/10 6-23 * * ?")
-//    @Scheduled(fixedDelay = 3000, initialDelay = 1000)
+    //@Scheduled(cron = "0 0/10 6-23 * * ?")
+    @Scheduled(fixedDelay = 3000, initialDelay = 1000)
     public void hexunNewsCrawlDaily() {
         logger.info("Start Crawling hexun News");
         hexunNewsCrawl.crawl();
@@ -86,8 +86,8 @@ public class NewsSchedule {
     }
 
     //yth 168财经
-    @Scheduled(cron = "0 0/10 6-23 * * ?")
-//    @Scheduled(fixedDelay = 3000, initialDelay = 1000)
+    //@Scheduled(cron = "0 0/10 6-23 * * ?")
+    @Scheduled(fixedDelay = 3000, initialDelay = 1000)
     public void fx168NewsCrawlDaily() {
         logger.info("Start Crawling fx168 News");
         fx168NewsCrawl.crawl();
