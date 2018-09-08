@@ -311,7 +311,7 @@ public final class TradingMng {
      */
     private static String codeToSymbol(String code) {
         if (!StringUtils.isEmpty(getIndexSymbol(code))) {
-            return INDEX_LIST.get(code);
+            return getIndexList(code);
         } else {
             if (code.length() != 6) {
                 return "";
