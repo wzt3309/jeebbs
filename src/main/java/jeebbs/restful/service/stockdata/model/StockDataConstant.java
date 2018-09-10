@@ -25,13 +25,13 @@ public class StockDataConstant {
     public static Map<String, String> K_TYPE;
     public static Map<String, String> DOMAINS;
     public static Map<String, String> PAGES;
-    public static final String DAY_PRICE_URL = "%sapi.finance.%s/%s/?code=%s&type=last";
+    public static final String DAY_PRICE_URL = "%sapi.finance.%s/%s/?code=%s&type=last";//某股历史日K线数据
     public static final String SINA_DAY_PRICE_URL = "%s%s/quotes_service/api/%s/Market_Center.getHQNodeData?" +
-                                              "num=%s&sort=%s&asc=%d&node=%s&symbol=&_s_r_a=page&page=%s";
+                                              "num=%s&sort=%s&asc=%d&node=%s&symbol=&_s_r_a=page&page=%s";//当日股票交易数据
     public static final String CODE_SEARCH_URL = "%ssuggest.%s/suggest/default.aspx?name=sData&input=%s&type=";
     public static final String ALL_CAL_FILE = "%s%s/tsdata/calAll.csv";
     public static final String LHB_URL = "%sdata.%s/DataCenter_V3/stock2016/TradeDetail/pagesize=200,page=1," +
-            "sortRule=-1,sortType=,startDate=%s,endDate=%s,gpfw=0,js=vardata_tab_1.html";
+            "sortRule=-1,sortType=,startDate=%s,endDate=%s,gpfw=0,js=vardata_tab_1.html";//龙虎榜链接
 
     public static String getIndexList(String key) {
         if (CollectionUtils.isEmpty(INDEX_LIST)) {
@@ -48,6 +48,7 @@ public class StockDataConstant {
             URL stock_code_json = StockDataConstant.class.getResource("/stock-code.json");
             INDEX_SYMBOL = init(stock_code_json);
         }
+
         return !CollectionUtils.isEmpty(INDEX_SYMBOL) ? INDEX_SYMBOL.get(key) : null;
     }
 

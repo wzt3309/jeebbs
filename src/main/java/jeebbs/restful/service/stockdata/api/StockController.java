@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/stock")
 public class StockController {
-    private static final String DATE_FORMAT = "\\d{4}-\\d{1,2}-\\d{1,2}";
+    private static final String DATE_FORMAT = "\\d{4}-\\d{1,2}-\\d{1,2}";//日期格式
     private static final Pattern DATE_PATTERN = Pattern.compile(DATE_FORMAT);
 
     @ApiOperation(value = "获得某个股票历史日K线数据",

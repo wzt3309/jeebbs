@@ -119,8 +119,9 @@ public final class TradingMng {
                             .setMa20(values[9])
                             .setV_ma5(values[10])
                             .setV_ma10(values[11])
-                            .setV_ma20(values[12])
-                            .setTurnover(values[13]);
+                            .setV_ma20(values[12]);
+                            //.setTurnover(values[13]);//yth
+
                     res.add(stockDailyBuilder.build());
                 }catch (Exception e) {
                     LOG.error("Parse StockDaily Error Because %s");
@@ -255,7 +256,7 @@ public final class TradingMng {
                 stockTop.setBuy(new BigDecimal(map.get("Bmoney")));
                 stockTop.setSell(new BigDecimal(map.get("Smoney")));
                 stockTop.setReason(map.get("Ctypedes"));
-                BigDecimal turnover = new BigDecimal(map.get("Turnover"));
+                BigDecimal turnover = new BigDecimal(map.get("Turnover"));//总成交额
                 stockTop.setBrati(stockTop.getBuy().divide(turnover, 3, BigDecimal.ROUND_DOWN));
                 stockTop.setSratio(stockTop.getSell().divide(turnover, 3, BigDecimal.ROUND_DOWN));
                 stockTop.setDate(new java.sql.Date(SDF_DATE.parse(date).getTime()));
@@ -310,8 +311,11 @@ public final class TradingMng {
         生成symbol代码标志
      */
     private static String codeToSymbol(String code) {
-        if (!StringUtils.isEmpty(getIndexSymbol(code))) {
-            return INDEX_LIST.get(code);
+        String indexSymbol=getIndexSymbol(code);
+
+        if (!StringUtils.isEmpty(indexSymbol)) {
+            return indexSymbol;
+            //return INDEX_LIST.get(code);
         } else {
             if (code.length() != 6) {
                 return "";

@@ -22,11 +22,11 @@ public class StockTop {
     private BigDecimal amount;  //龙虎榜成交额(万)
     @ApiModelProperty(value = "买入额(万)", position = 6)
     private BigDecimal buy;     //买入额(万)
-    @ApiModelProperty(value = "占总成交比例", position = 7)
+    @ApiModelProperty(value = "买入额占总成交比例", position = 7)
     private BigDecimal brati;   //占总成交比例
     @ApiModelProperty(value = "卖出额(万)", position = 8)
     private BigDecimal sell;    //卖出额(万)
-    @ApiModelProperty(value = "占总成交比例", position = 9)
+    @ApiModelProperty(value = "卖出额占总成交比例", position = 9)
     private BigDecimal sratio;  //占总成交比例
     @ApiModelProperty(value = "上榜原因", position = 10)
     private String reason;  //上榜原因
