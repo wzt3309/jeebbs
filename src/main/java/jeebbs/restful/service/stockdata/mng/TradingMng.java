@@ -33,6 +33,9 @@ public final class TradingMng {
     private static final SimpleDateFormat SDF_DATE = new SimpleDateFormat("yyyy-MM-dd");
     private static final SimpleDateFormat SDF_TIME = new SimpleDateFormat("HH:mm:ss");
     private static final Map<String, String> TRADE_DAY_TABLE = new HashMap<>();
+    private static final String CGW_URL = "http://ddx.gubit.cn/xg/ddxlist.php";//查股网，根据股票代码获取股票信息 yth
+    private static final String CGW_REFERER = "http://ddx.gubit.cn/xg/ddx.html";//查股网发送头部，因为不能跨域访问 yth
+
     static {
         initTradeDayTable();
     }
@@ -102,6 +105,8 @@ public final class TradingMng {
                     //ignore
                 }
                 try {
+                    ArrayList<BigDecimal> resultList=getTradeAndTratio(code,data.get(0));//根据股票代码和日期获取现价和换手率，此处只用到换手率
+
                     BigDecimal[] values = data.stream().skip(1)
                             .map(n -> new BigDecimal(n.replaceAll(",", "")))
                             .collect(Collectors.toList()).toArray(new BigDecimal[0]);
@@ -119,8 +124,9 @@ public final class TradingMng {
                             .setMa20(values[9])
                             .setV_ma5(values[10])
                             .setV_ma10(values[11])
-                            .setV_ma20(values[12]);
-                            //.setTurnover(values[13]);//yth
+                            .setV_ma20(values[12])
+                            .setTurnover(resultList.get(1));//换手率
+
 
                     res.add(stockDailyBuilder.build());
                 }catch (Exception e) {
@@ -260,6 +266,12 @@ public final class TradingMng {
                 stockTop.setBrati(stockTop.getBuy().divide(turnover, 3, BigDecimal.ROUND_DOWN));
                 stockTop.setSratio(stockTop.getSell().divide(turnover, 3, BigDecimal.ROUND_DOWN));
                 stockTop.setDate(new java.sql.Date(SDF_DATE.parse(date).getTime()));
+                //利用查股网根据股票代码获取股票信息 yth
+                String strCode=map.get("SCode");//股票代码
+                ArrayList<BigDecimal>  resultList=getTradeAndTratio(strCode,"");//查询现价和换手率，最新数据
+                stockTop.setTrade(resultList.get(0));//现价
+                stockTop.setTurnoverratio(resultList.get(1));//换手率
+                //-----
                 res.add(stockTop);
             } catch (NumberFormatException e) {
                 //ignore
@@ -267,11 +279,42 @@ public final class TradingMng {
                 //ignore
             } catch (Exception e) {
                 //ignore
+                String s=e.getMessage();
             }
         }
 
         return res;
     }
+
+    /*
+        根据股票代码和日期查询股票的现价和换手率 yth
+     */
+    private static ArrayList<BigDecimal> getTradeAndTratio(String stockCode,String date) {
+        Map<String, String> headers = new HashMap<>();//头部
+        headers.put("Referer", CGW_REFERER);
+
+        Map<String, String> params = new HashMap<>();//参数
+        params.put("stockid", stockCode);
+        params.put("getlsdate", "1");
+        //如果日期不为空，则根据日期查询，历史数据
+        //日期为空，则查询的是最新数据
+        if(!date.equals("")) {
+            params.put("lsdate", date);
+        }
+        String returnJson = HttpUtil.sendGET(CGW_URL, params, headers);//请求返回json
+        Map<String, Object> json2Map = JacksonUtil.json2Map(returnJson);
+        List result = (List) json2Map.get("data");
+        List resultDataList=(List)result.get(0);
+        BigDecimal trade=new BigDecimal(resultDataList.get(1).toString());//现价
+        BigDecimal turnoverRate=new BigDecimal(resultDataList.get(3).toString()).divide(new BigDecimal(100), 4, BigDecimal.ROUND_DOWN);//换手率
+
+        ArrayList<BigDecimal> resultList=new ArrayList<BigDecimal>();//返回结果
+
+        resultList.add(trade);
+        resultList.add(turnoverRate);
+        return resultList;
+    }
+
     /*
         解析每日股票交易数据json
      */

@@ -30,6 +30,11 @@ public class StockTop {
     private BigDecimal sratio;  //占总成交比例
     @ApiModelProperty(value = "上榜原因", position = 10)
     private String reason;  //上榜原因
+    @ApiModelProperty(value = "现价", position = 12)
+    private BigDecimal trade;//现价
+    @ApiModelProperty(value = "换手率", position = 13)
+    private BigDecimal turnoverratio;//换手率
+
     @ApiModelProperty(value = "日期", example = "yyyy-MM-dd", position = 11)
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date date;    //日期
@@ -156,6 +161,22 @@ public class StockTop {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public BigDecimal getTrade() {
+        return trade;
+    }
+
+    public void setTrade(BigDecimal trade) {
+        this.trade = trade;
+    }
+
+    public BigDecimal getTurnoverratio() {
+        return turnoverratio;
+    }
+
+    public void setTurnoverratio(BigDecimal turnoverratio) {
+        this.turnoverratio = turnoverratio;
     }
 
     @Override
