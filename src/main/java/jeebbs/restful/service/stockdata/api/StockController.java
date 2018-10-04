@@ -11,10 +11,7 @@ import jeebbs.restful.util.model.CustomerErrorAttributes;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MimeTypeUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,6 +28,7 @@ import java.util.stream.Collectors;
         description = "股票数据接口")
 @RestController
 @RequestMapping("/api/stock")
+@CrossOrigin//yth
 public class StockController {
     private static final String DATE_FORMAT = "\\d{4}-\\d{1,2}-\\d{1,2}";//日期格式
     private static final Pattern DATE_PATTERN = Pattern.compile(DATE_FORMAT);

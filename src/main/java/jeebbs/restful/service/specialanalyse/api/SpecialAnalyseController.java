@@ -13,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.MimeTypeUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -31,6 +28,7 @@ import java.util.List;
         description = "特色分析接口")
 @RestController
 @RequestMapping("/api/specialanalyse")
+@CrossOrigin//yth
 public class SpecialAnalyseController {
     private SpecialAnalyseMng specialAnalyseMng;
 

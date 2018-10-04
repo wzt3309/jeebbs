@@ -13,10 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.util.ObjectUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +29,7 @@ import java.util.regex.Pattern;
         description = "财经新闻模块接口详情")
 @RestController
 @RequestMapping("/api/news")
+@CrossOrigin//yth
 public class NewsController {
     private static final String DATE_FORMAT = "\\d{4}-\\d{1,2}-\\d{1,2}";
 
@@ -438,6 +436,7 @@ public class NewsController {
             @ApiResponse(code = 500, message = "服务器不能完成请求", response = CustomerErrorAttributes.class)}
     )
     @RequestMapping(value = "/news24h", method = RequestMethod.GET)
+
     public ResponseEntity<PageInfo<News>> news24h(@RequestParam(value = "source", defaultValue = "") String source,
                                                   @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                                   @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {

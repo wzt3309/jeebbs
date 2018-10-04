@@ -10,10 +10,7 @@ import jeebbs.restful.util.model.CustomerErrorAttributes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MimeTypeUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 
@@ -24,6 +21,7 @@ import java.util.HashMap;
         description = "股票分析接口")
 @RestController
 @RequestMapping("/api/stockanalyse")
+@CrossOrigin//yth
 public class StockAnalyseController {
     private StockAnalyseMng stockAnalyseMng;
 
