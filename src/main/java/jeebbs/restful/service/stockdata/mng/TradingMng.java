@@ -251,9 +251,16 @@ public final class TradingMng {
         if (CollectionUtils.isEmpty(jsonMap)) return null;
         List dataList = (List) jsonMap.get("data");
         List<StockTop> res = new ArrayList<>();
+        List<String> codeList = new ArrayList<>();//股票代码列表，龙虎榜可能有重复股票，需要去重
+        String stockCode;//股票代码
         for (Object data: dataList) {
             try {
                 Map<String, String> map = (Map<String, String>) data;
+                stockCode=map.get("SCode");//股票代码
+                if(codeList.contains(stockCode)){
+                    continue;//如果之前存在，直接跳过
+                }
+
                 StockTop stockTop = new StockTop();
                 stockTop.setCode(map.get("SCode"));
                 stockTop.setName(map.get("SName"));
@@ -273,6 +280,7 @@ public final class TradingMng {
                 stockTop.setTurnoverratio(resultList.get(1));//换手率
                 //-----
                 res.add(stockTop);
+                codeList.add(stockCode);//添加股票代码
             } catch (NumberFormatException e) {
                 //ignore
             } catch (ParseException e) {

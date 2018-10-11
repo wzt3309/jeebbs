@@ -205,7 +205,7 @@ public class StockController {
                 throw new IllegalArgumentException("'date' format is invalid");
             }
         }
-        List<StockTop> topList = TradingMng.getTopList(date);
+        List<StockTop> topList = TradingMng.getTopList(date);//获取的龙虎榜，已经去重
 
         List<StockTop> res = new ArrayList<>();
         if (topList != null) {
