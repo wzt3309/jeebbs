@@ -2,6 +2,8 @@ package jeebbs.restful.service.news.mng;
 
 import jeebbs.restful.service.news.model.News;
 import org.apache.ibatis.annotations.*;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
 import java.util.Map;
@@ -10,12 +12,14 @@ import java.util.Map;
  * Created by ztwang on 2017/7/7 0007.
  */
 @Mapper
+@CacheConfig(cacheNames = "news")//yth
 public interface NewsMapper {
     @Select("SELECT * FROM news WHERE id = #{id}")
     News findById(@Param("id") Long id);
 
     //24小时自动获取新闻，默认取最新的新闻
     @Select("SELECT * FROM news WHERE source = #{source} ORDER BY stmp DESC")
+    @Cacheable//yth
     List<News> news24h(@Param("source") String source);
 
     @Select("SELECT * FROM news WHERE title = #{title}")
@@ -35,6 +39,7 @@ public interface NewsMapper {
             "</where>" +
             "ORDER BY stmp DESC" +
             "</script>"})
+    @Cacheable//yth
     List<News> findBySearchMap(@Param("searchMap") Map<String, String> searchMap);
 
     @Results({
