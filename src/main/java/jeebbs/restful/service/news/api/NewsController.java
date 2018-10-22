@@ -9,6 +9,7 @@ import jeebbs.restful.util.ResponseUtil;
 import jeebbs.restful.util.model.CustomerErrorAttributes;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.MimeTypeUtils;
@@ -436,7 +437,7 @@ public class NewsController {
             @ApiResponse(code = 500, message = "服务器不能完成请求", response = CustomerErrorAttributes.class)}
     )
     @RequestMapping(value = "/news24h", method = RequestMethod.GET)
-
+    @Cacheable(value = "news24h", key = "#source + '_' + #pageNum + '_' + #pageSize", condition = "#result != null ")
     public ResponseEntity<PageInfo<News>> news24h(@RequestParam(value = "source", defaultValue = "") String source,
                                                   @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                                   @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
