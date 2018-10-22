@@ -9,6 +9,7 @@ import jeebbs.restful.service.stockdata.model.StockTrade;
 import jeebbs.restful.util.ResponseUtil;
 import jeebbs.restful.util.model.CustomerErrorAttributes;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.*;
@@ -150,6 +151,7 @@ public class StockController {
             @ApiResponse(code = 500, message = "服务器不能完成请求", response = CustomerErrorAttributes.class)}
     )
     @RequestMapping(value = "/getTodayAll", method = RequestMethod.GET)
+    @Cacheable(value = "getTodayAll", condition = "#result != null ")//yth
     public ResponseEntity<PageInfo<StockTrade>> getTodayAll(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                                             @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
                                                             @RequestParam(value = "sort", defaultValue = "code") String sort,
@@ -197,6 +199,7 @@ public class StockController {
             @ApiResponse(code = 500, message = "服务器不能完成请求", response = CustomerErrorAttributes.class)}
     )
     @RequestMapping(value = "/getTopList", method = RequestMethod.GET)
+    @Cacheable(value = "getTopList", condition = "#result != null ")//yth
     public ResponseEntity<List<StockTop>> getTopList(@RequestParam(value = "date", defaultValue = "") String date,
                                                      @RequestParam(value = "trend", defaultValue = "LT") String trend) {
         if (!StringUtils.isBlank(date)) {
