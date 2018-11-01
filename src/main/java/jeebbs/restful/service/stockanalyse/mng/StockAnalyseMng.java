@@ -10,6 +10,7 @@ import jeebbs.restful.util.JacksonUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -31,14 +32,19 @@ public class StockAnalyseMng {
     private static final String hy_fund_url = "http://nufm.dfcfw.com/EM_Finance2014NumericApplication/JS.aspx?type=CT&cmd=C._BKHY&sty=DCFFPBFM&st=(BalFlowMain)&sr=-1&p=1&ps=999&js=&token=894050c76af8597a853f5b408b759f5d";////行业资金流
     //private static final String gn_fund_url = "http://data.eastmoney.com/bkzj/gn.html";//概念资金流
     private static final String gn_fund_url = "http://nufm.dfcfw.com/EM_Finance2014NumericApplication/JS.aspx?type=CT&cmd=C._BKGN&sty=DCFFPBFM&st=(BalFlowMain)&sr=-1&p=1&ps=10000&js=&token=894050c76af8597a853f5b408b759f5d";//概念资金流
-    private FundFlowMapper mapper;
+    private final FundFlowMapper mapper;
+
+    @Autowired
+    public StockAnalyseMng(FundFlowMapper mapper) {
+        this.mapper = mapper;
+    }
 
     //获取某天特定类型的资金数据
     public List<FundFlow> fundFlowAnalyse( String type,Date updateDate){
 
         updateFundFlow();//测试
 
-        List<FundFlow> result=mapper.findFundFlowByDateGap(type,new java.sql.Date(updateDate.getTime()));
+        List<FundFlow> result=mapper.findFundFlowByDateGap2(type,new java.sql.Date(updateDate.getTime()));
         return result;
     }
 

@@ -53,5 +53,5 @@ public interface FundFlowMapper {
     })
     //获取特定日期某类型的资金流数据
     @Select("SELECT * FROM fund_flow WHERE type=#{type} AND updateDate=#{date} order by index")
-    List<FundFlow> findFundFlowByDateGap(@Param("type")String type, @Param("date")Date date);
+    List<FundFlow> findFundFlowByDateGap2(@Param("type")String type, @Param("date")Date date);
 }
