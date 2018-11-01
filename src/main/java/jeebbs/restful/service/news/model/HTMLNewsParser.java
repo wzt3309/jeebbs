@@ -37,7 +37,7 @@ public class HTMLNewsParser implements NewsParser {
             //yth
             String profile;
             Timestamp stmp;
-            if(StringUtils.isEmpty(href)){//如果标题不是超链接
+            if(StringUtils.isEmpty(href)){//如果标题不是超链接，fx168财经执行的逻辑
                 //yth
                 if(href==null){
                     href=newsCrawl.baseUrl;//设为主页面链接
@@ -46,10 +46,12 @@ public class HTMLNewsParser implements NewsParser {
                         newsCrawl.abstractLength);*/
                 profile=HtmlUtil.getFirstChildBySelector(content,newsCrawl.profileSelector).text();
                 stmp = getTimestamp(content,newsCrawl.timeSelector);
-                //此时profile只取前面100个字符，防止数据库字符截断
-                if(profile.length()>100){
-                    profile=profile.substring(0,100);
-                }
+
+//                //此时profile只取前面100个字符，防止数据库字符截断
+//                if(profile.length()>100){
+//                    profile=profile.substring(0,100);
+//                }
+
                 //title的格式设置
                 if(title.contains("】"))
                 {

@@ -63,7 +63,31 @@ public class JSONNewsParser implements NewsParser {
             }
 
 
-        }else {//不是搜狐财经时执行的逻辑
+        }else if (newsCrawl.name.equals("和讯网")){//和讯网执行的逻辑
+            for (Map<String, Object> map: convertedListMap) {
+                String title = (String) map.get(newsCrawl.titleSelector);//标题
+                String profile = (String) map.get(newsCrawl.profileSelector);//详情
+                String href = newsCrawl.baseUrl;//获取超链接
+
+                //标题的格式设置，尽量获取【】里面的信息
+                if(title.contains("】"))
+                {
+                    title=title.substring(title.indexOf("【"),title.indexOf("】")+1);
+                }else {
+                    if(title.length()>30){
+                        title=title.substring(0,30);
+                    }
+                }
+
+                Long data_val = (Long) map.get(newsCrawl.timeSelector);//时间戳
+                data_val = data_val == null ? System.currentTimeMillis() : data_val;
+                Timestamp timestamp = new Timestamp(data_val);
+                News news = new News(newsCrawl.name, title, href, profile, timestamp);//新建对象
+                newsList.add(news);
+            }
+
+
+        }else {//雪球财经执行的逻辑
             for (Map<String, Object> map: convertedListMap) {
                 String title = (String) map.get(newsCrawl.selector);//标题
                 String text = (String) map.get(newsCrawl.profileSelector);

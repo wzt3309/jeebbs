@@ -1,6 +1,7 @@
 package jeebbs.restful.service.stockanalyse.mng;
 
 import com.github.pagehelper.PageInfo;
+import jeebbs.restful.service.stockanalyse.model.FundFlow;
 import jeebbs.restful.service.stockanalyse.model.StockAnalyse;
 import jeebbs.restful.service.stockdata.mng.TradingMng;
 
@@ -14,12 +15,9 @@ import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
+import java.util.*;
 
 /**
  * Created by ztwang on 2017/8/22 0022.
@@ -29,6 +27,125 @@ public class StockAnalyseMng {
     private static final Logger logger = LoggerFactory.getLogger(StockAnalyseMng.class);
     private static final String EAST_URL = "http://datainterface.eastmoney.com/EM_DataCenter/JS.aspx";
     private static final String EAST_REFERER = "http://data.eastmoney.com/stockcomment/";
+    //private static final String hy_fund_url = "http://data.eastmoney.com/bkzj/hy.html";//行业资金流
+    private static final String hy_fund_url = "http://nufm.dfcfw.com/EM_Finance2014NumericApplication/JS.aspx?type=CT&cmd=C._BKHY&sty=DCFFPBFM&st=(BalFlowMain)&sr=-1&p=1&ps=999&js=&token=894050c76af8597a853f5b408b759f5d";////行业资金流
+    //private static final String gn_fund_url = "http://data.eastmoney.com/bkzj/gn.html";//概念资金流
+    private static final String gn_fund_url = "http://nufm.dfcfw.com/EM_Finance2014NumericApplication/JS.aspx?type=CT&cmd=C._BKGN&sty=DCFFPBFM&st=(BalFlowMain)&sr=-1&p=1&ps=10000&js=&token=894050c76af8597a853f5b408b759f5d";//概念资金流
+    private FundFlowMapper mapper;
+
+    //获取某天特定类型的资金数据
+    public List<FundFlow> fundFlowAnalyse( String type,Date updateDate){
+
+        updateFundFlow();//测试
+
+        List<FundFlow> result=mapper.findFundFlowByDateGap(type,new java.sql.Date(updateDate.getTime()));
+        return result;
+    }
+
+    //在收市之后定时触发函数，更新数据，只执行一次
+    public void updateFundFlow()
+    {
+        //分别更新行业和概念两个类型的资金数据
+        updateFundFlowByType("行业");
+        updateFundFlowByType("概念");
+    }
+
+
+    //根据类型获取资金流数据
+    public void updateFundFlowByType(String type) {
+        String strContent;
+        if(type.equals("行业"))
+        {
+            strContent= HttpUtil.sendGET(hy_fund_url);//获取行业资金流内容
+        }else {
+            strContent= HttpUtil.sendGET(gn_fund_url);//获取概念资金流内容
+        }
+
+        //处理字符串
+        strContent=strContent.replaceAll("\\(\\[\"","").replaceAll("\\]\\)\"","");
+        String[] list= strContent.split("\",\"");
+
+        //属性
+        String name;
+        double flow_today;
+        double flow_10;
+        double flow_10_avg;
+        double flow_20;
+        double flow_20_avg;
+        double flow_60;
+        double flow_60_avg;
+        double flow_120;
+        double flow_120_avg;
+
+        //获取当前日期
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c = Calendar.getInstance();
+        String dateString=sf.format(c.getTime());//当前日期
+        ParsePosition pos = new ParsePosition(8);
+        Date updateDate = sf.parse(dateString, pos);//当前日期，Date形式
+
+        double day10[];
+        double day20[];
+        double day60[];
+        double day120[];
+
+        //遍历
+        for (int i=0;i<list.length;i++) {
+            String[] data= list[i].split(",");
+            name=data[2];//名称
+            flow_today=Double.valueOf(data[3]);//今日主力净流入
+
+            day10=getFundFlowByDays(name,type,10);
+            flow_10=day10[0];
+            flow_10_avg=day10[1];
+            day20=getFundFlowByDays(name,type,20);
+            flow_20=day20[0];
+            flow_20_avg=day20[1];
+            day60=getFundFlowByDays(name,type,60);
+            flow_60=day60[0];
+            flow_60_avg=day60[1];
+            day120=getFundFlowByDays(name,type,120);
+            flow_120=day120[0];
+            flow_120_avg=day120[1];
+            //插入数据库
+            FundFlow item=new FundFlow(updateDate,type,i+1,name,flow_today,flow_10,flow_10_avg,flow_20,flow_20_avg,flow_60,flow_60_avg,flow_120,flow_120_avg);
+            mapper.insertFund_Flow(item);
+
+        }
+
+    }
+
+    //根据过去的天数计算*日净流入和*日平均净流入
+    public double[] getFundFlowByDays(String name,String type, int day)
+    {
+        double fundFlow=0;//*日净流入
+        double fundFlow_avg=0;//*日平均净流入
+
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c = Calendar.getInstance();
+        String dateString_from=sf.format(c.getTime());//开始日期
+        c.add(Calendar.DAY_OF_MONTH, -(day-1));
+        String dateString_to=sf.format(c.getTime());//结束日期
+        ParsePosition pos = new ParsePosition(8);
+        //转换为日期格式
+        Date updateDate_from = sf.parse(dateString_from, pos);
+        Date updateDate_to = sf.parse(dateString_to, pos);
+
+        List<FundFlow> resultList= mapper.findFundFlowByDateGap(name,type,new java.sql.Date(updateDate_from.getTime()),new java.sql.Date(updateDate_to.getTime()));
+        //计算*日净流入
+        for(FundFlow item:resultList){
+            fundFlow+=item.getFlow_today();
+        }
+        fundFlow_avg=fundFlow/day;
+        //返回结果,第一个值为*日净流入，第二个值为*日平均净流入
+        double[] arr=new double[2];
+        arr[0]=fundFlow;
+        arr[1]=fundFlow_avg;
+        return arr;
+    }
+
+
+
 
     public PageInfo<StockAnalyse> findStockAnalyse(int pageNum, int pageSize, String order, int isDesc) {
         Map<String, Object> data = findData(pageNum, pageSize, resolver(order), -isDesc);

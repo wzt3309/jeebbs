@@ -33,8 +33,8 @@ public class NewsSchedule {
     /**
      * 每天从6:00~23:00,每隔10分钟收集一次新闻
      */
-    @Scheduled(cron = "0 0/10 6-23 * * ?")
-//    @Scheduled(fixedDelay = 3000, initialDelay = 1000)
+    //@Scheduled(cron = "0 0/10 6-23 * * ?")
+    @Scheduled(fixedDelay = 3000, initialDelay = 1000)
     public void eastNewsCrawlDaily() {
         logger.info("Start Crawling East News");
         eastNewsCrawl.crawl();
@@ -45,8 +45,8 @@ public class NewsSchedule {
     /**
      * 每天从6:00~23:00,每隔10分钟收集一次新闻
      */
-    @Scheduled(cron = "0 0/10 6-23 * * ?")
-//    @Scheduled(fixedDelay = 3000, initialDelay = 1000)
+    //@Scheduled(cron = "0 0/10 6-23 * * ?")
+    @Scheduled(fixedDelay = 3000, initialDelay = 1000)
     public void sinaNewsCrawlDaily() {
         logger.info("Start Crawling Sina News");
         sinaNewsCrawl.crawl();
@@ -56,8 +56,8 @@ public class NewsSchedule {
     /**
      * 每天从6:00~23:00,每隔10分钟收集一次新闻
      */
-    @Scheduled(cron = "0 0/10 6-23 * * ?")
-//    @Scheduled(fixedDelay = 3000, initialDelay = 1000)
+    //@Scheduled(cron = "0 0/10 6-23 * * ?")
+    @Scheduled(fixedDelay = 3000, initialDelay = 1000)
     public void sohuNewsCrawlDaily() {
         logger.info("Start Crawling Sohu News");
         sohuNewsCrawl.crawl();
@@ -67,8 +67,8 @@ public class NewsSchedule {
     /**
      * 每天从6:00~23:00,每隔10分钟收集一次新闻
      */
-    @Scheduled(cron = "0 0/10 6-23 * * ?")
-//    @Scheduled(fixedDelay = 3000, initialDelay = 1000)
+    //@Scheduled(cron = "0 0/10 6-23 * * ?")
+    @Scheduled(fixedDelay = 3000, initialDelay = 1000)
     public void xueqiuNewsCrawlDaily() {
         logger.info("Start Crawling Xueqiu News");
         xueqiuNewsCrawl.crawl();
@@ -76,8 +76,8 @@ public class NewsSchedule {
     }
 
     //yth 和讯网
-    @Scheduled(cron = "0 0/10 6-23 * * ?")
-    //@Scheduled(fixedDelay = 3000, initialDelay = 1000)
+    //@Scheduled(cron = "0 0/10 6-23 * * ?")
+    @Scheduled(fixedDelay = 3000, initialDelay = 1000)
     public void hexunNewsCrawlDaily() {
         logger.info("Start Crawling hexun News");
         hexunNewsCrawl.crawl();
@@ -86,8 +86,8 @@ public class NewsSchedule {
     }
 
     //yth 168财经
-    @Scheduled(cron = "0 0/10 6-23 * * ?")
-    //@Scheduled(fixedDelay = 3000, initialDelay = 1000)
+    //@Scheduled(cron = "0 0/10 6-23 * * ?")
+    @Scheduled(fixedDelay = 3000, initialDelay = 1000)
     public void fx168NewsCrawlDaily() {
         logger.info("Start Crawling fx168 News");
         fx168NewsCrawl.crawl();
