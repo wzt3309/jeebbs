@@ -10,7 +10,7 @@ import java.util.List;
 @Mapper
 public interface FundFlowMapper {
     //添加
-    @Insert("INSERT INTO fund_flow (id, updateDate, type,index,name,flow_today,flow_10,flow_10_avg,flow_20,flow_20_avg,flow_60,flow_60_avg,flow_120,flow_120_avg) " +
+    @Insert("INSERT INTO fund_flow (updateDate, type,index,name,flow_today,flow_10,flow_10_avg,flow_20,flow_20_avg,flow_60,flow_60_avg,flow_120,flow_120_avg) " +
             "VALUES(#{updateDate}, #{type}, #{index}, #{name}, #{flow_today}, #{flow_10}, #{flow_10_avg}, #{flow_20}, #{flow_20_avg}, #{flow_60}, #{flow_60_avg}, #{flow_120}, #{flow_120_avg})")
     int insertFund_Flow(FundFlow bean);
 
@@ -53,5 +53,5 @@ public interface FundFlowMapper {
     })
     //获取特定日期某类型的资金流数据
     @Select("SELECT * FROM fund_flow WHERE type=#{type} AND updateDate=#{date} order by index")
-    List<FundFlow> findFundFlowByDateGap2(@Param("type")String type, @Param("date")Date date);
+    List<FundFlow> findFundFlowByDate(@Param("type")String type, @Param("date")Date date);
 }

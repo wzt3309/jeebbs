@@ -34,31 +34,56 @@ public class StockAnalyseMng {
     private static final String gn_fund_url = "http://nufm.dfcfw.com/EM_Finance2014NumericApplication/JS.aspx?type=CT&cmd=C._BKGN&sty=DCFFPBFM&st=(BalFlowMain)&sr=-1&p=1&ps=10000&js=&token=894050c76af8597a853f5b408b759f5d";//概念资金流
     private final FundFlowMapper mapper;
 
-    @Autowired
+    @Autowired//注入
     public StockAnalyseMng(FundFlowMapper mapper) {
         this.mapper = mapper;
     }
 
+
     //获取某天特定类型的资金数据
     public List<FundFlow> fundFlowAnalyse( String type,Date updateDate){
 
-        updateFundFlow();//测试
-
-        List<FundFlow> result=mapper.findFundFlowByDateGap2(type,new java.sql.Date(updateDate.getTime()));
-        return result;
+        List<FundFlow> result=mapper.findFundFlowByDate(type,new java.sql.Date(updateDate.getTime()));
+            return result;
     }
 
     //在收市之后定时触发函数，更新数据，只执行一次
     public void updateFundFlow()
     {
-        //分别更新行业和概念两个类型的资金数据
-        updateFundFlowByType("行业");
-        updateFundFlowByType("概念");
+        //获取当前日期
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c = Calendar.getInstance();
+        String dateString=sf.format(c.getTime());//当前日期
+        //判断今天是否收市
+        boolean isHoliday=TradingMng.isHoliday(dateString);
+        if(isHoliday){
+            logger.info("今天收市，不会更新数据！！");
+        }else {//不收市则更新数据
+            try {
+                logger.info("开始更新行业资金流数据");
+                //分别更新行业和概念两个类型的资金数据
+                updateFundFlowByType("行业");
+                logger.info("行业资金流数据更新成功");
+
+            } catch (ParseException e) {
+                logger.info("行业资金流数据更新失败");
+            }
+
+            try{
+                logger.info("开始更新概念资金流数据");
+                //分别更新行业和概念两个类型的资金数据
+                updateFundFlowByType("概念");
+                logger.info("概念资金流数据更新成功");
+
+            }catch (Exception e){
+                logger.info("概念资金流数据更新失败");
+            }
+        }
     }
 
 
     //根据类型获取资金流数据
-    public void updateFundFlowByType(String type) {
+    public void updateFundFlowByType(String type) throws ParseException {
         String strContent;
         if(type.equals("行业"))
         {
@@ -68,7 +93,7 @@ public class StockAnalyseMng {
         }
 
         //处理字符串
-        strContent=strContent.replaceAll("\\(\\[\"","").replaceAll("\\]\\)\"","");
+        strContent=strContent.replaceAll("\\(\\[\"","").replaceAll("\"\\]\\)","");
         String[] list= strContent.split("\",\"");
 
         //属性
@@ -87,9 +112,8 @@ public class StockAnalyseMng {
         SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar c = Calendar.getInstance();
         String dateString=sf.format(c.getTime());//当前日期
-        ParsePosition pos = new ParsePosition(8);
-        Date updateDate = sf.parse(dateString, pos);//当前日期，Date形式
-
+        Date updateDate = sf.parse(dateString);//当前日期，Date形式
+        //*日净流入数组
         double day10[];
         double day20[];
         double day60[];
@@ -100,7 +124,7 @@ public class StockAnalyseMng {
             String[] data= list[i].split(",");
             name=data[2];//名称
             flow_today=Double.valueOf(data[3]);//今日主力净流入
-
+            //获取*日净流入和*日平均净流入
             day10=getFundFlowByDays(name,type,10);
             flow_10=day10[0];
             flow_10_avg=day10[1];
@@ -122,20 +146,32 @@ public class StockAnalyseMng {
     }
 
     //根据过去的天数计算*日净流入和*日平均净流入
-    public double[] getFundFlowByDays(String name,String type, int day)
-    {
+    public double[] getFundFlowByDays(String name,String type, int day) throws ParseException {
         double fundFlow=0;//*日净流入
         double fundFlow_avg=0;//*日平均净流入
 
+        //确定结束日期和开始日期
         SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar c = Calendar.getInstance();
-        String dateString_from=sf.format(c.getTime());//开始日期
-        c.add(Calendar.DAY_OF_MONTH, -(day-1));
-        String dateString_to=sf.format(c.getTime());//结束日期
-        ParsePosition pos = new ParsePosition(8);
+        String dateString_to=sf.format(c.getTime());//当前日期，即为结束日期
+
+        int count=day-1;
+        String dateString_from = null;//开始日期
+        boolean isHoliday;//是否为节假日
+        while(count>0){
+            c.add(Calendar.DAY_OF_MONTH, -1);//每次往后一天
+            dateString_from=sf.format(c.getTime());
+            isHoliday=TradingMng.isHoliday(dateString_from);
+            if(isHoliday){
+                continue;
+            }else{
+                count--;
+            }
+        }
+
         //转换为日期格式
-        Date updateDate_from = sf.parse(dateString_from, pos);
-        Date updateDate_to = sf.parse(dateString_to, pos);
+        Date updateDate_from = sf.parse(dateString_from);
+        Date updateDate_to = sf.parse(dateString_to);
 
         List<FundFlow> resultList= mapper.findFundFlowByDateGap(name,type,new java.sql.Date(updateDate_from.getTime()),new java.sql.Date(updateDate_to.getTime()));
         //计算*日净流入

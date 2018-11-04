@@ -451,7 +451,8 @@ public final class TradingMng {
         return lastDate;
     }
 
-    private static boolean isHoliday(String date) {
+    //判断当天股票是否停市
+    public static boolean isHoliday(String date) {
         String[] dateSplit = date.split("-");
         if (dateSplit == null || dateSplit.length != 3) return true;
         String year = dateSplit[0];
@@ -459,7 +460,7 @@ public final class TradingMng {
         String day = dateSplit[2];
         if (month != null && month.length() != 2) month = "0" + month;
         if (day != null && day.length() != 2) day = "0" + day;
-        date = year + "-" + month + "-" + day;
+        date = year + "-" + month + "-" + day;//转换成YYYY-MM-DD的形式
 
         List<Map<String, String>> cvs = null;
         if (CollectionUtils.isEmpty(TRADE_DAY_TABLE)) {

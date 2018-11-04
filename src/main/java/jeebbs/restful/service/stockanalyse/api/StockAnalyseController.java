@@ -7,6 +7,7 @@ import jeebbs.restful.service.news.model.News;
 import jeebbs.restful.service.stockanalyse.mng.StockAnalyseMng;
 import jeebbs.restful.service.stockanalyse.model.FundFlow;
 import jeebbs.restful.service.stockanalyse.model.StockAnalyse;
+import jeebbs.restful.service.stockdata.mng.TradingMng;
 import jeebbs.restful.service.stockdata.model.StockTrade;
 import jeebbs.restful.util.ResponseUtil;
 import jeebbs.restful.util.model.CustomerErrorAttributes;
@@ -16,9 +17,14 @@ import org.springframework.util.MimeTypeUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Created by ztwang on 2017/8/22 0022.
@@ -92,7 +98,7 @@ public class StockAnalyseController {
                     "6. `endRow` 本页结束行位置\n" +
                     "7. `total` 记录总数\n" +
                     "8. `pages` 页数\n" +
-                    "9. `list` `News`新闻数据的列表 `[...]`\n" +
+                    "9. `list` `News`资金流列表 `[...]`\n" +
                     "10. `firstPage` 第一页的`pageNum`值\n" +
                     "11. `prePage` 上一页的`pageNum`值,为0则当前页为第一页\n" +
                     "12. `nextPage` 下一页的`pageNum`值,为0则当前页为最后一页\n" +
@@ -110,13 +116,13 @@ public class StockAnalyseController {
                     dataType = "int", paramType = "query", defaultValue = "1"),
             @ApiImplicitParam(name = "pageSize", value = "每页显示的记录数；默认值为10",
                     dataType = "int", paramType = "query", defaultValue = "10"),
-            @ApiImplicitParam(name = "updateDate", value = "资金流统计的日期",
-                    dataType = "Date", paramType = "query", defaultValue = "2018-1-1",example = "yyyy-MM-dd 2018-1-1"),
-            @ApiImplicitParam(name = "type", value = "数据类型，行业或者概念",
-                    dataType = "String", paramType = "query", defaultValue = "")
+            @ApiImplicitParam(name = "updateDate", value = "资金流统计的日期，格式为 yyyy-MM-dd，默认值为空",
+                    dataType = "Date", paramType = "query", defaultValue = "2018-11-01"),
+            @ApiImplicitParam(name = "type", value = "数据类型，行业或者概念，，默认值为空",
+                    dataType = "String", paramType = "query", defaultValue = "行业")
     })
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successful — 请求已完成", response = StockAnalyse.class),
+            @ApiResponse(code = 200, message = "Successful — 请求已完成", response = FundFlow.class),
             @ApiResponse(code = 204, message = "请求已完成，但数据为空", response = HashMap.class),
             @ApiResponse(code = 400, message = "请求中有语法问题，或不能满足请求", response = CustomerErrorAttributes.class),
             @ApiResponse(code = 401, message = "服务器收到请求但拒绝提供服务", response = CustomerErrorAttributes.class),
@@ -127,17 +133,38 @@ public class StockAnalyseController {
     @RequestMapping(value = "/fundFlowAnalyse", method = RequestMethod.GET)
     public ResponseEntity<PageInfo<FundFlow>> fundFlowAnalyse(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                                                    @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
-                                                                   @RequestParam(value = "updateDate", defaultValue = "2018-1-1") Date updateDate,
-                                                                   @RequestParam(value = "type", defaultValue = "") String type) {
+                                                                   @RequestParam(value = "updateDate", defaultValue = "") String updateDate,
+                                                                   @RequestParam(value = "type", defaultValue = "") String type) throws ParseException {
 
-        //必须写在数据库查询前，不然orderBy会失效
+
+        //转换格式
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date= sf.parse(updateDate);//Date形式
+
+        //判断数据类型输入是否正确
+        if((!type.equals("行业"))&&(!type.equals("概念"))){
+            return ResponseUtil.success(null);
+        }
+
+        //必须写在数据库查询前，不然会失效
         PageHelper.startPage(pageNum, pageSize);
-        List<FundFlow> searchList = stockAnalyseMng.fundFlowAnalyse(type,updateDate);
+        //数据库查询结果
+        List<FundFlow> searchList = stockAnalyseMng.fundFlowAnalyse(type,date);
 
         if (ObjectUtils.isEmpty(searchList)) return ResponseUtil.success(null);
         PageInfo<FundFlow> pageInfo = new PageInfo<>(searchList);
         return ResponseUtil.success(pageInfo);
     }
+
+//    //测试接口函数
+//    @RequestMapping(value = "/updateFundFlow", method = RequestMethod.GET)
+//    public ResponseEntity<PageInfo<FundFlow>> updateFundFlow(){
+//
+//        stockAnalyseMng.updateFundFlow();
+//        return ResponseUtil.success(null);
+//
+//    }
+
 
     @Autowired
     public void setStockAnalyseMng(StockAnalyseMng stockAnalyseMng) {
