@@ -41,9 +41,9 @@ public class StockAnalyseMng {
 
 
     //获取某天特定类型的资金数据
-    public List<FundFlow> fundFlowAnalyse( String type,Date updateDate){
+    public List<FundFlow> fundFlowAnalyse( String fund_type,Date updateDate){
 
-        List<FundFlow> result=mapper.findFundFlowByDate(type,new java.sql.Date(updateDate.getTime()));
+        List<FundFlow> result=mapper.findFundFlowByDate(fund_type,new java.sql.Date(updateDate.getTime()));
             return result;
     }
 
@@ -83,9 +83,9 @@ public class StockAnalyseMng {
 
 
     //根据类型获取资金流数据
-    public void updateFundFlowByType(String type) throws ParseException {
+    public void updateFundFlowByType(String fund_type) throws ParseException {
         String strContent;
-        if(type.equals("行业"))
+        if(fund_type.equals("行业"))
         {
             strContent= HttpUtil.sendGET(hy_fund_url);//获取行业资金流内容
         }else {
@@ -125,20 +125,20 @@ public class StockAnalyseMng {
             name=data[2];//名称
             flow_today=Double.valueOf(data[3]);//今日主力净流入
             //获取*日净流入和*日平均净流入
-            day10=getFundFlowByDays(name,type,10);
+            day10=getFundFlowByDays(name,fund_type,10);
             flow_10=day10[0];
             flow_10_avg=day10[1];
-            day20=getFundFlowByDays(name,type,20);
+            day20=getFundFlowByDays(name,fund_type,20);
             flow_20=day20[0];
             flow_20_avg=day20[1];
-            day60=getFundFlowByDays(name,type,60);
+            day60=getFundFlowByDays(name,fund_type,60);
             flow_60=day60[0];
             flow_60_avg=day60[1];
-            day120=getFundFlowByDays(name,type,120);
+            day120=getFundFlowByDays(name,fund_type,120);
             flow_120=day120[0];
             flow_120_avg=day120[1];
             //插入数据库
-            FundFlow item=new FundFlow(updateDate,type,i+1,name,flow_today,flow_10,flow_10_avg,flow_20,flow_20_avg,flow_60,flow_60_avg,flow_120,flow_120_avg);
+            FundFlow item=new FundFlow(updateDate,fund_type,i+1,name,flow_today,flow_10,flow_10_avg,flow_20,flow_20_avg,flow_60,flow_60_avg,flow_120,flow_120_avg);
             mapper.insertFund_Flow(item);
 
         }
@@ -146,7 +146,7 @@ public class StockAnalyseMng {
     }
 
     //根据过去的天数计算*日净流入和*日平均净流入
-    public double[] getFundFlowByDays(String name,String type, int day) throws ParseException {
+    public double[] getFundFlowByDays(String name,String fund_type, int day) throws ParseException {
         double fundFlow=0;//*日净流入
         double fundFlow_avg=0;//*日平均净流入
 
@@ -173,7 +173,7 @@ public class StockAnalyseMng {
         Date updateDate_from = sf.parse(dateString_from);
         Date updateDate_to = sf.parse(dateString_to);
 
-        List<FundFlow> resultList= mapper.findFundFlowByDateGap(name,type,new java.sql.Date(updateDate_from.getTime()),new java.sql.Date(updateDate_to.getTime()));
+        List<FundFlow> resultList= mapper.findFundFlowByDateGap(name,fund_type,new java.sql.Date(updateDate_from.getTime()),new java.sql.Date(updateDate_to.getTime()));
         //计算*日净流入
         for(FundFlow item:resultList){
             fundFlow+=item.getFlow_today();

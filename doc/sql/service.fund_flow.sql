@@ -8,8 +8,8 @@
 CREATE TABLE `fund_flow` (
   `id` BIGINT(11) NOT NULL AUTO_INCREMENT,
   `updateDate` DATE NOT NULL,
-  `type` VARCHAR(50) NOT NULL,
-  `index` SMALLINT NOT NULL,
+  `fund_type` VARCHAR(50) NOT NULL,
+  `fund_index` SMALLINT NOT NULL,
   `name` VARCHAR(50) NOT NULL,
   `flow_today` DOUBLE NOT NULL,
   `flow_10` DOUBLE NOT NULL,

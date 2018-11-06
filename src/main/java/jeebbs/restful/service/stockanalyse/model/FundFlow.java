@@ -3,7 +3,6 @@ package jeebbs.restful.service.stockanalyse.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -16,9 +15,9 @@ public class FundFlow {
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date updateDate;
     @ApiModelProperty(value = "类型（行业、概念）", position = 3)
-    private String type;
+    private String fund_type;
     @ApiModelProperty(value = "序号", position = 4)
-    private int index;
+    private int fund_index;
     @ApiModelProperty(value = "名称", position = 5)
     private String name;
     @ApiModelProperty(value = "今日主力净流入", position = 6)
@@ -42,13 +41,13 @@ public class FundFlow {
 
     public FundFlow(){}
 
-    public FundFlow(Date updateDate, String type, int index,String name,
+    public FundFlow(Date updateDate, String fund_type, int fund_index,String name,
                     double flow_today, double flow_10,double flow_10_avg, double flow_20,double flow_20_avg,
                     double flow_60, double flow_60_avg,double flow_120,double flow_120_avg) {
         this.id = null;
         this.updateDate = updateDate;
-        this.type = type;
-        this.index = index;
+        this.fund_type = fund_type;
+        this.fund_index = fund_index;
         this.name = name;
         this.flow_today = flow_today;
         this.flow_10 = flow_10;
@@ -77,20 +76,20 @@ public class FundFlow {
         this.updateDate = updateDate;
     }
 
-    public String gettype() {
-        return type;
+    public String getfundType() {
+        return fund_type;
     }
 
-    public void settype(String type) {
-        this.type = type;
+    public void setfundType(String fund_type) {
+        this.fund_type = fund_type;
     }
 
-    public int getindex() {
-        return index;
+    public int getfundIndex() {
+        return fund_index;
     }
 
-    public void setindex(int index) {
-        this.index = index;
+    public void setfundIndex(int fund_index) {
+        this.fund_index = fund_index;
     }
 
     public String getname() {

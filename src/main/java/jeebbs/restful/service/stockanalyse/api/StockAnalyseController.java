@@ -98,7 +98,7 @@ public class StockAnalyseController {
                     "6. `endRow` 本页结束行位置\n" +
                     "7. `total` 记录总数\n" +
                     "8. `pages` 页数\n" +
-                    "9. `list` `News`资金流列表 `[...]`\n" +
+                    "9. `list` `fund_flow_list`资金流列表 `[...]`\n" +
                     "10. `firstPage` 第一页的`pageNum`值\n" +
                     "11. `prePage` 上一页的`pageNum`值,为0则当前页为第一页\n" +
                     "12. `nextPage` 下一页的`pageNum`值,为0则当前页为最后一页\n" +
@@ -118,7 +118,7 @@ public class StockAnalyseController {
                     dataType = "int", paramType = "query", defaultValue = "10"),
             @ApiImplicitParam(name = "updateDate", value = "资金流统计的日期，格式为 yyyy-MM-dd，默认值为空",
                     dataType = "Date", paramType = "query", defaultValue = "2018-11-01"),
-            @ApiImplicitParam(name = "type", value = "数据类型，行业或者概念，，默认值为空",
+            @ApiImplicitParam(name = "type", value = "数据类型，行业或者概念，默认值为空",
                     dataType = "String", paramType = "query", defaultValue = "行业")
     })
     @ApiResponses(value = {

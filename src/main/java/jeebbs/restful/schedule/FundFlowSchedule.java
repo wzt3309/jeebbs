@@ -18,7 +18,7 @@ public class FundFlowSchedule {
     //每天收市之后自动触发该函数，获取当日资金流数据
     //每天下午6点触发函数
     @Scheduled(cron = "0 0 18 * * ?")
-    //@Scheduled(cron = "15 23 19 * * ?") test
+    //@Scheduled(cron = "00 10 21 * * ?") //test
     public void fundFlowUpdate() {
         mng.updateFundFlow();
     }
