@@ -10,7 +10,7 @@ CREATE TABLE `news` (
   `source` VARCHAR(255) NOT NULL,
   `title` VARCHAR(255) NOT NULL,
   `href` VARCHAR(255) NOT NULL,
-  `profile` VARCHAR(255),
+  `profile` VARCHAR(2000),
   `stmp` DATETIME DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 );
