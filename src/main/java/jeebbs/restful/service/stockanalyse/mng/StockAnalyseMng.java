@@ -40,11 +40,11 @@ public class StockAnalyseMng {
     }
 
 
-    //获取某天特定类型的资金数据
-    public List<FundFlow> fundFlowAnalyse( String fund_type,Date updateDate){
+    //获取特定时间段的特定类型的资金数据
+    public List<FundFlow> fundFlowAnalyse( String fund_type,Date updateDateFrom,Date updateDateTo){
 
-        List<FundFlow> result=mapper.findFundFlowByDate(fund_type,new java.sql.Date(updateDate.getTime()));
-            return result;
+        List<FundFlow> result=mapper.findFundFlowByDate(fund_type,new java.sql.Date(updateDateFrom.getTime()),new java.sql.Date(updateDateTo.getTime()));
+        return result;
     }
 
     //在收市之后定时触发函数，更新数据，只执行一次

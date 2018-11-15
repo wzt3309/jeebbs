@@ -52,6 +52,6 @@ public interface FundFlowMapper {
             @Result(property = "flow_120_avg", column = "flow_120_avg")
     })
     //获取特定日期某类型的资金流数据
-    @Select("SELECT * FROM fund_flow WHERE fund_type=#{fund_type} AND updateDate=#{date} order by fund_index")
-    List<FundFlow> findFundFlowByDate(@Param("fund_type")String fund_type, @Param("date")Date date);
+    @Select("SELECT * FROM fund_flow WHERE fund_type=#{fund_type} AND updateDate BETWEEN #{dateFrom} AND #{dateTo} order by updateDate,fund_index")
+    List<FundFlow> findFundFlowByDate(@Param("fund_type")String fund_type, @Param("dateFrom")Date dateFrom, @Param("dateTo")Date dateTo);
 }

@@ -89,7 +89,7 @@ public class StockAnalyseController {
     }
 
     @ApiOperation(value = "获取资金流向",
-            notes = "获取资金流向，包含行业资金流和概念资金流向\n" +
+            notes = "获取特定时间段的资金流向，包含行业资金流和概念资金流向\n" +
                     "1. `pageNum` 当前页码\n" +
                     "2. `pageSize` 每页记录数\n" +
                     "3. `size` 当前页记录数\n" +
@@ -116,7 +116,9 @@ public class StockAnalyseController {
                     dataType = "int", paramType = "query", defaultValue = "1"),
             @ApiImplicitParam(name = "pageSize", value = "每页显示的记录数；默认值为10",
                     dataType = "int", paramType = "query", defaultValue = "10"),
-            @ApiImplicitParam(name = "updateDate", value = "资金流统计的日期，格式为 yyyy-MM-dd，默认值为空",
+            @ApiImplicitParam(name = "updateDateFrom", value = "资金流统计的开始日期，格式为 yyyy-MM-dd，默认值为空",
+                    dataType = "Date", paramType = "query", defaultValue = "2018-11-01"),
+            @ApiImplicitParam(name = "updateDateTo", value = "资金流统计的结束日期，格式为 yyyy-MM-dd，默认值为空",
                     dataType = "Date", paramType = "query", defaultValue = "2018-11-01"),
             @ApiImplicitParam(name = "type", value = "数据类型，行业或者概念，默认值为空",
                     dataType = "String", paramType = "query", defaultValue = "行业")
@@ -133,13 +135,15 @@ public class StockAnalyseController {
     @RequestMapping(value = "/fundFlowAnalyse", method = RequestMethod.GET)
     public ResponseEntity<PageInfo<FundFlow>> fundFlowAnalyse(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                                                    @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
-                                                                   @RequestParam(value = "updateDate", defaultValue = "") String updateDate,
+                                                                   @RequestParam(value = "updateDateFrom", defaultValue = "") String updateDateFrom,
+                                                                   @RequestParam(value = "updateDateTo", defaultValue = "") String updateDateTo,
                                                                    @RequestParam(value = "type", defaultValue = "") String type) throws ParseException {
 
 
         //转换格式
         SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-        Date date= sf.parse(updateDate);//Date形式
+        Date dateFrom= sf.parse(updateDateFrom);//Date形式
+        Date dateTo= sf.parse(updateDateTo);//Date形式
 
         //判断数据类型输入是否正确
         if((!type.equals("行业"))&&(!type.equals("概念"))){
@@ -149,7 +153,7 @@ public class StockAnalyseController {
         //必须写在数据库查询前，不然会失效
         PageHelper.startPage(pageNum, pageSize);
         //数据库查询结果
-        List<FundFlow> searchList = stockAnalyseMng.fundFlowAnalyse(type,date);
+        List<FundFlow> searchList = stockAnalyseMng.fundFlowAnalyse(type,dateFrom,dateTo);
 
         if (ObjectUtils.isEmpty(searchList)) return ResponseUtil.success(null);
         PageInfo<FundFlow> pageInfo = new PageInfo<>(searchList);
