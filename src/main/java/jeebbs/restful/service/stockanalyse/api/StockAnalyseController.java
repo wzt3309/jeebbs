@@ -160,14 +160,14 @@ public class StockAnalyseController {
         return ResponseUtil.success(pageInfo);
     }
 
-//    //测试接口函数
-//    @RequestMapping(value = "/updateFundFlow", method = RequestMethod.GET)
-//    public ResponseEntity<PageInfo<FundFlow>> updateFundFlow(){
-//
-//        stockAnalyseMng.updateFundFlow();
-//        return ResponseUtil.success(null);
-//
-//    }
+/*    //**************修复bug接口
+    @RequestMapping(value = "/bugfix", method = RequestMethod.GET)
+    public ResponseEntity<PageInfo<FundFlow>> bugfix() throws ParseException {
+
+        stockAnalyseMng.bugfix();
+        return ResponseUtil.success(null);
+
+    }*/
 
 
     @Autowired

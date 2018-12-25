@@ -54,4 +54,13 @@ public interface FundFlowMapper {
     //获取特定日期某类型的资金流数据
     @Select("SELECT * FROM fund_flow WHERE fund_type=#{fund_type} AND updateDate BETWEEN #{dateFrom} AND #{dateTo} order by updateDate,fund_index")
     List<FundFlow> findFundFlowByDate(@Param("fund_type")String fund_type, @Param("dateFrom")Date dateFrom, @Param("dateTo")Date dateTo);
+
+
+    //更新特定的资金流数据
+    @Update("update fund_flow set flow_10=#{flow_10},flow_10_avg=#{flow_10_avg},flow_20=#{flow_20},flow_20_avg=#{flow_20_avg},flow_60=#{flow_60},flow_60_avg=#{flow_60_avg},flow_120=#{flow_120},flow_120_avg=#{flow_120_avg} where id=#{id}")
+    void updateFundFlow(@Param("flow_10")double flow_10, @Param("flow_10_avg")double flow_10_avg,
+                              @Param("flow_20")double flow_20, @Param("flow_20_avg")double flow_20_avg,
+                              @Param("flow_60")double flow_60, @Param("flow_60_avg")double flow_60_avg,
+                              @Param("flow_120")double flow_120, @Param("flow_120_avg")double flow_120_avg,@Param("id")long id);
+
 }
