@@ -1,18 +1,11 @@
-*.class
+# dir
+.idea
+target
+bin
+out
+log
 
-# Package Files #
-*.war
-*.ear
+# file
+*.iml
 *.class
-/target
-/NotCommit
-/src/main/WebContent/WEB-INF/classes
-/src/main/WebContent/WEB-INF/lib
-/test
-/testoutput
-
-# Myeclipse Files #
-/.settings
-/.project
-/.classpath
-/.mymetadata
+~$*.docx

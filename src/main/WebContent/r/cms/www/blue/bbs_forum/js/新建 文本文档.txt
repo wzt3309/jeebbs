@@ -1,3 +1,0 @@
-else if(type=='email'){
-		PnEditor.bbstyle('['+type+']','[/'+type+']',label);
-	}
